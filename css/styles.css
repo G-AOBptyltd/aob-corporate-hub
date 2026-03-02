@@ -416,6 +416,52 @@ h1, h2, h3, h4, h5, h6 {
   100% { transform: translateX(-50%); }
 }
 
+/* ---------- Client Banner ---------- */
+.client-banner {
+  padding: 40px 0 32px;
+  background: var(--white);
+  overflow: hidden;
+}
+.client-banner-label {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 24px;
+}
+.client-banner-track-wrapper {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+.client-banner-track {
+  display: flex;
+  gap: 56px;
+  animation: clientScroll 40s linear infinite;
+  width: max-content;
+}
+.client-banner-item {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gray-300);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  transition: color 0.3s ease;
+}
+.client-banner-item:hover {
+  color: var(--gray-500);
+}
+@keyframes clientScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* ---------- Card Styles ---------- */
 .card {
   background: var(--white);
