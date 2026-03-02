@@ -1,238 +1,425 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Agility Ops Blog - Insights on agile delivery, product development, and building better teams.">
-    <meta name="author" content="Agility Ops Business Pty Ltd">
-    <meta property="og:title" content="Blog & Insights - Agility Ops">
-    <meta property="og:description" content="Thoughts on agile delivery, product development, and building better teams">
+    <title>Blog & Insights — AI Transformation, Enterprise Strategy | Agility Ops</title>
+    <meta name="description" content="Practitioner-led insights on strategic AI adoption, enterprise transformation, and the capability gaps holding organisations back. Data-driven perspectives from Agility Ops.">
+    <meta property="og:title" content="Blog & Insights — Agility Ops">
+    <meta property="og:description" content="Practitioner-led insights on strategic AI adoption, enterprise transformation, and the capability gaps holding organisations back.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://agilityops.com/pages/blog.html">
-    <title>Blog & Insights - Agility Ops Corporate Hub</title>
+    <meta property="og:url" content="https://agilityops.com.au/pages/blog">
+    <link rel="canonical" href="https://agilityops.com.au/pages/blog">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LLJ1KPTDMK"></script>
-        <script>
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', 'G-LLJ1KPTDMK');
-        </script>
+    <style>
+        /* Blog-specific styles */
+        .blog-hero {
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+        .blog-hero h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-primary, #0f172a);
+        }
+        .blog-hero p {
+            font-size: 1.125rem;
+            color: var(--text-secondary, #475569);
+            max-width: 640px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Featured article */
+        .featured-article {
+            max-width: 1100px;
+            margin: 40px auto 60px;
+            padding: 0 24px;
+        }
+        .featured-card {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 0;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            transition: box-shadow 0.3s ease;
+        }
+        .featured-card:hover {
+            box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+        }
+        .featured-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .featured-img {
+            width: 100%;
+            height: 100%;
+            min-height: 340px;
+            object-fit: cover;
+        }
+        .featured-content {
+            padding: 40px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .featured-tag {
+            display: inline-block;
+            background: #eff6ff;
+            color: #2563eb;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            width: fit-content;
+        }
+        .featured-tag.tag-ai { background: #eff6ff; color: #2563eb; }
+        .featured-tag.tag-training { background: #faf5ff; color: #7c3aed; }
+        .featured-tag.tag-product { background: #ecfdf5; color: #059669; }
+        .featured-tag.tag-strategy { background: #fff7ed; color: #c2410c; }
+        .featured-tag.tag-analytics { background: #f0fdf4; color: #15803d; }
+        .featured-content h2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            color: #0f172a;
+        }
+        .featured-content p {
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        .featured-meta {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: gap 0.2s ease;
+        }
+        .read-more:hover {
+            gap: 10px;
+        }
+
+        /* Article grid */
+        .articles-section {
+            max-width: 1100px;
+            margin: 0 auto 80px;
+            padding: 0 24px;
+        }
+        .articles-section h2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: #0f172a;
+        }
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+        .article-card {
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        .article-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .article-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .article-card-body {
+            padding: 24px;
+        }
+        .article-card-body .featured-tag {
+            margin-bottom: 12px;
+        }
+        .article-card-body h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.35;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+        .article-card-body p {
+            color: #64748b;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .article-card-meta {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* Two-column row */
+        .articles-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            margin-top: 28px;
+        }
+        .articles-grid-2 .article-card-img {
+            height: 220px;
+        }
+
+        /* CTA section */
+        .blog-cta {
+            max-width: 700px;
+            margin: 0 auto 80px;
+            padding: 48px 40px;
+            background: linear-gradient(135deg, #1e3a5f, #0f172a);
+            border-radius: 16px;
+            text-align: center;
+            color: #fff;
+        }
+        .blog-cta h2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .blog-cta p {
+            color: #94a3b8;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .blog-cta a {
+            display: inline-block;
+            background: #3b82f6;
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+        .blog-cta a:hover {
+            background: #2563eb;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .featured-card {
+                grid-template-columns: 1fr;
+            }
+            .featured-img {
+                min-height: 240px;
+            }
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            .articles-grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (min-width: 601px) and (max-width: 900px) {
+            .articles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="nav scrolled" role="navigation" aria-label="Main navigation">
-        <div class="container nav-inner">
-            <a href="../index.html" class="nav-logo">
-                <div class="nav-logo-mark">AO</div>
-                Agility Ops
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">AO</span>
+                <span class="logo-text">Agility Ops</span>
             </a>
-            <div class="nav-links">
-                <a href="../index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="brands.html">Our Brands</a>
-                <a href="team.html">Team</a>
-                <a href="blog.html" class="active">Blog</a>
-                <a href="contact.html" class="nav-cta">Contact</a>
-            </div>
-            <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <button class="mobile-toggle" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
             </button>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/pages/about">About</a></li>
+                <li><a href="/pages/brands">Our Brands</a></li>
+                <li><a href="/pages/team">Team</a></li>
+                <li><a href="/pages/blog" class="active">Blog</a></li>
+                <li><a href="/pages/contact">Contact</a></li>
+            </ul>
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <section class="page-header">
-        <div class="page-header-orb"></div>
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
         <div class="container">
-            <nav class="breadcrumb">
-                <a href="../index.html">Home</a>
-                <span>Blog</span>
-            </nav>
-            <h1 class="h1 reveal">Blog & Insights</h1>
-            <p class="lead reveal">Thoughts on agile delivery, product development, and building better teams</p>
+            <a href="/">Home</a>
+            <span>Blog</span>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="blog-hero">
+        <div class="container">
+            <h1>Blog & Insights</h1>
+            <p>Practitioner-led perspectives on strategic AI adoption, the capability gaps that stall enterprise transformation, and tools that turn data into decisions.</p>
         </div>
     </section>
 
-    <!-- Featured Post -->
-    <section class="section">
-        <div class="container">
-            <article class="blog-card featured-post zoom-hover">
-                <div class="blog-thumb featured-thumb" style="background: linear-gradient(135deg, #0a0f1c, #2563eb);">
-                    <span class="blog-emoji">📊</span>
+    <!-- Featured Article -->
+    <section class="featured-article">
+        <a href="/pages/blog-ai-pilots-fail.html" class="featured-card">
+            <img src="../img/Team%20Alignment%201.png" alt="Enterprise teams aligning on AI strategy" class="featured-img" loading="lazy">
+            <div class="featured-content">
+                <span class="featured-tag tag-ai">AI Strategy</span>
+                <h2>Why 95% of Enterprise AI Pilots Fail &mdash; And What the 5% Do Differently</h2>
+                <p>MIT, McKinsey, and IDC all agree: the overwhelming majority of enterprise AI initiatives never make it to production. But the data also reveals exactly what separates the organisations that scale from those stuck in pilot purgatory.</p>
+                <div class="featured-meta">March 2026 &middot; 12 min read</div>
+                <div style="margin-top: 16px;">
+                    <span class="read-more">Read Article &rarr;</span>
                 </div>
-                <div class="blog-body featured-body">
-                    <div class="blog-meta">
-                        <span class="blog-tag">Agile Analytics</span>
-                        <span class="blog-date">Feb 2026</span>
-                    </div>
-                    <h2><a href="#">Why Sprint Velocity Alone Won't Save Your Team</a></h2>
-                    <p>Sprint velocity is a useful metric, but it's not a silver bullet. Learn why teams that focus exclusively on velocity often miss the bigger picture of sustainable delivery, quality outcomes, and team wellbeing.</p>
-                    <a href="#" class="btn btn-primary">Read Article →</a>
+            </div>
+        </a>
+    </section>
+
+    <!-- Recent Articles -->
+    <section class="articles-section">
+        <h2>Latest From Our Team</h2>
+
+        <div class="articles-grid">
+            <!-- Article 1 -->
+            <a href="/pages/blog-ai-capability-gap.html" class="article-card">
+                <img src="../img/Team%20Wellbeing%201.png" alt="Professionals working with AI tools" class="article-card-img" loading="lazy">
+                <div class="article-card-body">
+                    <span class="featured-tag tag-training">AI Capability</span>
+                    <h3>The $5.5 Trillion Capability Gap: Why Your Smartest People Can't Use AI</h3>
+                    <p>90% of enterprises will face critical AI skills shortages by 2026. The problem isn't awareness &mdash; it's that training programmes were designed for a different era.</p>
+                    <div class="article-card-meta">March 2026 &middot; 10 min read</div>
                 </div>
-            </article>
+            </a>
+
+            <!-- Article 2 -->
+            <a href="/pages/blog-ai-portfolio-governance.html" class="article-card">
+                <img src="../img/Ent%20Portfoio%20Mngmt%201.png" alt="Enterprise portfolio governance dashboard" class="article-card-img" loading="lazy">
+                <div class="article-card-body">
+                    <span class="featured-tag tag-product">Portfolio Intelligence</span>
+                    <h3>From Backlog Chaos to Strategic Clarity: AI-Native Portfolio Governance</h3>
+                    <p>Your product owners are drowning in backlogs with no way to answer the question that matters: "What should we do next, and why?" Here's how AI changes that.</p>
+                    <div class="article-card-meta">March 2026 &middot; 9 min read</div>
+                </div>
+            </a>
+
+            <!-- Article 3 -->
+            <a href="/pages/blog-sprints-to-strategy.html" class="article-card">
+                <img src="../img/From%20Sprints%20to%20Strategy-%20Bridging%20the%20Gap%201.png" alt="Bridging sprint execution with strategic goals" class="article-card-img" loading="lazy">
+                <div class="article-card-body">
+                    <span class="featured-tag tag-strategy">Strategy</span>
+                    <h3>From Sprints to Strategy: How AI Is Bridging the Delivery Gap</h3>
+                    <p>Most agile teams are executing sprints without strategic context. AI-powered analytics are finally connecting tactical delivery with portfolio-level outcomes.</p>
+                    <div class="article-card-meta">February 2026 &middot; 8 min read</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="articles-grid-2">
+            <!-- Article 4 -->
+            <a href="/pages/blog-beyond-velocity.html" class="article-card">
+                <img src="../img/5%20Metrics%20Every%20Scrum%20Master%20Should%20Track%201%20.png" alt="Sprint analytics and predictive metrics dashboard" class="article-card-img" loading="lazy">
+                <div class="article-card-body">
+                    <span class="featured-tag tag-analytics">Predictive Analytics</span>
+                    <h3>Beyond Velocity: What Predictive Sprint Analytics Actually Looks Like</h3>
+                    <p>Sprint velocity is a rearview mirror metric. Predictive analytics gives teams a windshield. Here's the shift from reporting what happened to forecasting what's coming.</p>
+                    <div class="article-card-meta">February 2026 &middot; 7 min read</div>
+                </div>
+            </a>
+
+            <!-- Article 5 -->
+            <a href="/pages/blog-ai-retrospectives.html" class="article-card">
+                <img src="../img/AI-Powered%20Retrospectives-%20The%20Future%20of%20Team%20Improvement%201.png" alt="AI-powered team retrospective analysis" class="article-card-img" loading="lazy">
+                <div class="article-card-body">
+                    <span class="featured-tag tag-ai">AI & Teams</span>
+                    <h3>AI-Powered Retrospectives: The Future of Continuous Improvement</h3>
+                    <p>What if your retrospectives could surface patterns across 50 sprints, identify systemic blockers, and suggest evidence-based improvements? That future is here.</p>
+                    <div class="article-card-meta">January 2026 &middot; 7 min read</div>
+                </div>
+            </a>
         </div>
     </section>
 
-    <!-- Blog Grid -->
-    <section class="section">
-        <div class="container">
-            <div class="section-head text-center">
-                <span class="overline">Recent Articles</span>
-                <h2>Latest From Our Team</h2>
-            </div>
-
-            <div class="grid grid-3">
-                <!-- Article 1 -->
-                <article class="blog-card zoom-hover reveal">
-                    <div class="blog-thumb" style="background: linear-gradient(135deg, #2563eb, #06b6d4);">
-                        <span class="blog-emoji">🎯</span>
-                    </div>
-                    <div class="blog-body">
-                        <div class="blog-meta">
-                            <span class="blog-tag">Product</span>
-                            <span class="blog-date">Feb 2026</span>
-                        </div>
-                        <h3><a href="#">Introducing PortfolioInSite: Portfolio Intelligence for Jira</a></h3>
-                        <p>Discover how our latest product brings enterprise-grade portfolio management directly into your Jira ecosystem, helping teams align work with strategic objectives.</p>
-                    </div>
-                </article>
-
-                <!-- Article 2 -->
-                <article class="blog-card zoom-hover reveal">
-                    <div class="blog-thumb" style="background: linear-gradient(135deg, #7c3aed, #2563eb);">
-                        <span class="blog-emoji">📈</span>
-                    </div>
-                    <div class="blog-body">
-                        <div class="blog-meta">
-                            <span class="blog-tag">Agile Analytics</span>
-                            <span class="blog-date">Jan 2026</span>
-                        </div>
-                        <h3><a href="#">5 Metrics Every Scrum Master Should Track</a></h3>
-                        <p>Beyond burndown charts, these five key metrics provide deeper insights into team health, delivery quality, and process improvement opportunities that matter most.</p>
-                    </div>
-                </article>
-
-                <!-- Article 3 -->
-                <article class="blog-card zoom-hover reveal">
-                    <div class="blog-thumb" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
-                        <span class="blog-emoji">👨‍🏫</span>
-                    </div>
-                    <div class="blog-body">
-                        <div class="blog-meta">
-                            <span class="blog-tag">Training</span>
-                            <span class="blog-date">Jan 2026</span>
-                        </div>
-                        <h3><a href="#">The Case for Hands-On Agile Training in 2026</a></h3>
-                        <p>Why virtual courses and self-paced learning can't replace the value of in-person, interactive agile training that builds real team capability and cultural change.</p>
-                    </div>
-                </article>
-
-                <!-- Article 4 -->
-                <article class="blog-card zoom-hover reveal">
-                    <div class="blog-thumb" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
-                        <span class="blog-emoji">⚙️</span>
-                    </div>
-                    <div class="blog-body">
-                        <div class="blog-meta">
-                            <span class="blog-tag">Engineering</span>
-                            <span class="blog-date">Dec 2025</span>
-                        </div>
-                        <h3><a href="#">How We Built SprintINSite Inside the Atlassian Ecosystem</a></h3>
-                        <p>A behind-the-scenes look at the technical architecture and design decisions that made SprintINSite a powerful Jira extension for agile insights and reporting.</p>
-                    </div>
-                </article>
-
-                <!-- Article 5 -->
-                <article class="blog-card zoom-hover reveal">
-                    <div class="blog-thumb" style="background: linear-gradient(135deg, #7c3aed, #ec4899);">
-                        <span class="blog-emoji">🎲</span>
-                    </div>
-                    <div class="blog-body">
-                        <div class="blog-meta">
-                            <span class="blog-tag">Strategy</span>
-                            <span class="blog-date">Nov 2025</span>
-                        </div>
-                        <h3><a href="#">From Sprints to Strategy: Bridging the Gap</a></h3>
-                        <p>How to connect tactical sprint execution with long-term strategic goals, ensuring your agile teams are moving in the right direction with clear purpose.</p>
-                    </div>
-                </article>
-
-                <!-- Article 6 -->
-                <article class="blog-card zoom-hover reveal">
-                    <div class="blog-thumb" style="background: linear-gradient(135deg, #0a0f1c, #7c3aed);">
-                        <span class="blog-emoji">🤖</span>
-                    </div>
-                    <div class="blog-body">
-                        <div class="blog-meta">
-                            <span class="blog-tag">AI & Automation</span>
-                            <span class="blog-date">Oct 2025</span>
-                        </div>
-                        <h3><a href="#">AI-Powered Retrospectives: The Future of Team Improvement</a></h3>
-                        <p>Explore how artificial intelligence can enhance retrospectives by surfacing patterns, suggesting improvements, and keeping teams focused on what matters most.</p>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="section cta">
-        <div class="cta-orb cta-orb-1"></div>
-        <div class="container text-center">
-            <h2>Have a topic you'd like us to cover?</h2>
-            <p>We love exploring new angles on agile, product development, and team dynamics. Reach out with your ideas.</p>
-            <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+    <!-- CTA -->
+    <section class="container">
+        <div class="blog-cta">
+            <h2>Want to stop your AI pilots from failing?</h2>
+            <p>We help enterprise teams move from AI experimentation to measurable transformation. No hype, just outcomes.</p>
+            <a href="/pages/contact">Start a Conversation</a>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="../index.html" class="nav-logo" style="color:var(--white); margin-bottom:0;">
-                        <div class="nav-logo-mark">AO</div>
-                        Agility Ops
-                    </a>
-                    <p>Building smart tools and delivering expert training for modern agile teams. Australian owned and operated.</p>
-                </div>
-                <div>
-                    <h4>Company</h4>
-                    <ul class="footer-links">
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="team.html">Our Team</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4>Products</h4>
-                    <ul class="footer-links">
-                        <li><a href="https://sprintinsite.com" target="_blank" rel="noopener">SprintINSite</a></li>
-                        <li><a href="https://portfolioinsite.com.au">PortfolioInSite</a></li>
-                        <li><a href="https://fastact.com.au" target="_blank" rel="noopener">FACT Training</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4>Legal</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <span class="logo-icon">AO</span>
+                    <span class="logo-text">Agility Ops</span>
+                </a>
+                <p>Strategic AI adoption for enterprise teams. Australian owned and operated.</p>
             </div>
-            <div class="footer-bottom">
-                <span>&copy; 2026 Agility Ops Business Pty Ltd. All rights reserved.</span>
-                <div class="footer-socials">
-                    <a href="#" aria-label="LinkedIn">in</a>
-                    <a href="#" aria-label="Twitter">X</a>
-                    <a href="#" aria-label="GitHub">GH</a>
-                </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/pages/about">About Us</a></li>
+                    <li><a href="/pages/team">Our Team</a></li>
+                    <li><a href="/pages/blog">Blog</a></li>
+                    <li><a href="/pages/contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="https://sprintinsite.com">SprintINSite</a></li>
+                    <li><a href="https://portfolioinsite.com.au">PortfolioInSite</a></li>
+                    <li><a href="https://fastact.com.au">FACT Training</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Agility Ops Business Pty Ltd. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/company/agility-ops-business" aria-label="LinkedIn">in</a>
+                <a href="#" aria-label="X">X</a>
+                <a href="https://github.com/G-AOBptyltd" aria-label="GitHub">GH</a>
             </div>
         </div>
     </footer>
