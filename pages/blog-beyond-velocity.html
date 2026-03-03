@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyond Velocity: 5 Metrics Every Scrum Master Should Track — Agility Ops</title>
+    <meta name="description" content="Velocity isn't even in the Scrum Guide. DORA's decade of research across 39,000 professionals and Scrum.org's EBM framework point to five metrics that actually predict delivery effectiveness.">
+    <meta property="og:title" content="Beyond Velocity: 5 Metrics Every Scrum Master Should Track">
+    <meta property="og:description" content="The metrics that actually predict delivery effectiveness, based on DORA and Scrum.org's Evidence-Based Management framework.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://agilityops.com.au/pages/blog-beyond-velocity.html">
+    <link rel="canonical" href="https://agilityops.com.au/pages/blog-beyond-velocity.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.7; }
+        nav { background: #0f172a; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-logo-icon { background: linear-gradient(135deg, #3b82f6, #60a5fa); color: #fff; font-weight: 700; font-size: 14px; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .nav-logo-text { color: #f1f5f9; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 18px; }
+        .nav-links { display: flex; gap: 28px; list-style: none; }
+        .nav-links a { color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: #f1f5f9; }
+        .breadcrumbs { max-width: 780px; margin: 24px auto 0; padding: 0 24px; font-size: 13px; color: #64748b; }
+        .breadcrumbs a { color: #3b82f6; text-decoration: none; }
+        .breadcrumbs a:hover { text-decoration: underline; }
+        .article-hero { max-width: 780px; margin: 16px auto 0; padding: 0 24px; }
+        .article-tag { display: inline-block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 12px; border-radius: 4px; margin-bottom: 16px; }
+        .tag-analytics { background: #ecfdf5; color: #047857; }
+        .article-hero h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 40px; font-weight: 800; line-height: 1.15; color: #0f172a; margin-bottom: 16px; }
+        .article-meta { display: flex; gap: 20px; font-size: 14px; color: #64748b; margin-bottom: 24px; flex-wrap: wrap; }
+        .article-hero-img { width: 100%; border-radius: 12px; margin-bottom: 32px; }
+        .article-body { max-width: 780px; margin: 0 auto; padding: 0 24px 60px; }
+        .article-body h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 700; color: #0f172a; margin: 40px 0 16px; }
+        .article-body h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 700; color: #0f172a; margin: 32px 0 12px; }
+        .article-body p { margin-bottom: 18px; font-size: 16.5px; color: #334155; }
+        .article-body a { color: #3b82f6; text-decoration: underline; }
+        
+        /* Metric card */
+        .metric-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 28px; margin: 28px 0; position: relative; border-left: 4px solid #10b981; }
+        .metric-number { position: absolute; top: -14px; left: 20px; background: #10b981; color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 14px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .metric-card h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 19px; font-weight: 700; color: #0f172a; margin: 4px 0 10px; }
+        .metric-card p { margin-bottom: 12px; font-size: 15px; color: #475569; }
+        .metric-card p:last-child { margin-bottom: 0; }
+        .metric-why { font-size: 13px; color: #047857; background: #ecfdf5; padding: 10px 14px; border-radius: 6px; margin-top: 12px; }
+        
+        .stat-callout { display: flex; align-items: center; gap: 20px; background: linear-gradient(135deg, #ecfdf5, #d1fae5); border-left: 4px solid #10b981; border-radius: 0 12px 12px 0; padding: 24px 28px; margin: 32px 0; }
+        .stat-number { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 52px; font-weight: 800; color: #059669; line-height: 1; flex-shrink: 0; }
+        .stat-text { font-size: 15px; color: #064e3b; line-height: 1.5; }
+        .stat-source { font-size: 12px; color: #047857; margin-top: 4px; font-style: italic; }
+        
+        .article-body blockquote { border-left: 3px solid #cbd5e1; padding: 12px 20px; margin: 24px 0; background: #f1f5f9; border-radius: 0 8px 8px 0; font-style: italic; color: #475569; font-size: 15.5px; }
+        .article-body blockquote cite { display: block; margin-top: 8px; font-size: 13px; font-style: normal; color: #64748b; }
+        
+        .key-takeaway { background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 1px solid #a7f3d0; border-radius: 12px; padding: 28px; margin: 36px 0; }
+        .key-takeaway-label { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #047857; margin-bottom: 10px; }
+        .key-takeaway p { color: #064e3b; font-size: 15px; margin-bottom: 10px; }
+        .key-takeaway p:last-child { margin-bottom: 0; }
+        
+        .references { background: #f1f5f9; border-radius: 12px; padding: 28px; margin: 40px 0 0; }
+        .references h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: #334155; margin-bottom: 16px; }
+        .references ol { padding-left: 20px; }
+        .references li { font-size: 13px; color: #64748b; margin-bottom: 8px; line-height: 1.5; }
+        .references li a { color: #3b82f6; word-break: break-all; }
+        
+        .article-cta { background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 16px; padding: 40px; text-align: center; margin: 48px 0 0; }
+        .article-cta h3 { font-family: 'Plus Jakarta Sans', sans-serif; color: #f1f5f9; font-size: 22px; margin-bottom: 12px; }
+        .article-cta p { color: #94a3b8; font-size: 15px; margin-bottom: 24px; }
+        .article-cta a { display: inline-block; background: linear-gradient(135deg, #10b981, #059669); color: #fff; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px; transition: transform 0.2s; }
+        .article-cta a:hover { transform: translateY(-2px); }
+        
+        footer { background: #0f172a; padding: 48px 32px 24px; margin-top: 60px; }
+        .footer-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+        .footer-brand p { color: #64748b; font-size: 13px; line-height: 1.6; margin-top: 12px; }
+        .footer-col h4 { color: #e2e8f0; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+        .footer-col a { display: block; color: #64748b; text-decoration: none; font-size: 13px; margin-bottom: 8px; }
+        .footer-col a:hover { color: #94a3b8; }
+        .footer-bottom { max-width: 1100px; margin: 32px auto 0; padding-top: 24px; border-top: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center; }
+        .footer-bottom p { color: #475569; font-size: 12px; }
+        .footer-social { display: flex; gap: 16px; }
+        .footer-social a { color: #64748b; text-decoration: none; font-size: 13px; font-weight: 500; }
+        .footer-social a:hover { color: #94a3b8; }
+        
+        @media (max-width: 900px) {
+            .article-hero h1 { font-size: 30px; }
+            .stat-callout { flex-direction: column; text-align: center; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+            nav { padding: 12px 16px; }
+            .nav-links { gap: 16px; }
+            .nav-links a { font-size: 13px; }
+            .article-hero h1 { font-size: 26px; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Beyond Velocity: 5 Metrics Every Scrum Master Should Track",
+        "description": "Velocity isn't in the Scrum Guide. DORA's research across 39,000 professionals and Scrum.org's EBM framework point to five metrics that actually predict delivery effectiveness.",
+        "author": { "@type": "Organization", "name": "Agility Ops Business Pty Ltd" },
+        "publisher": { "@type": "Organization", "name": "Agility Ops Business Pty Ltd", "url": "https://agilityops.com.au" },
+        "datePublished": "2026-03-03",
+        "dateModified": "2026-03-03",
+        "mainEntityOfPage": "https://agilityops.com.au/pages/blog-beyond-velocity.html"
+    }
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="/" class="nav-logo">
+            <div class="nav-logo-icon">AO</div>
+            <div class="nav-logo-text">Agility Ops</div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/pages/about">About</a></li>
+            <li><a href="/pages/brands">Our Brands</a></li>
+            <li><a href="/pages/team">Team</a></li>
+            <li><a href="/pages/blog" class="active">Blog</a></li>
+            <li><a href="/pages/contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="breadcrumbs">
+        <a href="/">Home</a> &rsaquo; <a href="/pages/blog">Blog</a> &rsaquo; Beyond Velocity
+    </div>
+
+    <article>
+        <div class="article-hero">
+            <span class="article-tag tag-analytics">Analytics</span>
+            <h1>Beyond Velocity: 5 Metrics Every Scrum Master Should Track Instead</h1>
+            <div class="article-meta">
+                <span>March 3, 2026</span>
+                <span>9 min read</span>
+                <span>By Agility Ops</span>
+            </div>
+            <img src="../img/5%20Metrics%20Every%20Scrum%20Master%20Should%20Track%201%20.png" alt="Beyond Velocity — 5 metrics that actually predict delivery effectiveness" class="article-hero-img" loading="lazy">
+        </div>
+
+        <div class="article-body">
+
+            <p>Here's something that surprises many Scrum practitioners: the word "velocity" does not appear anywhere in the Scrum Guide. Not once. It never has.</p>
+
+            <p>And yet velocity has become the de facto metric that organisations use to measure team performance, compare teams against each other, set contractual targets, and make staffing decisions. This isn't a minor misunderstanding — it's a measurement dysfunction that distorts incentives, inflates estimates, and disconnects delivery teams from the outcomes that actually matter.</p>
+
+            <p>As Scrum.org states plainly: "Velocity is a planning tool rather than a specific measurement. It's an estimate of relative capacity that tends to change over time, and these changes don't necessarily indicate a shift in productivity."</p>
+
+            <div class="stat-callout">
+                <div class="stat-number">0</div>
+                <div>
+                    <div class="stat-text">The number of times "velocity" appears in the Scrum Guide. It is not a prescribed Scrum metric — it's an emergent practice that has been widely adopted and widely misused.</div>
+                    <div class="stat-source">Source: Scrum Guide (2020). Verified independently. Also noted by Concepts and Beyond, Scrum.org, and others.</div>
+                </div>
+            </div>
+
+            <h2>Why Velocity Fails as a Performance Metric</h2>
+
+            <p>Velocity measures the average number of story points completed by a team in a sprint. On the surface, it seems useful. But it has fundamental limitations that make it actively harmful when used beyond its intended purpose of sprint capacity forecasting.</p>
+
+            <p><strong>Story points are relative, not absolute.</strong> Every team defines their own story point system. There is no standard formula. A team reporting velocity of 34 and a team reporting 13 could be doing equivalent work — or wildly different work. Cross-team comparison is meaningless.</p>
+
+            <p><strong>Velocity targets create perverse incentives.</strong> Scrum.org documented a case where a Statement of Work mandated 60 story points per sprint. The team responded by filling the backlog with unrelated work items and inflating estimates to hit the target. The metric was met. Value was not delivered.</p>
+
+            <p><strong>It measures output, not outcomes.</strong> Twenty well-delivered story points that solve a real customer problem are worth infinitely more than forty rushed points that nobody uses. Velocity cannot distinguish between the two.</p>
+
+            <p><strong>AI is breaking it further.</strong> Scrum.org's 2026 analysis of velocity in the AI era made this point starkly: when AI agents can generate code for a "3-point story" in seconds, velocity jumps from 50 to 5,000 in a sprint. Has the team delivered 100x more value? No. They've broken the metric. As the analysis concluded: "If we cling to Velocity, we are lying to ourselves about our productivity."</p>
+
+            <h2>The 5 Metrics That Actually Matter</h2>
+
+            <p>Based on a decade of DORA research (39,000+ professionals), Scrum.org's Evidence-Based Management framework (updated May 2024), and empirical evidence from the broader agile research community, here are five metrics that predict delivery effectiveness far better than velocity.</p>
+
+            <div class="metric-card">
+                <div class="metric-number">1</div>
+                <h3>Deployment Frequency</h3>
+                <p>How often your team deploys to production or releases to end users. DORA's research programme has consistently found this to be the single strongest differentiator between high and low-performing organisations.</p>
+                <p>According to DORA's 2024 report, elite-performing teams deploy on demand — multiple times per day. Low performers deploy between once per month and once every six months. The gap between these groups has widened since 2023, with the low-performing cluster growing from 17% to 25% of respondents.</p>
+                <div class="metric-why"><strong>Why it matters:</strong> Frequent deployment forces small batch sizes, which reduces risk, accelerates feedback, and makes integration problems visible early. It's a forcing function for good engineering practices — not just a measurement of speed.</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-number">2</div>
+                <h3>Cycle Time (Lead Time for Changes)</h3>
+                <p>The elapsed time from when work begins on an item to when it reaches the customer. DORA defines this specifically as the time from code commit to production deployment. In a broader agile context, it includes the full journey from backlog selection to customer delivery.</p>
+                <p>This is a fundamentally different measurement from velocity. Velocity tells you how many points you completed. Cycle time tells you how long each piece of work actually took to flow through your system. It exposes queues, handoffs, review bottlenecks, and waiting time that velocity completely hides.</p>
+                <div class="metric-why"><strong>Why it matters:</strong> Cycle time is a leading indicator. When it increases, your pipeline is developing friction — even if velocity looks stable. Track it at the item level, not the sprint level, to see real flow patterns.</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-number">3</div>
+                <h3>Sprint Goal Achievement Rate</h3>
+                <p>The percentage of sprints where the team achieves its Sprint Goal — not "completed all stories" but achieved the coherent objective that gives the sprint its purpose. The Sprint Goal is explicitly called out in the 2020 Scrum Guide as a commitment for the Sprint Backlog.</p>
+                <p>This metric reframes success from "did we complete X story points?" to "did we achieve the outcome we committed to?" A team that completes 90% of stories but misses the Sprint Goal has not had a successful sprint. A team that pivots mid-sprint but nails the goal has.</p>
+                <div class="metric-why"><strong>Why it matters:</strong> Sprint Goal achievement connects delivery to purpose. It also surfaces whether teams are crafting meaningful Sprint Goals at all — many aren't, which is itself diagnostic information.</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-number">4</div>
+                <h3>Change Failure Rate</h3>
+                <p>The percentage of deployments that result in degraded service or require remediation (rollback, hotfix, patch). This is one of DORA's four key metrics and part of their stability measurement.</p>
+                <p>DORA's 2024 report noted something interesting: for the first time, the medium-performing cluster actually had a lower change failure rate than the high-performing cluster. This decoupling of throughput and stability metrics was unusual in DORA's decade of research. DORA chose to rank high performers based on more frequent deployments even with higher failure rates, but acknowledged the tension.</p>
+                <div class="metric-why"><strong>Why it matters:</strong> Change failure rate directly measures quality in production. Combined with deployment frequency, it tells you whether your team is delivering sustainably or accumulating hidden risk. Atlassian recommends tracking DORA metrics together, noting that "a consistently high deployment frequency doesn't tell the whole story if the change failure rate is also consistently high."</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-number">5</div>
+                <h3>Unrealised Value (Customer Satisfaction Gap)</h3>
+                <p>This comes directly from Scrum.org's Evidence-Based Management (EBM) framework. Unrealised Value measures the gap between what customers desire and what they currently experience. It's the most strategically important metric on this list — and the one fewest teams track.</p>
+                <p>The 2024 EBM Guide classifies measures into five types: Input, Activity, Output, Outcome, and Impact. Most teams measure inputs and activities. Unrealised Value operates at the outcome and impact level. It asks: how much potential value exists that we haven't yet captured?</p>
+                <p>Practical measures include Net Promoter Score trends, feature request analysis, customer churn rates, and competitive gap assessments. The EBM framework positions this alongside Current Value, Time-to-Market, and Ability to Innovate as the four Key Value Areas that give organisations a complete picture of their value delivery.</p>
+                <div class="metric-why"><strong>Why it matters:</strong> A team with perfect velocity and zero customer satisfaction improvement is running efficiently in the wrong direction. Unrealised Value is how you know whether you're solving problems that matter.</div>
+            </div>
+
+            <h2>What About Action Item Completion?</h2>
+
+            <p>There's a meta-metric that Scrum Masters rarely track but should: the completion rate of retrospective action items. Data from EasyRetro, one of the largest retrospective platforms, shows the average completion rate of retrospective action items across their platform is approximately 0.33%. That's not a typo — less than one percent of improvement actions identified in retrospectives get marked as complete.</p>
+
+            <p>Easy Agile's usage data from their TeamRhythm tool tells a more nuanced but still sobering story: teams were completing only 40-50% of their retrospective action items. After they released features specifically designed to surface and track incomplete actions, completion jumped to 65%. The tool didn't change the teams' intentions — it changed their visibility and accountability.</p>
+
+            <p>If your retrospective produces three action items every sprint and fewer than half are completed before the next one, you have a continuous improvement system that isn't actually improving anything. Track this.</p>
+
+            <div class="key-takeaway">
+                <div class="key-takeaway-label">Key Takeaway</div>
+                <p>Velocity is a capacity forecasting tool — nothing more. For understanding delivery effectiveness, measure deployment frequency, cycle time, Sprint Goal achievement, change failure rate, and unrealised value. Together, these five metrics connect team-level execution to customer outcomes and strategic goals.</p>
+                <p><strong>SprintINSite</strong> provides automated velocity and throughput tracking, sprint-over-sprint trend analysis, and capacity forecasting inside Jira Cloud — the operational foundation you need before layering on outcome metrics. <a href="https://sprintinsite.com">Try it on the Atlassian Marketplace</a>.</p>
+            </div>
+
+            <h2>Getting Started: A Four-Week Adoption Plan</h2>
+
+            <p><strong>Week 1:</strong> Start measuring cycle time at the issue level in Jira. Most teams can extract this from existing data without any new tooling. Track it per story, not per sprint.</p>
+
+            <p><strong>Week 2:</strong> Introduce Sprint Goal achievement tracking. At each Sprint Review, ask the binary question: "Did we achieve the Sprint Goal?" Record yes or no. Track it over time. If your team doesn't have a Sprint Goal, that's your first improvement.</p>
+
+            <p><strong>Week 3:</strong> If your team deploys to production, start capturing deployment frequency and change failure rate. If you use Jira Service Management or a CI/CD pipeline with logging, this data likely already exists — it just isn't surfaced.</p>
+
+            <p><strong>Week 4:</strong> Have a conversation with your Product Owner about Unrealised Value. What customer problems remain unsolved? What satisfaction gaps exist? You don't need a formal survey — start with support ticket analysis, feature request themes, and churn data. Establish a baseline.</p>
+
+            <p><strong>Ongoing:</strong> Stop using velocity for anything other than sprint capacity planning. If it's in a management dashboard, remove it. If it's in a contract, flag it. Every time velocity is used as a performance target, it actively degrades the quality of your delivery.</p>
+
+            <div class="article-cta">
+                <h3>Ready to measure what matters?</h3>
+                <p>SprintINSite gives Jira Cloud teams automated sprint analytics, velocity trends, and capacity forecasting — the data foundation for moving beyond velocity to outcome-driven delivery. Australian-built for Atlassian teams.</p>
+                <a href="https://sprintinsite.com">Explore SprintINSite</a>
+            </div>
+
+            <div class="references">
+                <h3>References &amp; Sources</h3>
+                <ol>
+                    <li>Scrum Guide (2020). Ken Schwaber &amp; Jeff Sutherland. Velocity is not mentioned. <a href="https://scrumguides.org/scrum-guide.html" target="_blank" rel="noopener">scrumguides.org</a></li>
+                    <li>Scrum.org. "Myth: Velocity is Productivity." <a href="https://www.scrum.org/resources/blog/myth-velocity-productivity" target="_blank" rel="noopener">scrum.org</a></li>
+                    <li>Scrum.org. "Scrum Masters, What Are You Measuring in 2025?" Documents velocity target gaming case. <a href="https://www.scrum.org/resources/blog/scrum-masters-what-are-you-measuring-2025" target="_blank" rel="noopener">scrum.org</a></li>
+                    <li>Scrum.org. "From Velocity to Agent Efficiency: Evidence-Based Management for the AI Era." February 2026. <a href="https://www.scrum.org/resources/blog/velocity-agent-efficiency-evidence-based-management-ai-era" target="_blank" rel="noopener">scrum.org</a></li>
+                    <li>Concepts and Beyond. "Velocity: The Misused Metric." April 2025. <a href="https://conceptsandbeyond.com/velocity-the-misused-metric/" target="_blank" rel="noopener">conceptsandbeyond.com</a></li>
+                    <li>Google Cloud / DORA. "2024 Accelerate State of DevOps Report." 39,000+ professionals over a decade. <a href="https://dora.dev/research/2024/dora-report/" target="_blank" rel="noopener">dora.dev</a></li>
+                    <li>DX (formerly GetDX). "Highlights from the 2024 DORA State of DevOps Report." Analysis of cluster shifts. <a href="https://getdx.com/blog/2024-dora-report/" target="_blank" rel="noopener">getdx.com</a></li>
+                    <li>Octopus Deploy. "The 2024 DevOps Performance Clusters." <a href="https://octopus.com/blog/2024-devops-performance-clusters" target="_blank" rel="noopener">octopus.com</a></li>
+                    <li>Scrum.org. "Evidence-Based Management Guide." Updated May 2024. <a href="https://www.scrum.org/resources/evidence-based-management-guide" target="_blank" rel="noopener">scrum.org</a></li>
+                    <li>Atlassian. "DORA Metrics: How to Measure Open DevOps Success." January 2026. <a href="https://www.atlassian.com/devops/frameworks/dora-metrics" target="_blank" rel="noopener">atlassian.com</a></li>
+                    <li>EasyRetro. "Retrospective Statistics." Average action item completion rate: 0.33%. <a href="https://easyretro.io/retrospective-statistics/" target="_blank" rel="noopener">easyretro.io</a></li>
+                    <li>Easy Agile. "Why Retrospectives Fail: Fixing Action Item Follow-Through." 40-50% completion rate jumping to 65% with tracking features. <a href="https://www.easyagile.com/blog/improve-sprint-retrospective-action-items" target="_blank" rel="noopener">easyagile.com</a></li>
+                </ol>
+            </div>
+
+        </div>
+    </article>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div class="nav-logo-icon">AO</div>
+                    <div class="nav-logo-text">Agility Ops</div>
+                </div>
+                <p>AI transformation consulting for enterprises. Strategic adoption, intelligent tools, and practitioner-led training. Australian owned and operated.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/pages/about">About Us</a>
+                <a href="/pages/team">Our Team</a>
+                <a href="/pages/blog">Blog</a>
+                <a href="/pages/contact">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Solutions</h4>
+                <a href="https://sprintinsite.com">SprintINSite</a>
+                <a href="https://portfolioinsite.com.au">PortfolioInSite</a>
+                <a href="https://fastact.com.au">FACT Training</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Agility Ops Business Pty Ltd. All rights reserved.</p>
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/in/greg-collocott-0390001/">in</a>
+                <a href="https://github.com/G-AOBptyltd">GH</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

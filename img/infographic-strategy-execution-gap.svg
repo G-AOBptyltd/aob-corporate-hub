@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" font-family="'Inter', 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="bar1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="bar2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="480" fill="url(#bg1)" rx="16"/>
+  
+  <!-- Title -->
+  <text x="40" y="42" fill="#f1f5f9" font-size="20" font-weight="700">The Strategy-Execution Gap</text>
+  <text x="40" y="64" fill="#64748b" font-size="12">Research-backed data on why strategies fail to deliver — and where the value disappears</text>
+  
+  <!-- Divider -->
+  <line x1="40" y1="80" x2="760" y2="80" stroke="#334155" stroke-width="1"/>
+  
+  <!-- Left column: Bar chart -->
+  <text x="40" y="108" fill="#94a3b8" font-size="11" font-weight="600" letter-spacing="1">STRATEGY FAILURE RATES</text>
+  
+  <!-- Bar 1: HBR 67% -->
+  <text x="40" y="140" fill="#cbd5e1" font-size="13" font-weight="500">Strategies that fail (HBR)</text>
+  <rect x="40" y="148" width="390" height="22" rx="4" fill="#1e293b"/>
+  <rect x="40" y="148" width="261" height="22" rx="4" fill="url(#bar1)" opacity="0.9"/>
+  <text x="310" y="163" fill="#fff" font-size="13" font-weight="700">67%</text>
+  
+  <!-- Bar 2: Kaplan & Norton 90% -->
+  <text x="40" y="196" fill="#cbd5e1" font-size="13" font-weight="500">Not executed successfully (Kaplan &amp; Norton)</text>
+  <rect x="40" y="204" width="390" height="22" rx="4" fill="#1e293b"/>
+  <rect x="40" y="204" width="351" height="22" rx="4" fill="url(#bar1)" opacity="0.8"/>
+  <text x="398" y="219" fill="#f97316" font-size="13" font-weight="700">90%</text>
+  
+  <!-- Bar 3: PMI project success rate 50% -->
+  <text x="40" y="252" fill="#cbd5e1" font-size="13" font-weight="500">Projects that don't deliver full value (PMI 2025)</text>
+  <rect x="40" y="260" width="390" height="22" rx="4" fill="#1e293b"/>
+  <rect x="40" y="260" width="195" height="22" rx="4" fill="url(#bar2)" opacity="0.9"/>
+  <text x="242" y="275" fill="#60a5fa" font-size="13" font-weight="700">~50%</text>
+  
+  <!-- Bar 4: Value delivery 63% -->
+  <text x="40" y="308" fill="#cbd5e1" font-size="13" font-weight="500">Strategy value that materialises (avg.)</text>
+  <rect x="40" y="316" width="390" height="22" rx="4" fill="#1e293b"/>
+  <rect x="40" y="316" width="246" height="22" rx="4" fill="url(#bar2)" opacity="0.8"/>
+  <text x="293" y="331" fill="#60a5fa" font-size="13" font-weight="700">63%</text>
+  <text x="40" y="355" fill="#475569" font-size="10" font-style="italic">37% of expected strategic value is lost to execution gaps</text>
+  
+  <!-- Right column: Key stats -->
+  <line x1="480" y1="90" x2="480" y2="370" stroke="#334155" stroke-width="1"/>
+  
+  <text x="510" y="108" fill="#94a3b8" font-size="11" font-weight="600" letter-spacing="1">PMI 2025 CEO SURVEY</text>
+  
+  <!-- Stat cards -->
+  <rect x="510" y="120" width="240" height="68" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="530" y="148" fill="#f97316" font-size="28" font-weight="800">93%</text>
+  <text x="530" y="174" fill="#94a3b8" font-size="11" font-weight="400">of CEOs must reinvent their</text>
+  <text x="530" y="186" fill="#94a3b8" font-size="11">business model every 5 years</text>
+  
+  <rect x="510" y="200" width="240" height="68" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="530" y="228" fill="#f97316" font-size="28" font-weight="800">35%</text>
+  <text x="530" y="254" fill="#94a3b8" font-size="11">cite strategy-execution gap as</text>
+  <text x="530" y="266" fill="#94a3b8" font-size="11">#1 barrier to reinvention</text>
+  
+  <rect x="510" y="280" width="240" height="68" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="530" y="308" fill="#60a5fa" font-size="28" font-weight="800">72%</text>
+  <text x="530" y="334" fill="#94a3b8" font-size="11">cite AI &amp; automation as primary</text>
+  <text x="530" y="346" fill="#94a3b8" font-size="11">driver for business reinvention</text>
+  
+  <!-- Bottom bar -->
+  <rect x="0" y="390" width="800" height="90" fill="#0a0f1c" rx="0"/>
+  <text x="40" y="418" fill="#64748b" font-size="10" font-weight="600" letter-spacing="0.5">SOURCES</text>
+  <text x="40" y="436" fill="#475569" font-size="10">PMI "Step Up: Redefining the Path to Project Success with M.O.R.E." (Dec 2025) — 5,800+ professionals, 300 CEOs, with Kantar</text>
+  <text x="40" y="450" fill="#475569" font-size="10">HBR via Balanced Scorecard Institute — Kaplan &amp; Norton — ZoomInfo/Stacker corporate strategy analysis</text>
+  
+  <!-- AOB branding -->
+  <rect x="640" y="408" width="120" height="28" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="660" y="426" fill="#64748b" font-size="11" font-weight="600">agilityops.com.au</text>
+</svg>

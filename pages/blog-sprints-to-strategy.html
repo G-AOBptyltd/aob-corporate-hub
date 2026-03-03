@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Sprints to Strategy: Bridging the Gap — Agility Ops</title>
+    <meta name="description" content="PMI's 2025 research across 5,800 professionals reveals the strategy-execution gap as the top barrier to transformation. Here's how agile delivery teams can connect sprint-level work to strategic outcomes.">
+    <meta property="og:title" content="From Sprints to Strategy: Bridging the Gap">
+    <meta property="og:description" content="35% of executives cite the strategy-execution gap as their biggest obstacle. This article explores why sprint metrics alone don't connect to business outcomes, and what to do about it.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://agilityops.com.au/pages/blog-sprints-to-strategy.html">
+    <link rel="canonical" href="https://agilityops.com.au/pages/blog-sprints-to-strategy.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.7; }
+        
+        /* Nav */
+        nav { background: #0f172a; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-logo-icon { background: linear-gradient(135deg, #3b82f6, #60a5fa); color: #fff; font-weight: 700; font-size: 14px; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .nav-logo-text { color: #f1f5f9; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 18px; }
+        .nav-links { display: flex; gap: 28px; list-style: none; }
+        .nav-links a { color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: #f1f5f9; }
+        
+        /* Breadcrumbs */
+        .breadcrumbs { max-width: 780px; margin: 24px auto 0; padding: 0 24px; font-size: 13px; color: #64748b; }
+        .breadcrumbs a { color: #3b82f6; text-decoration: none; }
+        .breadcrumbs a:hover { text-decoration: underline; }
+        
+        /* Hero */
+        .article-hero { max-width: 780px; margin: 16px auto 0; padding: 0 24px; }
+        .article-tag { display: inline-block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 12px; border-radius: 4px; margin-bottom: 16px; }
+        .tag-strategy { background: #fff7ed; color: #c2410c; }
+        .article-hero h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 40px; font-weight: 800; line-height: 1.15; color: #0f172a; margin-bottom: 16px; }
+        .article-meta { display: flex; gap: 20px; font-size: 14px; color: #64748b; margin-bottom: 24px; flex-wrap: wrap; }
+        .article-hero-img { width: 100%; border-radius: 12px; margin-bottom: 32px; }
+        
+        /* Article body */
+        .article-body { max-width: 780px; margin: 0 auto; padding: 0 24px 60px; }
+        .article-body h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 700; color: #0f172a; margin: 40px 0 16px; }
+        .article-body h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 700; color: #0f172a; margin: 32px 0 12px; }
+        .article-body p { margin-bottom: 18px; font-size: 16.5px; color: #334155; }
+        .article-body a { color: #3b82f6; text-decoration: underline; }
+        
+        /* Stat callout */
+        .stat-callout { display: flex; align-items: center; gap: 20px; background: linear-gradient(135deg, #fff7ed, #ffedd5); border-left: 4px solid #ea580c; border-radius: 0 12px 12px 0; padding: 24px 28px; margin: 32px 0; }
+        .stat-number { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 52px; font-weight: 800; color: #ea580c; line-height: 1; flex-shrink: 0; }
+        .stat-text { font-size: 15px; color: #92400e; line-height: 1.5; }
+        .stat-source { font-size: 12px; color: #a16207; margin-top: 4px; font-style: italic; }
+        
+        /* Blockquote */
+        .article-body blockquote { border-left: 3px solid #cbd5e1; padding: 12px 20px; margin: 24px 0; background: #f1f5f9; border-radius: 0 8px 8px 0; font-style: italic; color: #475569; font-size: 15.5px; }
+        .article-body blockquote cite { display: block; margin-top: 8px; font-size: 13px; font-style: normal; color: #64748b; }
+        
+        /* Key takeaway box */
+        .key-takeaway { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border: 1px solid #bae6fd; border-radius: 12px; padding: 28px; margin: 36px 0; }
+        .key-takeaway-label { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #0369a1; margin-bottom: 10px; }
+        .key-takeaway p { color: #0c4a6e; font-size: 15px; margin-bottom: 10px; }
+        .key-takeaway p:last-child { margin-bottom: 0; }
+        
+        /* References */
+        .references { background: #f1f5f9; border-radius: 12px; padding: 28px; margin: 40px 0 0; }
+        .references h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: #334155; margin-bottom: 16px; }
+        .references ol { padding-left: 20px; }
+        .references li { font-size: 13px; color: #64748b; margin-bottom: 8px; line-height: 1.5; }
+        .references li a { color: #3b82f6; word-break: break-all; }
+        
+        /* CTA */
+        .article-cta { background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 16px; padding: 40px; text-align: center; margin: 48px 0 0; }
+        .article-cta h3 { font-family: 'Plus Jakarta Sans', sans-serif; color: #f1f5f9; font-size: 22px; margin-bottom: 12px; }
+        .article-cta p { color: #94a3b8; font-size: 15px; margin-bottom: 24px; }
+        .article-cta a { display: inline-block; background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px; transition: transform 0.2s; }
+        .article-cta a:hover { transform: translateY(-2px); }
+        
+        /* Infographic */
+        .infographic-container { margin: 32px 0; text-align: center; }
+        .infographic-container img, .infographic-container svg { max-width: 100%; border-radius: 12px; }
+        .infographic-caption { font-size: 12px; color: #64748b; margin-top: 8px; font-style: italic; }
+        
+        /* Footer */
+        footer { background: #0f172a; padding: 48px 32px 24px; margin-top: 60px; }
+        .footer-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+        .footer-brand p { color: #64748b; font-size: 13px; line-height: 1.6; margin-top: 12px; }
+        .footer-col h4 { color: #e2e8f0; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+        .footer-col a { display: block; color: #64748b; text-decoration: none; font-size: 13px; margin-bottom: 8px; }
+        .footer-col a:hover { color: #94a3b8; }
+        .footer-bottom { max-width: 1100px; margin: 32px auto 0; padding-top: 24px; border-top: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center; }
+        .footer-bottom p { color: #475569; font-size: 12px; }
+        .footer-social { display: flex; gap: 16px; }
+        .footer-social a { color: #64748b; text-decoration: none; font-size: 13px; font-weight: 500; }
+        .footer-social a:hover { color: #94a3b8; }
+        
+        @media (max-width: 900px) {
+            .article-hero h1 { font-size: 30px; }
+            .stat-callout { flex-direction: column; text-align: center; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+            nav { padding: 12px 16px; }
+            .nav-links { gap: 16px; }
+            .nav-links a { font-size: 13px; }
+            .article-hero h1 { font-size: 26px; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "From Sprints to Strategy: Bridging the Gap",
+        "description": "PMI's 2025 research across 5,800 professionals reveals the strategy-execution gap as the top barrier to transformation. Here's how delivery teams can connect sprint work to strategic outcomes.",
+        "author": { "@type": "Organization", "name": "Agility Ops Business Pty Ltd" },
+        "publisher": { "@type": "Organization", "name": "Agility Ops Business Pty Ltd", "url": "https://agilityops.com.au" },
+        "datePublished": "2026-03-03",
+        "dateModified": "2026-03-03",
+        "mainEntityOfPage": "https://agilityops.com.au/pages/blog-sprints-to-strategy.html"
+    }
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="/" class="nav-logo">
+            <div class="nav-logo-icon">AO</div>
+            <div class="nav-logo-text">Agility Ops</div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/pages/about">About</a></li>
+            <li><a href="/pages/brands">Our Brands</a></li>
+            <li><a href="/pages/team">Team</a></li>
+            <li><a href="/pages/blog" class="active">Blog</a></li>
+            <li><a href="/pages/contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="breadcrumbs">
+        <a href="/">Home</a> &rsaquo; <a href="/pages/blog">Blog</a> &rsaquo; From Sprints to Strategy
+    </div>
+
+    <article>
+        <div class="article-hero">
+            <span class="article-tag tag-strategy">Strategy</span>
+            <h1>From Sprints to Strategy: Bridging the Gap That Costs Organisations 37% of Their Strategic Value</h1>
+            <div class="article-meta">
+                <span>March 3, 2026</span>
+                <span>10 min read</span>
+                <span>By Agility Ops</span>
+            </div>
+            <img src="../img/From%20Sprints%20to%20Strategy-%20Bridging%20the%20Gap%201.png" alt="From Sprints to Strategy — Bridging the delivery-to-strategy gap" class="article-hero-img" loading="lazy">
+        </div>
+
+        <div class="article-body">
+
+            <p>Your teams are running sprints. They're completing stories, burning down backlogs, and hitting velocity targets. From the team room, everything looks productive. But step into the boardroom and ask the C-suite whether delivery is moving the needle on strategy — and the answer is almost always the same: "We don't know."</p>
+
+            <p>This disconnect — the gap between sprint-level execution and strategic outcomes — is one of the most expensive problems in modern organisations. And in December 2025, the Project Management Institute (PMI) put a number on it.</p>
+
+            <div class="stat-callout">
+                <div class="stat-number">35%</div>
+                <div>
+                    <div class="stat-text">of senior executives cite the strategy-execution gap as their top barrier to reinvention — more than any other factor, including technology, capital, or talent.</div>
+                    <div class="stat-source">Source: PMI, "Step Up: Redefining the Path to Project Success with M.O.R.E." (December 2025). 300 senior executives surveyed in partnership with Kantar.</div>
+                </div>
+            </div>
+
+            <h2>The Scale of the Problem</h2>
+
+            <p>PMI's 2025 research programme is one of the largest studies of its kind, drawing on responses from more than 5,800 project professionals, key stakeholders, and knowledge workers across global industries, collected in partnership with independent research firm Kantar. Their companion CEO survey of 300 senior executives paints a stark picture: 93% say they must rethink or reinvent their business model or operating approach at least every five years, with nearly two-thirds doing so every two years or more frequently.</p>
+
+            <p>Yet their biggest obstacle is not a lack of ideas, capital, or technology. It is the widening gap between planning and execution.</p>
+
+            <p>PMI's CEO, Pierre Le Manh, was blunt in the report's launch: organisations "simply cannot afford a 50/50 success rate on the projects that fund their strategy." That's the current reality — roughly half of all projects fail to deliver full value.</p>
+
+            <p>This aligns with a broader evidence base. Harvard Business Review has documented that approximately 67% of well-formulated strategies fail due to poor execution. Kaplan and Norton, the originators of the Balanced Scorecard, estimated that up to 90% of strategies are not executed successfully. And business researchers have documented that most corporate strategies deliver only about 63% of their expected financial value.</p>
+
+            <h2>Why Sprint-Level Metrics Don't Connect to Strategy</h2>
+
+            <p>Most agile teams measure what's in front of them: velocity, sprint burndown, story points completed. These are useful operational metrics for the team. They help with forecasting capacity and planning the next sprint. But they tell you nothing about whether the work being completed is advancing strategic objectives.</p>
+
+            <p>The PMI research underscores that structural barriers — not intent — are what's slowing progress. Executives report that outdated skills, rigid structures, fragmented accountability, and overly centralised decision-making all make it harder to adapt quickly. Many say their organisations are clear on purpose, but their operating models and governance are not designed to reallocate capital and talent quickly enough.</p>
+
+            <p>This is the heart of the problem. Sprint-level execution operates on a two-week cadence. Strategic planning operates on a one-to-five-year horizon. The connective tissue between them — portfolio governance, outcome measurement, strategic alignment — is either missing or manual.</p>
+
+            <h3>Three Structural Disconnects</h3>
+
+            <p><strong>1. Measurement Mismatch.</strong> Teams measure outputs (stories completed, velocity achieved). Executives measure impacts (revenue, market share, cost reduction). Nobody is systematically measuring outcomes — the behaviour changes in customers or users that connect outputs to impacts. As the Scrum.org Evidence-Based Management (EBM) Guide states: "working more hours (activities) and delivering more features (outputs) does not necessarily lead to improved customer experiences (outcomes)."</p>
+
+            <p><strong>2. Governance Gaps.</strong> Most organisations lack a mechanism for continuously reprioritising work based on strategic value. Backlogs are often locked in at the start of a quarter or programme increment. When strategy shifts (which PMI's data shows it does every two years for 65% of organisations), the work in flight doesn't shift with it.</p>
+
+            <p><strong>3. Communication Breakdown.</strong> Research published in Harvard Business Review on how high-performing teams bridge the strategy-execution gap found that these teams spend 12% more time communicating strategic direction to their staff on an ongoing basis. The low-performing teams don't lack strategy — they lack the ongoing dialogue that keeps execution aligned.</p>
+
+            <h2>From Outputs to Outcomes: A Measurement Framework That Works</h2>
+
+            <p>The solution isn't to abandon sprint-level metrics. It's to layer outcome-oriented measurement on top of them, creating a line of sight from daily work to strategic goals.</p>
+
+            <p>Two frameworks provide the foundation for this. Both are backed by substantial research programmes and are widely adopted across industries.</p>
+
+            <h3>Scrum.org's Evidence-Based Management (EBM)</h3>
+
+            <p>Created by Ken Schwaber (co-creator of Scrum) and released by Scrum.org in 2015, EBM was most recently updated in May 2024. It defines four Key Value Areas (KVAs) that provide lenses to examine improvement opportunities:</p>
+
+            <p><strong>Current Value (CV)</strong> — the value the product delivers to customers today. Measured through outcomes like customer satisfaction, revenue per employee, and product cost ratio.</p>
+
+            <p><strong>Unrealized Value (UV)</strong> — the satisfaction gap between what customers desire and what they currently experience. This is where strategic opportunity lives.</p>
+
+            <p><strong>Ability to Innovate (A2I)</strong> — the organisation's effectiveness at delivering new capabilities. Measured through factors like technical debt ratios, defect trends, and innovation rate.</p>
+
+            <p><strong>Time-to-Market (T2M)</strong> — the organisation's ability to quickly deliver new capabilities. Includes release frequency, cycle time, and integration frequency.</p>
+
+            <p>The 2024 EBM Guide introduced a clearer taxonomy of measurement types: Input, Activity, Output, Outcome, and Impact. The distinction matters enormously. Most teams are drowning in input and activity metrics (hours worked, stories committed) while starving for outcome and impact data (customer behaviour changes, revenue effects).</p>
+
+            <h3>DORA Metrics (Google Cloud)</h3>
+
+            <p>The DORA programme (DevOps Research and Assessment), now a decade old, has surveyed more than 39,000 professionals globally. The 2024 Accelerate State of DevOps Report established four industry-standard metrics for software delivery performance:</p>
+
+            <p><strong>Deployment Frequency</strong> — how often you deploy to production. <strong>Lead Time for Changes</strong> — time from code commit to production. <strong>Change Failure Rate</strong> — percentage of deployments causing failures. <strong>Failed Deployment Recovery Time</strong> — how quickly you restore service after a failure.</p>
+
+            <p>A critical finding from DORA's decade of research is that throughput and stability are not trade-offs. Organisations that deploy more frequently also tend to have lower failure rates. The most significant differentiator between the lowest and highest performance levels is deployment frequency — top performers deploy on demand, keeping batch sizes small and using automation to remove risk.</p>
+
+            <p>However, DORA's 2024 report also surfaced a notable shift: the low-performing cluster grew from 17% to 25% of respondents, while the high-performing cluster shrank from 31% to 22%. Elite performance still represents less than 20% of organisations. The gap between top and bottom is widening.</p>
+
+            <div class="key-takeaway">
+                <div class="key-takeaway-label">Key Takeaway</div>
+                <p>Sprint-level metrics like velocity tell you how fast the team is moving. EBM tells you whether that movement is creating value for customers. DORA tells you whether your delivery pipeline can sustain it. You need all three layers — and the governance to connect them to strategic goals.</p>
+                <p>This is exactly what <strong>SprintINSite</strong> is designed to address: predictive sprint analytics that give delivery teams and their leaders visibility into velocity trends, capacity forecasting, and sprint health — the operational foundation that strategy depends on. <a href="https://sprintinsite.com">Learn more at sprintinsite.com</a>.</p>
+            </div>
+
+            <h2>The AI Acceleration Factor</h2>
+
+            <p>PMI's 2025 CEO survey found that 72% of executives cite AI and automation as a primary driver pushing them to rethink their business model. As Le Manh noted: "AI will only create value if organisations can translate bold ideas into executed initiatives."</p>
+
+            <p>This creates an urgency problem. Organisations are simultaneously trying to reinvent their business models through AI while still unable to execute their existing strategies. The strategy-execution gap becomes an AI-readiness gap.</p>
+
+            <p>DORA's 2024 research added a critical nuance: while AI adoption has positive impacts on individual productivity and many organisational factors, it was accompanied by an estimated decrease in delivery throughput of 1.5% and an estimated reduction in delivery stability of 7.2%. The report concludes that improving the development process does not automatically improve software delivery — not without adherence to fundamentals like small batch sizes and robust testing.</p>
+
+            <p>The implication is clear: AI amplifies whatever execution capability you already have. If your strategy-execution gap is wide, AI won't close it — it may widen it by adding complexity without the governance to manage it.</p>
+
+            <h2>What High-Performing Organisations Do Differently</h2>
+
+            <p>The PMI research identifies four elements — grouped under the acronym M.O.R.E. — that strongly predict whether projects deliver full value. Organisations that adopt all four elements see success rates more than triple compared to those that don't.</p>
+
+            <p><strong>Measure what matters.</strong> Shift from tracking outputs (on time, on budget) to tracking value delivered. This means adopting outcome-based metrics like those in the EBM framework.</p>
+
+            <p><strong>Optimise ways of working.</strong> Don't mandate one methodology. Let teams select approaches — whether Scrum, Kanban, or hybrid — based on the nature of the work. The data shows this flexibility outperforms rigid adherence to any single framework.</p>
+
+            <p><strong>Raise capabilities.</strong> The CEO research found that outdated skills and rigid structures are primary structural barriers. Investment in continuous capability building — particularly in AI literacy — is a prerequisite, not a nice-to-have.</p>
+
+            <p><strong>Elevate the role.</strong> Move project professionals from task execution to value delivery ownership. This means giving teams both the authority and the information to make strategic trade-offs.</p>
+
+            <h2>A Practical Path Forward</h2>
+
+            <p>If your organisation is running agile teams but struggling to connect delivery to strategy, here's a starting framework:</p>
+
+            <p><strong>Week 1-2: Audit your measurement stack.</strong> Map every metric you currently track against the EBM taxonomy (Input → Activity → Output → Outcome → Impact). Most organisations will discover they're measuring inputs and outputs almost exclusively. Identify the outcome and impact gaps.</p>
+
+            <p><strong>Week 3-4: Establish strategic alignment checkpoints.</strong> Create a lightweight mechanism — no more than 30 minutes per sprint — where delivery teams explicitly connect their sprint goals to strategic objectives. This isn't a status report. It's a strategic coherence check.</p>
+
+            <p><strong>Month 2: Implement flow metrics alongside velocity.</strong> Start tracking cycle time, throughput, and work-in-progress limits. These flow metrics are leading indicators of delivery capability and connect more directly to DORA's performance model than velocity alone.</p>
+
+            <p><strong>Month 3: Pilot outcome-based sprint reviews.</strong> Instead of demonstrating completed stories, demonstrate customer outcomes. Show the data: what changed for users? What behaviour shifted? If you can't answer that, you're demonstrating outputs, not outcomes.</p>
+
+            <p><strong>Ongoing: Govern continuously, not quarterly.</strong> Portfolio prioritisation must happen at the cadence of strategic change — which PMI's data shows is accelerating. Static quarterly planning cycles cannot keep pace with organisations that need to reinvent every two years.</p>
+
+            <div class="article-cta">
+                <h3>Stop measuring movement. Start measuring value.</h3>
+                <p>Agility Ops helps enterprises connect sprint-level delivery to strategic outcomes through intelligent Jira tools, AI transformation consulting, and Applied AI training. Australian-owned, practitioner-built.</p>
+                <a href="/pages/contact">Book a Discovery Call</a>
+            </div>
+
+            <div class="references">
+                <h3>References &amp; Sources</h3>
+                <ol>
+                    <li>Project Management Institute (PMI). "Step Up: Redefining the Path to Project Success with M.O.R.E." December 2025. 5,800+ professionals surveyed in partnership with Kantar. <a href="https://www.pmi.org/about/press-media/2025/new-pmi-research-reveals-strategy-execution-gap-is-undermining-transformation-and-how-to-close-it" target="_blank" rel="noopener">pmi.org</a></li>
+                    <li>PMI. "2025 CEO Quant Survey." 300 senior executives. Companion study to the M.O.R.E. report. December 2025.</li>
+                    <li>Harvard Business Review, cited in Balanced Scorecard Institute. "The Leadership Gap: Understanding Strategy Execution Failure." August 2024. <a href="https://balancedscorecard.org/blog/the-leadership-gap-understanding-strategy-execution-failure/" target="_blank" rel="noopener">balancedscorecard.org</a></li>
+                    <li>Kaplan, R.S. &amp; Norton, D.P. Cited in Balanced Scorecard Institute: up to 90% of strategies are not executed successfully.</li>
+                    <li>ZoomInfo / Stacker. "The execution gap: Why 63% of corporate strategy value never materializes." November 2025.</li>
+                    <li>Scrum.org. "Evidence-Based Management Guide." Updated May 2024. Created by Ken Schwaber. <a href="https://www.scrum.org/resources/evidence-based-management-guide" target="_blank" rel="noopener">scrum.org</a></li>
+                    <li>Google Cloud / DORA. "2024 Accelerate State of DevOps Report." 10th annual report. 39,000+ professionals surveyed over a decade. <a href="https://dora.dev/research/2024/dora-report/" target="_blank" rel="noopener">dora.dev</a></li>
+                    <li>Lynch, S. "Closing The Strategy Execution Gap." Referencing HBR research on high-performing team behaviours. <a href="https://stephenlynch.net/closing-the-strategy-execution-gap/" target="_blank" rel="noopener">stephenlynch.net</a></li>
+                    <li>Octopus Deploy. "The 2024 DevOps Performance Clusters." November 2024. <a href="https://octopus.com/blog/2024-devops-performance-clusters" target="_blank" rel="noopener">octopus.com</a></li>
+                </ol>
+            </div>
+
+        </div>
+    </article>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div class="nav-logo-icon">AO</div>
+                    <div class="nav-logo-text">Agility Ops</div>
+                </div>
+                <p>AI transformation consulting for enterprises. Strategic adoption, intelligent tools, and practitioner-led training. Australian owned and operated.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/pages/about">About Us</a>
+                <a href="/pages/team">Our Team</a>
+                <a href="/pages/blog">Blog</a>
+                <a href="/pages/contact">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Solutions</h4>
+                <a href="https://sprintinsite.com">SprintINSite</a>
+                <a href="https://portfolioinsite.com.au">PortfolioInSite</a>
+                <a href="https://fastact.com.au">FACT Training</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Agility Ops Business Pty Ltd. All rights reserved.</p>
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/in/greg-collocott-0390001/">in</a>
+                <a href="https://github.com/G-AOBptyltd">GH</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
