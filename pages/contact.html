@@ -93,7 +93,9 @@
 
           <!-- Right: Contact Form -->
           <div class="contact-form card reveal">
-            <form id="contact-form">
+            <form id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+              <!-- Honeypot field for spam protection — hidden from real users -->
+              <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
               <div class="form-row">
                 <div class="form-group">
                   <label for="first-name">First Name</label>
@@ -198,8 +200,8 @@
         <div>
           <h4>Legal</h4>
           <ul class="footer-links">
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
           </ul>
         </div>
       </div>
