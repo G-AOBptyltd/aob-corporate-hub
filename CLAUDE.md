@@ -106,3 +106,9 @@ aob-corporate-hub/
 - Always hard-refresh and test in incognito after Netlify deploys
 - Netlify deploy log showing "0 new files" is normal if files already synced from prior deploy
 - Site was not indexed as of March 2026 — SEO is fresh, needs time and backlinks
+
+## Workflow Preferences
+
+- **GitHub uploads:** If bulk file uploads or image uploads to GitHub are needed, ask the user to do it directly — provide the file list and instructions rather than attempting complex browser-based uploads
+- **Test branches:** ALWAYS create a test branch for every website before making changes to `main`. Never commit directly to `main` — use a branch, verify, then merge. This prevents accidental breakage on live sites
+- **Deployment .txt files:** When GitHub connector isn't available, provide `<page>-PASTE-THIS.txt` files for manual paste into GitHub web editor
