@@ -15,6 +15,83 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
     <style>
+        /* Nav override — match homepage dark nav */
+        .navbar {
+            background: #0f172a !important;
+            padding: 16px 32px !important;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa) !important;
+            color: #fff !important;
+            font-weight: 700;
+            font-size: 14px;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-text {
+            color: #f1f5f9 !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar .nav-links a {
+            color: #94a3b8 !important;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .navbar .nav-links a:hover,
+        .navbar .nav-links a.active {
+            color: #f1f5f9 !important;
+        }
+        .mobile-toggle {
+            display: none;
+        }
+
+        /* Breadcrumb fix */
+        .breadcrumb {
+            background: #f8fafc;
+        }
+        .breadcrumb .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 12px 24px;
+            font-size: 13px;
+            color: #64748b;
+        }
+        .breadcrumb a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
         /* Blog-specific styles */
         .blog-hero {
             padding: 80px 0 40px;
@@ -338,9 +415,9 @@
                 <img src="../img/From%20Sprints%20to%20Strategy-%20Bridging%20the%20Gap%201.png" alt="Bridging sprint execution with strategic goals" class="article-card-img" loading="lazy">
                 <div class="article-card-body">
                     <span class="featured-tag tag-strategy">Strategy</span>
-                    <h3>From Sprints to Strategy: How AI Is Bridging the Delivery Gap</h3>
-                    <p>Most agile teams are executing sprints without strategic context. AI-powered analytics are finally connecting tactical delivery with portfolio-level outcomes.</p>
-                    <div class="article-card-meta">February 2026 &middot; 8 min read</div>
+                    <h3>From Sprints to Strategy: Bridging the Gap That Costs Organisations 37% of Their Strategic Value</h3>
+                    <p>PMI's 2025 research across 5,800 professionals reveals the strategy-execution gap as the #1 barrier to reinvention. Here's how to connect sprint delivery to strategic outcomes.</p>
+                    <div class="article-card-meta">March 2026 &middot; 10 min read</div>
                 </div>
             </a>
         </div>
@@ -351,9 +428,9 @@
                 <img src="../img/5%20Metrics%20Every%20Scrum%20Master%20Should%20Track%201%20.png" alt="Sprint analytics and predictive metrics dashboard" class="article-card-img" loading="lazy">
                 <div class="article-card-body">
                     <span class="featured-tag tag-analytics">Predictive Analytics</span>
-                    <h3>Beyond Velocity: What Predictive Sprint Analytics Actually Looks Like</h3>
-                    <p>Sprint velocity is a rearview mirror metric. Predictive analytics gives teams a windshield. Here's the shift from reporting what happened to forecasting what's coming.</p>
-                    <div class="article-card-meta">February 2026 &middot; 7 min read</div>
+                    <h3>Beyond Velocity: 5 Metrics Every Scrum Master Should Track Instead</h3>
+                    <p>Velocity isn't in the Scrum Guide. DORA's decade of research across 39,000 professionals and Scrum.org's EBM framework point to five metrics that actually predict delivery effectiveness.</p>
+                    <div class="article-card-meta">March 2026 &middot; 9 min read</div>
                 </div>
             </a>
 
@@ -362,9 +439,9 @@
                 <img src="../img/AI-Powered%20Retrospectives-%20The%20Future%20of%20Team%20Improvement%201.png" alt="AI-powered team retrospective analysis" class="article-card-img" loading="lazy">
                 <div class="article-card-body">
                     <span class="featured-tag tag-ai">AI & Teams</span>
-                    <h3>AI-Powered Retrospectives: The Future of Continuous Improvement</h3>
-                    <p>What if your retrospectives could surface patterns across 50 sprints, identify systemic blockers, and suggest evidence-based improvements? That future is here.</p>
-                    <div class="article-card-meta">January 2026 &middot; 7 min read</div>
+                    <h3>AI-Powered Retrospectives: What the Research Actually Says About Team Improvement</h3>
+                    <p>Harvard's P&amp;G study of 776 professionals meets DORA's AI warnings. Here's what AI-powered retrospectives look like when done right — and where they go wrong.</p>
+                    <div class="article-card-meta">March 2026 &middot; 10 min read</div>
                 </div>
             </a>
         </div>
@@ -409,8 +486,8 @@
             <div class="footer-links">
                 <h4>Legal</h4>
                 <ul>
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
                 </ul>
             </div>
         </div>
