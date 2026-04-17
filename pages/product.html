@@ -505,8 +505,8 @@
       const slug = window.location.pathname.split('/').filter(Boolean).pop();
 
       try {
-        // Fetch all products for this brand
-        const response = await fetch(`${CMS_API}?type=products&brand=${SITE_SLUG}`);
+        // Corporate hub: fetch ALL products across all brands (acts as catalogue)
+        const response = await fetch(`${CMS_API}?type=products`);
         if (!response.ok) throw new Error(`API error: ${response.status}`);
         const json = await response.json();
         const products = json.data || [];
