@@ -1,0 +1,33 @@
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Central API proxy — avoids CORS issues on production
+[[redirects]]
+  from = "/api/cms"
+  to = "https://api.agilityops.com.au/api/cms"
+  status = 200
+  force = true
+
+# SPA-style routes for dynamic product/content pages
+[[redirects]]
+  from = "/product/*"
+  to = "/pages/product.html"
+  status = 200
+
+[[redirects]]
+  from = "/content/*"
+  to = "/pages/content.html"
+  status = 200
+
+# Fallback — existing pages serve normally, unknown paths get 404
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404

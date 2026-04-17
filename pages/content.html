@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Dynamic meta tags set by JS -->
+  <title>Loading... — Agility Ops</title>
+  <meta name="description" content="Agility Ops content — insights, guides, and resources for AI transformation teams.">
+  <meta name="robots" content="index, follow">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LLJ1KPTDMK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LLJ1KPTDMK');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* === Content Detail Page Styles === */
+    :root {
+      --navy: #0a0f1c;
+      --blue: #2563eb;
+      --blue-bright: #3b82f6;
+      --cyan: #06b6d4;
+      --violet: #7c3aed;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --green: #10b981;
+      --amber: #f59e0b;
+      --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+    }
+
+    .content-detail-container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 48px 2rem 80px;
+    }
+
+    .content-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gray-500);
+      font-size: 0.85rem;
+      font-family: var(--font-body);
+      margin-bottom: 28px;
+      transition: color 0.15s;
+    }
+    .content-back:hover { color: var(--blue); text-decoration: none; }
+
+    .content-header {
+      margin-bottom: 40px;
+    }
+    .content-header h1 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .content-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .content-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: var(--font-body);
+    }
+    .badge-type {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+    }
+    .badge-level-beginner {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+    }
+    .badge-level-intermediate {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+    .badge-level-advanced {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+    }
+    .content-date {
+      font-size: 0.82rem;
+      color: var(--gray-400);
+      font-family: var(--font-body);
+    }
+    .content-summary {
+      font-size: 1.1rem;
+      color: var(--gray-500);
+      line-height: 1.7;
+      font-family: var(--font-body);
+      margin-top: 16px;
+    }
+
+    /* Cover image */
+    .content-cover {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 40px;
+      object-fit: cover;
+      max-height: 420px;
+    }
+
+    /* Body */
+    .content-body {
+      font-size: 1.05rem;
+      color: var(--gray-700);
+      line-height: 1.8;
+      font-family: var(--font-body);
+      margin-bottom: 48px;
+    }
+    .content-body p { margin-bottom: 1.2em; }
+    .content-body h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      margin: 2em 0 0.8em;
+      letter-spacing: -0.02em;
+    }
+    .content-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin: 1.5em 0 0.6em;
+    }
+    .content-body ul, .content-body ol {
+      padding-left: 1.5em;
+      margin-bottom: 1.2em;
+    }
+    .content-body li {
+      margin-bottom: 0.5em;
+      list-style: disc;
+    }
+    .content-body ol li { list-style: decimal; }
+    .content-body blockquote {
+      border-left: 3px solid var(--blue);
+      padding: 12px 20px;
+      margin: 1.5em 0;
+      background: var(--gray-50);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      color: var(--gray-600);
+      font-style: italic;
+    }
+    .content-body code {
+      background: var(--gray-100);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .content-body a {
+      color: var(--blue);
+      text-decoration: underline;
+    }
+    .content-body a:hover { color: var(--cyan); }
+
+    /* CTA */
+    .content-cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .btn-aob {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      font-size: 0.95rem;
+      font-weight: 650;
+      font-family: var(--font-body);
+      border-radius: var(--radius-full);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+    }
+    .btn-primary-aob {
+      background: var(--gray-900);
+      color: var(--white);
+    }
+    .btn-primary-aob:hover {
+      background: var(--blue);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+    }
+    .btn-outline-aob {
+      background: transparent;
+      color: var(--gray-900);
+      box-shadow: inset 0 0 0 1.5px var(--gray-300);
+    }
+    .btn-outline-aob:hover {
+      box-shadow: inset 0 0 0 1.5px var(--gray-900);
+      transform: translateY(-2px);
+    }
+
+    /* Loading / Error */
+    .loading-state {
+      text-align: center;
+      padding: 120px 2rem;
+      color: var(--gray-400);
+      font-family: var(--font-body);
+    }
+    .loading-spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--gray-200);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-state {
+      text-align: center;
+      padding: 120px 2rem;
+      font-family: var(--font-body);
+    }
+    .error-state h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--gray-900);
+      margin-bottom: 8px;
+    }
+    .error-state p { color: var(--gray-500); margin-bottom: 24px; }
+
+    @media (max-width: 640px) {
+      .content-header h1 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation — matches AOB homepage -->
+  <nav class="nav scrolled" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="../index.html" class="nav-logo">
+        <div class="nav-logo-mark">AO</div>
+        Agility Ops
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="brands.html">Our Brands</a>
+        <a href="team.html">Team</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html" class="nav-cta">Contact</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Loading State -->
+  <div id="loading-state" class="loading-state" style="padding-top: 140px;">
+    <div class="loading-spinner"></div>
+    <p>Loading content...</p>
+  </div>
+
+  <!-- Error State (hidden) -->
+  <div id="error-state" class="error-state" style="display:none; padding-top: 140px;">
+    <h2>Content not found</h2>
+    <p>This page doesn't exist or may have been removed.</p>
+    <a href="blog.html" class="btn-aob btn-primary-aob">View Blog</a>
+  </div>
+
+  <!-- Content Detail (hidden until loaded) -->
+  <main id="content-detail" style="display:none; padding-top: 100px;">
+    <div class="content-detail-container">
+      <a href="blog.html" class="content-back">&larr; Back to Blog</a>
+
+      <div class="content-header">
+        <div class="content-meta" id="content-badges"></div>
+        <h1 id="content-title">Content Title</h1>
+        <div class="content-date" id="content-date"></div>
+        <p class="content-summary" id="content-summary"></p>
+      </div>
+
+      <!-- Cover Image -->
+      <img id="content-cover" class="content-cover" style="display:none;" alt="Content cover">
+
+      <!-- Body -->
+      <div class="content-body" id="content-body"></div>
+
+      <!-- CTA -->
+      <div class="content-cta" id="content-cta"></div>
+    </div>
+  </main>
+
+  <!-- Footer — matches AOB homepage -->
+  <footer class="footer" id="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="nav-logo" style="color:var(--white); margin-bottom:0;">
+            <div class="nav-logo-mark">AO</div>
+            Agility Ops
+          </a>
+          <p>AI transformation consulting for enterprises. Strategic adoption, intelligent tools, and practitioner-led training. Australian owned and operated.</p>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="team.html">Our Team</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Solutions</h4>
+          <ul class="footer-links">
+            <li><a href="https://sprintinsite.com" target="_blank" rel="noopener">SprintINSite</a></li>
+            <li><a href="https://portfolioinsite.com.au">PortfolioInSite</a></li>
+            <li><a href="https://fastact.com.au" target="_blank" rel="noopener">FACT Training</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Agility Ops Business Pty Ltd. All rights reserved.</span>
+        <div class="footer-socials">
+          <a href="https://www.linkedin.com/in/greg-collocott-0390001/" aria-label="LinkedIn" target="_blank" rel="noopener">in</a>
+          <a href="#" aria-label="Twitter">X</a>
+          <a href="https://github.com/G-AOBptyltd" aria-label="GitHub" target="_blank" rel="noopener">GH</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // === AOB Content Detail — Central API Integration ===
+    const CMS_API = '/api/cms';
+    const SITE_SLUG = 'agilityops';
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    // Simple markdown-ish rendering
+    function renderBody(text) {
+      if (!text) return '';
+      return text
+        .split('\n\n')
+        .map(block => {
+          block = block.trim();
+          if (!block) return '';
+          if (block.startsWith('### '))  return `<h3>${escapeHtml(block.slice(4))}</h3>`;
+          if (block.startsWith('## '))   return `<h2>${escapeHtml(block.slice(3))}</h2>`;
+          if (block.startsWith('> '))    return `<blockquote>${escapeHtml(block.slice(2))}</blockquote>`;
+          if (block.startsWith('- ') || block.startsWith('* ')) {
+            const items = block.split('\n').map(l => `<li>${escapeHtml(l.replace(/^[-*]\s*/, ''))}</li>`).join('');
+            return `<ul>${items}</ul>`;
+          }
+          if (/^\d+\.\s/.test(block)) {
+            const items = block.split('\n').map(l => `<li>${escapeHtml(l.replace(/^\d+\.\s*/, ''))}</li>`).join('');
+            return `<ol>${items}</ol>`;
+          }
+          return `<p>${escapeHtml(block)}</p>`;
+        })
+        .join('');
+    }
+
+    (async function loadContent() {
+      const slug = window.location.pathname.split('/').filter(Boolean).pop();
+
+      try {
+        const response = await fetch(`${CMS_API}?type=content&site=${SITE_SLUG}`);
+        if (!response.ok) throw new Error(`API error: ${response.status}`);
+        const json = await response.json();
+        const items = json.data || [];
+
+        const item = items.find(c =>
+          (c.slug && c.slug.toLowerCase() === slug.toLowerCase()) ||
+          (c.title && c.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') === slug.toLowerCase())
+        );
+
+        if (!item) {
+          document.getElementById('loading-state').style.display = 'none';
+          document.getElementById('error-state').style.display = 'block';
+          return;
+        }
+
+        renderContent(item);
+      } catch (err) {
+        console.error('Content load failed:', err);
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('error-state').style.display = 'block';
+      }
+    })();
+
+    function renderContent(item) {
+      // Title
+      document.getElementById('content-title').textContent = item.title || 'Untitled';
+      document.title = `${item.title || 'Content'} — Agility Ops`;
+
+      // Badges
+      const badgesEl = document.getElementById('content-badges');
+      const badges = [];
+      if (item.type) badges.push(`<span class="content-badge badge-type">${escapeHtml(item.type)}</span>`);
+      if (item.level) {
+        const lvl = item.level.toLowerCase();
+        const cls = lvl === 'beginner' ? 'badge-level-beginner' : lvl === 'intermediate' ? 'badge-level-intermediate' : 'badge-level-advanced';
+        badges.push(`<span class="content-badge ${cls}">${escapeHtml(item.level)}</span>`);
+      }
+      badgesEl.innerHTML = badges.join('');
+
+      // Date
+      if (item.date || item.publishedDate) {
+        document.getElementById('content-date').textContent = formatDate(item.date || item.publishedDate);
+      }
+
+      // Summary
+      if (item.summary || item.description) {
+        document.getElementById('content-summary').textContent = item.summary || item.description;
+      }
+
+      // Cover image
+      if (item.cover || item.coverImage) {
+        const coverEl = document.getElementById('content-cover');
+        coverEl.src = item.cover || item.coverImage;
+        coverEl.alt = item.title || 'Content cover';
+        coverEl.style.display = 'block';
+      }
+
+      // Body
+      if (item.body || item.content) {
+        document.getElementById('content-body').innerHTML = renderBody(item.body || item.content);
+      }
+
+      // CTA
+      const ctaEl = document.getElementById('content-cta');
+      const ctas = [];
+      if (item.ctaUrl) ctas.push(`<a href="${escapeHtml(item.ctaUrl)}" class="btn-aob btn-primary-aob" target="_blank" rel="noopener">${escapeHtml(item.ctaLabel || 'Learn More')} &rarr;</a>`);
+      if (item.resourceUrl) ctas.push(`<a href="${escapeHtml(item.resourceUrl)}" class="btn-aob btn-outline-aob" target="_blank" rel="noopener">Download Resource</a>`);
+      ctaEl.innerHTML = ctas.join('');
+
+      // Show
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('content-detail').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
