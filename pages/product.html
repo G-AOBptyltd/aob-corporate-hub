@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Dynamic meta tags set by JS -->
+  <title>Loading... — Agility Ops</title>
+  <meta name="description" content="Agility Ops products — AI transformation tools and platforms for enterprise teams.">
+  <meta name="robots" content="index, follow">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LLJ1KPTDMK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LLJ1KPTDMK');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* === Product Detail Page Styles === */
+    :root {
+      --navy: #0a0f1c;
+      --navy-mid: #111827;
+      --blue: #2563eb;
+      --blue-bright: #3b82f6;
+      --cyan: #06b6d4;
+      --violet: #7c3aed;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --green: #10b981;
+      --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+    }
+
+    .product-detail-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 2rem 80px;
+    }
+
+    .product-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gray-500);
+      font-size: 0.85rem;
+      font-family: var(--font-body);
+      margin-bottom: 28px;
+      transition: color 0.15s;
+    }
+    .product-back:hover { color: var(--blue); text-decoration: none; }
+
+    .product-hero {
+      display: flex;
+      gap: 36px;
+      align-items: flex-start;
+      margin-bottom: 48px;
+    }
+
+    .product-icon-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .product-icon-wrap img {
+      width: 56px;
+      height: 56px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+    .product-icon-placeholder {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.3rem;
+    }
+
+    .product-hero-text h1 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+    .product-hero-text .tagline {
+      font-size: 1.1rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+      font-family: var(--font-body);
+    }
+
+    .product-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 0;
+    }
+    .product-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      font-family: var(--font-body);
+    }
+    .badge-status { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+    .badge-platform { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+
+    /* Screenshot */
+    .product-screenshot {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 48px;
+      object-fit: contain;
+      background: var(--gray-50);
+    }
+
+    /* Description */
+    .product-description {
+      font-size: 1.05rem;
+      color: var(--gray-700);
+      line-height: 1.75;
+      margin-bottom: 48px;
+      font-family: var(--font-body);
+    }
+
+    /* Features */
+    .features-heading {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .feature-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 22px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+    }
+    .feature-card h3 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 6px;
+    }
+    .feature-card p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      line-height: 1.55;
+      font-family: var(--font-body);
+    }
+
+    /* Pricing */
+    .pricing-section { margin-bottom: 48px; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .pricing-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 32px 26px;
+      text-align: center;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .pricing-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.1);
+    }
+    .pricing-card.featured {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 2px var(--blue), 0 8px 24px rgba(37, 99, 235, 0.12);
+    }
+    .pricing-card.featured::before {
+      content: 'Popular';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: white;
+      padding: 4px 16px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border-radius: var(--radius-full);
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .pricing-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 8px;
+    }
+    .pricing-card .price {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      margin: 12px 0 4px;
+    }
+    .pricing-card .price-period {
+      font-size: 0.82rem;
+      color: var(--gray-400);
+      font-family: var(--font-body);
+      margin-bottom: 20px;
+    }
+    .pricing-card .price-desc {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      line-height: 1.55;
+      font-family: var(--font-body);
+      margin-bottom: 20px;
+    }
+    .pricing-features {
+      text-align: left;
+      margin-bottom: 24px;
+    }
+    .pricing-features li {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      padding: 6px 0;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+    }
+    .pricing-features li::before {
+      content: '\2713';
+      color: var(--green);
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    /* CTA buttons */
+    .btn-aob {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      font-size: 0.95rem;
+      font-weight: 650;
+      font-family: var(--font-body);
+      border-radius: var(--radius-full);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+    }
+    .btn-primary-aob {
+      background: var(--gray-900);
+      color: var(--white);
+    }
+    .btn-primary-aob:hover {
+      background: var(--blue);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+    }
+    .btn-outline-aob {
+      background: transparent;
+      color: var(--gray-900);
+      box-shadow: inset 0 0 0 1.5px var(--gray-300);
+    }
+    .btn-outline-aob:hover {
+      box-shadow: inset 0 0 0 1.5px var(--gray-900);
+      transform: translateY(-2px);
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    /* Loading / Error states */
+    .loading-state {
+      text-align: center;
+      padding: 120px 2rem;
+      color: var(--gray-400);
+      font-family: var(--font-body);
+    }
+    .loading-spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--gray-200);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-state {
+      text-align: center;
+      padding: 120px 2rem;
+      font-family: var(--font-body);
+    }
+    .error-state h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--gray-900);
+      margin-bottom: 8px;
+    }
+    .error-state p { color: var(--gray-500); margin-bottom: 24px; }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .product-hero { flex-direction: column; gap: 20px; }
+      .product-hero-text h1 { font-size: 1.7rem; }
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation — matches AOB homepage -->
+  <nav class="nav scrolled" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="../index.html" class="nav-logo">
+        <div class="nav-logo-mark">AO</div>
+        Agility Ops
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="brands.html">Our Brands</a>
+        <a href="team.html">Team</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html" class="nav-cta">Contact</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Loading State -->
+  <div id="loading-state" class="loading-state" style="padding-top: 140px;">
+    <div class="loading-spinner"></div>
+    <p>Loading product...</p>
+  </div>
+
+  <!-- Error State (hidden by default) -->
+  <div id="error-state" class="error-state" style="display:none; padding-top: 140px;">
+    <h2>Product not found</h2>
+    <p>This product doesn't exist or may have been removed.</p>
+    <a href="brands.html" class="btn-aob btn-primary-aob">View All Brands</a>
+  </div>
+
+  <!-- Product Detail (hidden until loaded) -->
+  <main id="product-detail" style="display:none; padding-top: 100px;">
+    <div class="product-detail-container">
+      <a href="brands.html" class="product-back">&larr; Back to Brands</a>
+
+      <div class="product-hero">
+        <div class="product-icon-wrap" id="product-icon">
+          <div class="product-icon-placeholder">AO</div>
+        </div>
+        <div class="product-hero-text">
+          <h1 id="product-title">Product Name</h1>
+          <p class="tagline" id="product-tagline">Product tagline</p>
+          <div class="product-meta-row" id="product-badges"></div>
+        </div>
+      </div>
+
+      <!-- Screenshot -->
+      <img id="product-screenshot" class="product-screenshot" style="display:none;" alt="Product screenshot">
+
+      <!-- Actions -->
+      <div class="product-actions" id="product-actions"></div>
+
+      <!-- Description -->
+      <div class="product-description" id="product-description"></div>
+
+      <!-- Features -->
+      <div id="features-section" style="display:none;">
+        <h2 class="features-heading">Key Features</h2>
+        <div class="features-grid" id="features-grid"></div>
+      </div>
+
+      <!-- Pricing -->
+      <div id="pricing-section" class="pricing-section" style="display:none;">
+        <h2 class="features-heading">Pricing</h2>
+        <div class="pricing-grid" id="pricing-grid"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer — matches AOB homepage -->
+  <footer class="footer" id="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="nav-logo" style="color:var(--white); margin-bottom:0;">
+            <div class="nav-logo-mark">AO</div>
+            Agility Ops
+          </a>
+          <p>AI transformation consulting for enterprises. Strategic adoption, intelligent tools, and practitioner-led training. Australian owned and operated.</p>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="team.html">Our Team</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Solutions</h4>
+          <ul class="footer-links">
+            <li><a href="https://sprintinsite.com" target="_blank" rel="noopener">SprintINSite</a></li>
+            <li><a href="https://portfolioinsite.com.au">PortfolioInSite</a></li>
+            <li><a href="https://fastact.com.au" target="_blank" rel="noopener">FACT Training</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Agility Ops Business Pty Ltd. All rights reserved.</span>
+        <div class="footer-socials">
+          <a href="https://www.linkedin.com/in/greg-collocott-0390001/" aria-label="LinkedIn" target="_blank" rel="noopener">in</a>
+          <a href="#" aria-label="Twitter">X</a>
+          <a href="https://github.com/G-AOBptyltd" aria-label="GitHub" target="_blank" rel="noopener">GH</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // === AOB Product Detail — Central API Integration ===
+    const CMS_API = '/api/cms';
+    const SITE_SLUG = 'agilityops';
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    (async function loadProduct() {
+      const slug = window.location.pathname.split('/').filter(Boolean).pop();
+
+      try {
+        // Corporate hub: fetch ALL products across all brands (acts as catalogue)
+        const response = await fetch(`${CMS_API}?type=products`);
+        if (!response.ok) throw new Error(`API error: ${response.status}`);
+        const json = await response.json();
+        const products = json.data || [];
+
+        // Find matching product by Landing Page Slug (API field: landingPageSlug)
+        const product = products.find(p =>
+          (p.landingPageSlug && p.landingPageSlug.toLowerCase() === slug.toLowerCase()) ||
+          (p.productName && p.productName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') === slug.toLowerCase())
+        );
+
+        if (!product) {
+          document.getElementById('loading-state').style.display = 'none';
+          document.getElementById('error-state').style.display = 'block';
+          return;
+        }
+
+        renderProduct(product);
+        await loadPricing(product);
+      } catch (err) {
+        console.error('Product load failed:', err);
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('error-state').style.display = 'block';
+      }
+    })();
+
+    function renderProduct(p) {
+      // Title and tagline — API fields: productName, shortDescription
+      document.getElementById('product-title').textContent = p.productName || 'Untitled Product';
+      document.getElementById('product-tagline').textContent = p.shortDescription || '';
+      document.title = `${p.productName || 'Product'} — Agility Ops`;
+
+      // Icon
+      if (p.icon) {
+        document.getElementById('product-icon').innerHTML =
+          `<img src="${escapeHtml(p.icon)}" alt="${escapeHtml(p.productName)} icon">`;
+      } else {
+        const initials = (p.productName || 'AO').split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+        document.getElementById('product-icon').innerHTML =
+          `<div class="product-icon-placeholder">${initials}</div>`;
+      }
+
+      // Badges — API fields: status, platform, type
+      const badgesEl = document.getElementById('product-badges');
+      const badges = [];
+      if (p.status) badges.push(`<span class="product-badge badge-status">${escapeHtml(p.status)}</span>`);
+      if (p.platform) badges.push(`<span class="product-badge badge-platform">${escapeHtml(p.platform)}</span>`);
+      if (p.type) badges.push(`<span class="product-badge">${escapeHtml(p.type)}</span>`);
+      badgesEl.innerHTML = badges.join('');
+
+      // Screenshot — API field: screenshotUrl
+      if (p.screenshotUrl) {
+        const screenshotEl = document.getElementById('product-screenshot');
+        screenshotEl.src = p.screenshotUrl;
+        screenshotEl.alt = `${p.productName} screenshot`;
+        screenshotEl.style.display = 'block';
+      }
+
+      // Actions — API fields: documentationUrl, marketplaceUrl
+      const actionsEl = document.getElementById('product-actions');
+      const actions = [];
+      if (p.documentationUrl) actions.push(`<a href="${escapeHtml(p.documentationUrl)}" class="btn-aob btn-primary-aob" target="_blank" rel="noopener">Visit Product &rarr;</a>`);
+      if (p.documentationUrl && p.marketplaceUrl) actions.push(`<a href="${escapeHtml(p.marketplaceUrl)}" class="btn-aob btn-outline-aob" target="_blank" rel="noopener">Marketplace Listing</a>`);
+      else if (p.marketplaceUrl) actions.push(`<a href="${escapeHtml(p.marketplaceUrl)}" class="btn-aob btn-primary-aob" target="_blank" rel="noopener">Marketplace Listing &rarr;</a>`);
+      actionsEl.innerHTML = actions.join('');
+
+      // Description — API field: longDescription (falls back to shortDescription)
+      const desc = p.longDescription || p.shortDescription || '';
+      if (desc) {
+        document.getElementById('product-description').innerHTML =
+          desc.split('\n').filter(l => l.trim()).map(l => `<p>${escapeHtml(l)}</p>`).join('');
+      }
+
+      // Show product, hide loading
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('product-detail').style.display = 'block';
+    }
+
+    async function loadPricing(product) {
+      try {
+        const response = await fetch(`${CMS_API}?type=pricing&brand=${SITE_SLUG}`);
+        if (!response.ok) return;
+        const json = await response.json();
+        const allPricing = json.data || [];
+
+        // Filter pricing for this product
+        const pricing = allPricing.filter(tier =>
+          tier.productName && (
+            tier.productName === product.productName ||
+            tier.productId === product.id
+          )
+        );
+
+        if (pricing.length === 0) return;
+
+        const pricingGrid = document.getElementById('pricing-grid');
+        pricingGrid.innerHTML = pricing.map((tier, i) => `
+          <div class="pricing-card${tier.featured ? ' featured' : ''}">
+            <h3>${escapeHtml(tier.productName || tier.category || 'Plan')}</h3>
+            ${tier.description ? `<p class="price-desc">${escapeHtml(tier.description)}</p>` : ''}
+            <div class="price">${tier.price === 0 || tier.price === '0' ? 'Free' : (tier.price ? '$' + tier.price : 'Contact Us')}</div>
+            ${tier.period ? `<div class="price-period">${escapeHtml(tier.period)}</div>` : ''}
+            ${tier.features && tier.features.length > 0 ? `
+              <ul class="pricing-features">
+                ${tier.features.map(f => `<li>${escapeHtml(f)}</li>`).join('')}
+              </ul>
+            ` : ''}
+            ${tier.ctaUrl ? `<a href="${escapeHtml(tier.ctaUrl)}" class="btn-aob btn-primary-aob" style="width:100%;justify-content:center;" target="_blank" rel="noopener">${escapeHtml(tier.ctaLabel || 'Get Started')}</a>` : ''}
+          </div>
+        `).join('');
+
+        document.getElementById('pricing-section').style.display = 'block';
+      } catch (err) {
+        console.warn('Pricing load failed:', err);
+      }
+    }
+  </script>
+</body>
+</html>
