@@ -511,10 +511,10 @@
         const json = await response.json();
         const products = json.data || [];
 
-        // Find matching product by slug
+        // Find matching product by Landing Page Slug (API field: landingPageSlug)
         const product = products.find(p =>
-          (p.slug && p.slug.toLowerCase() === slug.toLowerCase()) ||
-          (p.name && p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') === slug.toLowerCase())
+          (p.landingPageSlug && p.landingPageSlug.toLowerCase() === slug.toLowerCase()) ||
+          (p.productName && p.productName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') === slug.toLowerCase())
         );
 
         if (!product) {
@@ -533,62 +533,50 @@
     })();
 
     function renderProduct(p) {
-      // Title and tagline
-      document.getElementById('product-title').textContent = p.name || 'Untitled Product';
-      document.getElementById('product-tagline').textContent = p.tagline || p.description || '';
-      document.title = `${p.name || 'Product'} — Agility Ops`;
+      // Title and tagline — API fields: productName, shortDescription
+      document.getElementById('product-title').textContent = p.productName || 'Untitled Product';
+      document.getElementById('product-tagline').textContent = p.shortDescription || '';
+      document.title = `${p.productName || 'Product'} — Agility Ops`;
 
       // Icon
       if (p.icon) {
         document.getElementById('product-icon').innerHTML =
-          `<img src="${escapeHtml(p.icon)}" alt="${escapeHtml(p.name)} icon">`;
+          `<img src="${escapeHtml(p.icon)}" alt="${escapeHtml(p.productName)} icon">`;
       } else {
-        const initials = (p.name || 'AO').split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+        const initials = (p.productName || 'AO').split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
         document.getElementById('product-icon').innerHTML =
           `<div class="product-icon-placeholder">${initials}</div>`;
       }
 
-      // Badges
+      // Badges — API fields: status, platform, type
       const badgesEl = document.getElementById('product-badges');
       const badges = [];
       if (p.status) badges.push(`<span class="product-badge badge-status">${escapeHtml(p.status)}</span>`);
       if (p.platform) badges.push(`<span class="product-badge badge-platform">${escapeHtml(p.platform)}</span>`);
-      if (p.category) badges.push(`<span class="product-badge">${escapeHtml(p.category)}</span>`);
+      if (p.type) badges.push(`<span class="product-badge">${escapeHtml(p.type)}</span>`);
       badgesEl.innerHTML = badges.join('');
 
-      // Screenshot
-      if (p.screenshot) {
+      // Screenshot — API field: screenshotUrl
+      if (p.screenshotUrl) {
         const screenshotEl = document.getElementById('product-screenshot');
-        screenshotEl.src = p.screenshot;
-        screenshotEl.alt = `${p.name} screenshot`;
+        screenshotEl.src = p.screenshotUrl;
+        screenshotEl.alt = `${p.productName} screenshot`;
         screenshotEl.style.display = 'block';
       }
 
-      // Actions
+      // Actions — API fields: documentationUrl, marketplaceUrl
       const actionsEl = document.getElementById('product-actions');
       const actions = [];
-      if (p.url) actions.push(`<a href="${escapeHtml(p.url)}" class="btn-aob btn-primary-aob" target="_blank" rel="noopener">Visit Product &rarr;</a>`);
-      if (p.docsUrl) actions.push(`<a href="${escapeHtml(p.docsUrl)}" class="btn-aob btn-outline-aob" target="_blank" rel="noopener">Documentation</a>`);
-      if (p.marketplaceUrl) actions.push(`<a href="${escapeHtml(p.marketplaceUrl)}" class="btn-aob btn-outline-aob" target="_blank" rel="noopener">Marketplace Listing</a>`);
+      if (p.documentationUrl) actions.push(`<a href="${escapeHtml(p.documentationUrl)}" class="btn-aob btn-primary-aob" target="_blank" rel="noopener">Visit Product &rarr;</a>`);
+      if (p.documentationUrl && p.marketplaceUrl) actions.push(`<a href="${escapeHtml(p.marketplaceUrl)}" class="btn-aob btn-outline-aob" target="_blank" rel="noopener">Marketplace Listing</a>`);
+      else if (p.marketplaceUrl) actions.push(`<a href="${escapeHtml(p.marketplaceUrl)}" class="btn-aob btn-primary-aob" target="_blank" rel="noopener">Marketplace Listing &rarr;</a>`);
       actionsEl.innerHTML = actions.join('');
 
-      // Description
-      if (p.description) {
+      // Description — API field: longDescription (falls back to shortDescription)
+      const desc = p.longDescription || p.shortDescription || '';
+      if (desc) {
         document.getElementById('product-description').innerHTML =
-          p.description.split('\n').filter(l => l.trim()).map(l => `<p>${escapeHtml(l)}</p>`).join('');
-      }
-
-      // Features
-      if (p.features && p.features.length > 0) {
-        const featuresSection = document.getElementById('features-section');
-        const featuresGrid = document.getElementById('features-grid');
-        featuresGrid.innerHTML = p.features.map(f => `
-          <div class="feature-card">
-            <h3>${escapeHtml(typeof f === 'string' ? f : f.name || f.title || '')}</h3>
-            ${(f.description) ? `<p>${escapeHtml(f.description)}</p>` : ''}
-          </div>
-        `).join('');
-        featuresSection.style.display = 'block';
+          desc.split('\n').filter(l => l.trim()).map(l => `<p>${escapeHtml(l)}</p>`).join('');
       }
 
       // Show product, hide loading
@@ -605,8 +593,8 @@
 
         // Filter pricing for this product
         const pricing = allPricing.filter(tier =>
-          tier.product && (
-            tier.product === product.name ||
+          tier.productName && (
+            tier.productName === product.productName ||
             tier.productId === product.id
           )
         );
@@ -616,7 +604,7 @@
         const pricingGrid = document.getElementById('pricing-grid');
         pricingGrid.innerHTML = pricing.map((tier, i) => `
           <div class="pricing-card${tier.featured ? ' featured' : ''}">
-            <h3>${escapeHtml(tier.name || tier.tier || 'Plan')}</h3>
+            <h3>${escapeHtml(tier.productName || tier.category || 'Plan')}</h3>
             ${tier.description ? `<p class="price-desc">${escapeHtml(tier.description)}</p>` : ''}
             <div class="price">${tier.price === 0 || tier.price === '0' ? 'Free' : (tier.price ? '$' + tier.price : 'Contact Us')}</div>
             ${tier.period ? `<div class="price-period">${escapeHtml(tier.period)}</div>` : ''}
