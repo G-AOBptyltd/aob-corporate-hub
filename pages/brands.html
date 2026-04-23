@@ -145,7 +145,12 @@
         <p>Five standalone web tools built for teams who want InSite analytics without the Atlassian install. Browser-based, data-driven, ready to go.</p>
       </div>
 
-      <div class="grid grid-4" style="margin-top: 48px;">
+      <div style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 24px;
+        margin-top: 48px;
+      ">
 
         <div class="card reveal">
           <div class="card-accent" style="background: #0052CC;"></div>
@@ -179,17 +184,14 @@
           <a href="https://portfolioinsite.com.au/tools/planinsite" target="_blank" rel="noopener" style="display:inline-block;margin-top:16px;font-size:14px;font-weight:600;color:#06b6d4;text-decoration:none;">Try it →</a>
         </div>
 
-      </div>
-
-      <!-- FlowInSite — centred below the 4-grid -->
-      <div style="display:flex;justify-content:center;margin-top:32px;">
-        <div class="card reveal" style="max-width:320px;">
+        <div class="card reveal" style="animation-delay:0.4s;">
           <div class="card-accent" style="background: #0052CC;"></div>
           <div class="card-icon">🌊</div>
           <h3 class="h4">FlowInSite</h3>
           <p>Structured meeting facilitation and action tracking. Run tighter ceremonies and push actions straight to Jira.</p>
           <a href="https://sprintinsite.com/tools/flowinsite" target="_blank" rel="noopener" style="display:inline-block;margin-top:16px;font-size:14px;font-weight:600;color:#0052CC;text-decoration:none;">Try it →</a>
         </div>
+
       </div>
     </div>
   </section>
