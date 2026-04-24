@@ -1046,3 +1046,144 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 768px) {
   .suite-tool-card { width: 140px; padding: 20px 16px; }
 }
+
+/* ---------- Tools Showcase Grid ---------- */
+.tools-showcase-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+.tool-showcase-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  width: 260px;
+  flex: 0 0 260px;
+  transition: all 0.35s var(--ease);
+  cursor: pointer;
+  color: inherit;
+}
+.tool-showcase-card:hover {
+  border-color: var(--gray-300);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-6px);
+}
+.tool-sc-preview {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+.tool-sc-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.tool-sc-ui {
+  width: 100%;
+}
+/* Bar chart placeholders */
+.tsc-bar {
+  height: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+/* Row pill placeholders */
+.tsc-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.tsc-pill {
+  height: 22px;
+  border-radius: 11px;
+}
+/* Column chart placeholders */
+.tsc-chart {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  height: 80px;
+}
+.tsc-chart > div {
+  flex: 1;
+}
+/* Kanban placeholders */
+.tsc-kanban {
+  display: flex;
+  gap: 8px;
+}
+.tsc-lane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tsc-ticket {
+  height: 28px;
+  border-radius: 4px;
+}
+/* Card body */
+.tool-sc-body {
+  padding: 20px 22px 24px;
+}
+.tool-sc-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.tool-sc-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0 0 8px;
+}
+.tool-sc-desc {
+  font-size: 0.82rem;
+  color: var(--gray-500);
+  line-height: 1.55;
+  margin: 0 0 14px;
+}
+.tool-sc-cta {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.3s var(--ease);
+}
+.tool-showcase-card:hover .tool-sc-cta { gap: 8px; }
+
+/* Subsection headings within sections */
+.subsection-head {
+  margin-bottom: 32px;
+}
+.overline-sm {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+  .tool-showcase-card { width: 100%; flex: 0 0 100%; }
+  .tools-showcase-grid { gap: 16px; }
+}
