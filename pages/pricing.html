@@ -143,7 +143,7 @@
   <section class="pricing-hero">
     <div class="container">
       <h1 class="h1">Simple, transparent pricing</h1>
-      <p>Choose the tools your team needs. Start free for 14 days — no credit card required. Scale up or down at any time.</p>
+      <p>Choose the tools your team needs. Start free for 14 days. Credit card required. Cancel anytime.</p>
 
       <!-- Billing toggle -->
       <div class="billing-toggle">
@@ -179,7 +179,7 @@
   <section class="section" style="padding-top:0;">
     <div class="container">
 
-      <div class="trial-note">All plans include a <strong>14-day free trial</strong>. Cancel any time. Prices in USD.</div>
+      <div class="trial-note">All plans include a <strong>14-day free trial</strong>. Credit card required. Cancel anytime. Prices in USD.</div>
 
       <div class="pricing-grid" id="pricingGrid"></div>
 
@@ -201,7 +201,7 @@
       <div class="pricing-notes">
         <div class="note-item">
           <div class="note-title">14-day free trial</div>
-          <div class="note-body">Every plan starts with a full-featured 14-day trial. No credit card required to start. You'll be prompted to subscribe when the trial ends.</div>
+          <div class="note-body">Every plan starts with a full-featured 14-day trial. A credit card is required at signup — you won't be charged until day 15. Cancel before then and you pay nothing.</div>
         </div>
         <div class="note-item">
           <div class="note-title">Annual billing saves ~17%</div>
@@ -373,7 +373,7 @@
       const price = annual ? Math.round(tier.an / 12) : tier.mo;
       const saving = tier.mo * 12 - tier.an;
       const ctaCls = tier.custom ? 'cta-enterprise' : (tool.flagship ? 'cta-flagship' : 'cta-primary');
-      const ctaText = tier.custom ? 'Contact us →' : 'Start free trial →';
+      const ctaText = tier.custom ? 'Contact us →' : 'Start 14-day trial →';
       const ctaHref = tier.custom ? 'contact.html' : '#';
       const ctaClick = tier.custom ? '' : `onclick="startCheckout('${tool.id}_${tier.label.toLowerCase().replace(' ','-')}_${annual?'annual':'monthly'}'); return false;"`;
 
