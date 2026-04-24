@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LLJ1KPTDMK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LLJ1KPTDMK');
+  </script>
+
+  <title>Pricing — InSite Suite | Agility Ops</title>
+  <meta name="description" content="Simple, transparent pricing for the InSite Suite. From individual practitioners to enterprise PMOs. Start with a 14-day free trial.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://agilityops.com.au/pages/pricing">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://agilityops.com.au/pages/pricing">
+  <meta property="og:title" content="InSite Suite Pricing | Agility Ops">
+  <meta property="og:description" content="Simple, transparent pricing. 14-day free trial. No credit card required to start.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* ── Pricing page overrides ── */
+    .pricing-hero { text-align: center; padding: 80px 0 48px; }
+    .pricing-hero h1 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 16px; }
+    .pricing-hero p { color: var(--gray-400, #6b7280); font-size: 1.125rem; max-width: 560px; margin: 0 auto 32px; }
+
+    /* Toggle */
+    .billing-toggle { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 48px; }
+    .billing-label { font-size: 15px; font-weight: 500; color: var(--gray-600, #374151); }
+    .toggle-switch { position: relative; width: 52px; height: 28px; cursor: pointer; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-track { position: absolute; inset: 0; background: #e5e7eb; border-radius: 999px; transition: .25s; }
+    .toggle-track::before { content: ''; position: absolute; width: 22px; height: 22px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .25s; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+    input:checked ~ .toggle-track { background: #06b6d4; }
+    input:checked ~ .toggle-track::before { transform: translateX(24px); }
+    .save-chip { background: #d1fae5; color: #065f46; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+
+    /* Seat slider */
+    .seat-section { text-align: center; margin-bottom: 40px; }
+    .seat-section label { display: block; font-size: 14px; color: #6b7280; margin-bottom: 12px; }
+    .seat-display { font-size: 2.5rem; font-weight: 700; color: #111827; line-height: 1; }
+    .seat-unit { font-size: 14px; color: #9ca3af; display: block; margin-bottom: 16px; }
+    .seat-slider { -webkit-appearance: none; appearance: none; width: min(400px, 90%); height: 6px; border-radius: 999px; background: #e5e7eb; outline: none; cursor: pointer; }
+    .seat-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #06b6d4; cursor: pointer; box-shadow: 0 2px 6px rgba(6,182,212,.4); }
+    .seat-slider::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #06b6d4; cursor: pointer; border: none; }
+
+    /* Tier indicator */
+    .tier-bar { display: flex; border-radius: 10px; overflow: hidden; max-width: 640px; margin: 16px auto 48px; border: 1px solid #e5e7eb; }
+    .tier-seg { flex: 1; padding: 8px 6px; text-align: center; font-size: 11px; color: #9ca3af; background: #f9fafb; border-right: 1px solid #e5e7eb; transition: .2s; cursor: default; }
+    .tier-seg:last-child { border-right: none; }
+    .tier-seg .t-name { font-weight: 600; display: block; }
+    .tier-seg .t-range { font-size: 10px; }
+    .tier-seg.active-s { background: #ecfdf5; color: #065f46; }
+    .tier-seg.active-t { background: #eff6ff; color: #1d4ed8; }
+    .tier-seg.active-b { background: #f5f3ff; color: #5b21b6; }
+    .tier-seg.active-mb { background: #fffbeb; color: #92400e; }
+    .tier-seg.active-e { background: #fef2f2; color: #991b1b; }
+
+    /* Cards grid */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 48px; }
+    .price-card { background: #fff; border: 1.5px solid #e5e7eb; border-radius: 16px; padding: 24px 20px; position: relative; transition: box-shadow .2s, border-color .2s; }
+    .price-card:hover { border-color: #06b6d4; box-shadow: 0 8px 24px rgba(6,182,212,.12); }
+    .price-card.flagship { border-color: #f59e0b; }
+    .price-card.flagship:hover { border-color: #d97706; box-shadow: 0 8px 24px rgba(245,158,11,.15); }
+    .flagship-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: #f59e0b; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 14px; border-radius: 999px; white-space: nowrap; letter-spacing: .03em; }
+    .card-tool { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 2px; }
+    .card-cat { font-size: 11px; color: #9ca3af; margin-bottom: 16px; }
+    .card-price { font-size: 2rem; font-weight: 800; color: #111827; line-height: 1; }
+    .card-per { font-size: 12px; color: #6b7280; margin-top: 3px; }
+    .card-annual { font-size: 12px; color: #06b6d4; margin-top: 4px; font-weight: 500; }
+    .card-saving { font-size: 11px; color: #059669; }
+    .card-tier { display: inline-block; margin-top: 10px; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+    .tier-s { background: #d1fae5; color: #065f46; }
+    .tier-t { background: #dbeafe; color: #1e40af; }
+    .tier-b { background: #ede9fe; color: #5b21b6; }
+    .tier-mb { background: #fef3c7; color: #92400e; }
+    .tier-e { background: #fee2e2; color: #991b1b; }
+    .card-seats { font-size: 11px; color: #9ca3af; margin-top: 4px; }
+    .card-cta { display: block; width: 100%; margin-top: 20px; padding: 11px; border-radius: 10px; font-size: 13px; font-weight: 600; text-align: center; text-decoration: none; cursor: pointer; border: none; transition: .2s; }
+    .cta-primary { background: #06b6d4; color: #fff; }
+    .cta-primary:hover { background: #0891b2; }
+    .cta-flagship { background: #f59e0b; color: #fff; }
+    .cta-flagship:hover { background: #d97706; }
+    .cta-enterprise { background: #f9fafb; color: #374151; border: 1.5px solid #e5e7eb; }
+    .cta-enterprise:hover { border-color: #9ca3af; }
+    .card-custom { font-size: 1.25rem; font-weight: 700; color: #374151; margin-top: 8px; }
+    .card-custom-sub { font-size: 12px; color: #9ca3af; }
+
+    /* Bundle */
+    .bundle-bar { background: linear-gradient(135deg, #0f172a, #1e3a5f); border-radius: 16px; padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-bottom: 48px; }
+    .bundle-left h3 { color: #fff; font-size: 1.25rem; margin-bottom: 4px; }
+    .bundle-left p { color: #94a3b8; font-size: 13px; }
+    .bundle-right { text-align: right; }
+    .bundle-price { font-size: 2rem; font-weight: 800; color: #fff; }
+    .bundle-per { font-size: 13px; color: #94a3b8; }
+    .bundle-saving { font-size: 12px; color: #34d399; margin-top: 2px; }
+    .bundle-cta { display: inline-block; margin-top: 12px; padding: 12px 28px; background: #06b6d4; color: #fff; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; transition: .2s; }
+    .bundle-cta:hover { background: #0891b2; }
+
+    /* Trial note */
+    .trial-note { text-align: center; font-size: 13px; color: #9ca3af; margin-bottom: 16px; }
+    .trial-note strong { color: #374151; }
+
+    /* FAQ / Notes */
+    .pricing-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 40px 0; border-top: 1px solid #f3f4f6; }
+    .note-item { }
+    .note-title { font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 6px; }
+    .note-body { font-size: 13px; color: #6b7280; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav scrolled" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="../index.html" class="nav-logo">
+        <div class="nav-logo-mark">AO</div>
+        Agility Ops
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="brands.html">Our Solutions</a>
+        <a href="team.html">Team</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html" class="nav-cta">Contact</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="pricing-hero">
+    <div class="container">
+      <h1 class="h1">Simple, transparent pricing</h1>
+      <p>Choose the tools your team needs. Start free for 14 days — no credit card required. Scale up or down at any time.</p>
+
+      <!-- Billing toggle -->
+      <div class="billing-toggle">
+        <span class="billing-label">Monthly</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="annualToggle" onchange="render()">
+          <span class="toggle-track"></span>
+        </label>
+        <span class="billing-label">Annual</span>
+        <span class="save-chip" id="saveChip" style="display:none;">Save ~17%</span>
+      </div>
+
+      <!-- Seat selector -->
+      <div class="seat-section">
+        <label for="seatSlider">How many seats do you need?</label>
+        <div class="seat-display" id="seatNum">10</div>
+        <span class="seat-unit">seats</span>
+        <input type="range" id="seatSlider" class="seat-slider" min="1" max="200" value="10" oninput="render()">
+      </div>
+
+      <!-- Tier indicator -->
+      <div class="tier-bar">
+        <div class="tier-seg" id="seg-s"><span class="t-name">Starter</span><span class="t-range">1–3</span></div>
+        <div class="tier-seg" id="seg-t"><span class="t-name">Team</span><span class="t-range">4–10</span></div>
+        <div class="tier-seg" id="seg-b"><span class="t-name">Business</span><span class="t-range">11–25</span></div>
+        <div class="tier-seg" id="seg-mb"><span class="t-name">Med Business</span><span class="t-range">26–150</span></div>
+        <div class="tier-seg" id="seg-e"><span class="t-name">Enterprise</span><span class="t-range">150+</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing cards -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+
+      <div class="trial-note">All plans include a <strong>14-day free trial</strong>. Cancel any time. Prices in USD.</div>
+
+      <div class="pricing-grid" id="pricingGrid"></div>
+
+      <!-- Bundle bar -->
+      <div class="bundle-bar" id="bundleBar">
+        <div class="bundle-left">
+          <h3>InSite Suite Bundle — all 5 tools</h3>
+          <p>Everything in one subscription. 30% off the individual tool prices.</p>
+        </div>
+        <div class="bundle-right">
+          <div class="bundle-price" id="bundlePrice">$—</div>
+          <div class="bundle-per" id="bundlePer">per month</div>
+          <div class="bundle-saving" id="bundleSaving"></div>
+          <a href="#" class="bundle-cta" id="bundleCta" onclick="startCheckout('bundle'); return false;">Get the bundle →</a>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="pricing-notes">
+        <div class="note-item">
+          <div class="note-title">14-day free trial</div>
+          <div class="note-body">Every plan starts with a full-featured 14-day trial. No credit card required to start. You'll be prompted to subscribe when the trial ends.</div>
+        </div>
+        <div class="note-item">
+          <div class="note-title">Annual billing saves ~17%</div>
+          <div class="note-body">Switch to annual billing and get roughly two months free. Annual plans are billed upfront. You can cancel before your next renewal.</div>
+        </div>
+        <div class="note-item">
+          <div class="note-title">Per tool or bundle</div>
+          <div class="note-body">Subscribe to individual tools or save 30% with the full InSite Suite bundle. Mix and match isn't available — it's per-tool or the full bundle.</div>
+        </div>
+        <div class="note-item">
+          <div class="note-title">Enterprise &amp; custom</div>
+          <div class="note-body">Teams of 150+ get custom pricing, dedicated support, SLA guarantees, and onboarding assistance. <a href="contact.html" style="color:#06b6d4;">Talk to us →</a></div>
+        </div>
+        <div class="note-item">
+          <div class="note-title">GST for Australian customers</div>
+          <div class="note-body">Prices shown are in USD ex-GST. Australian customers will be charged in AUD with GST applied at checkout. A tax invoice is issued automatically.</div>
+        </div>
+        <div class="note-item">
+          <div class="note-title">Atlassian Marketplace</div>
+          <div class="note-body">SprintINSite and PortfolioInSite Forge apps are sold via the Atlassian Marketplace — not through this page. <a href="brands.html" style="color:#06b6d4;">Learn more →</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="nav-logo" style="color:var(--white); margin-bottom:0;">
+            <div class="nav-logo-mark">AO</div>
+            Agility Ops
+          </a>
+          <p>AI transformation consulting for enterprises. Strategic adoption, intelligent tools, and practitioner-led training. Australian owned and operated.</p>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="team.html">Our Team</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Solutions</h4>
+          <ul class="footer-links">
+            <li><a href="https://sprintinsite.com" target="_blank" rel="noopener">SprintINSite</a></li>
+            <li><a href="https://portfolioinsite.com.au" target="_blank" rel="noopener">PortfolioInSite</a></li>
+            <li><a href="https://portfolioinsite.com.au/tools/forecastinsite" target="_blank" rel="noopener">ForecastInSite</a></li>
+            <li><a href="https://portfolioinsite.com.au/tools/planinsite" target="_blank" rel="noopener">PlanInSite</a></li>
+            <li><a href="https://sprintinsite.com/tools/flowinsite" target="_blank" rel="noopener">FlowInSite</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Agility Ops Business Pty Ltd. All rights reserved.</span>
+        <div class="footer-socials">
+          <a href="https://www.linkedin.com/company/agility-ops-business" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="Twitter">X</a>
+          <a href="https://github.com/G-AOBptyltd" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+  /* ─── Pricing data ─── */
+  const TOOLS = [
+    { id:'forecastinsite', name:'ForecastInSite', cat:'Lean Agile Financial Modelling', flagship:true,
+      tiers:[
+        {label:'Starter', seats:'1–3',   max:3,   mo:150,  an:1500,  cls:'tier-s'},
+        {label:'Team',    seats:'up to 10', max:10,  mo:500,  an:5000,  cls:'tier-t'},
+        {label:'Business',seats:'up to 25', max:25,  mo:1500, an:15000, cls:'tier-b'},
+        {label:'Med Business',seats:'26–150',max:150, mo:3500, an:35000, cls:'tier-mb'},
+        {label:'Enterprise',seats:'150+',  max:9999,mo:0,    an:0,     cls:'tier-e', custom:true}
+      ]
+    },
+    { id:'flowinsite', name:'FlowInSite', cat:'Meeting Facilitation & Velocity',
+      tiers:[
+        {label:'Starter', seats:'1–3',   max:3,   mo:49,  an:490,  cls:'tier-s'},
+        {label:'Team',    seats:'up to 10', max:10,  mo:149, an:1490, cls:'tier-t'},
+        {label:'Business',seats:'up to 25', max:25,  mo:299, an:2990, cls:'tier-b'},
+        {label:'Med Business',seats:'26–150',max:150, mo:599, an:5990, cls:'tier-mb'},
+        {label:'Enterprise',seats:'150+',  max:9999,mo:0,   an:0,    cls:'tier-e', custom:true}
+      ]
+    },
+    { id:'planinsite', name:'PlanInSite', cat:'PI Planning & Capacity Management',
+      tiers:[
+        {label:'Starter', seats:'1–3',   max:3,   mo:49,  an:490,  cls:'tier-s'},
+        {label:'Team',    seats:'up to 10', max:10,  mo:149, an:1490, cls:'tier-t'},
+        {label:'Business',seats:'up to 25', max:25,  mo:349, an:3490, cls:'tier-b'},
+        {label:'Med Business',seats:'26–150',max:150, mo:699, an:6990, cls:'tier-mb'},
+        {label:'Enterprise',seats:'150+',  max:9999,mo:0,   an:0,    cls:'tier-e', custom:true}
+      ]
+    },
+    { id:'sprintinsite-web', name:'SprintINSite (web)', cat:'Sprint Analytics',
+      tiers:[
+        {label:'Starter', seats:'1–3',   max:3,   mo:19,  an:190,  cls:'tier-s'},
+        {label:'Team',    seats:'up to 10', max:10,  mo:49,  an:490,  cls:'tier-t'},
+        {label:'Business',seats:'up to 25', max:25,  mo:99,  an:990,  cls:'tier-b'},
+        {label:'Med Business',seats:'26–150',max:150, mo:249, an:2490, cls:'tier-mb'},
+        {label:'Enterprise',seats:'150+',  max:9999,mo:0,   an:0,    cls:'tier-e', custom:true}
+      ]
+    },
+    { id:'portfolioinsite-web', name:'PortfolioInSite (web)', cat:'Portfolio Dashboard',
+      tiers:[
+        {label:'Starter', seats:'1–3',   max:3,   mo:19,  an:190,  cls:'tier-s'},
+        {label:'Team',    seats:'up to 10', max:10,  mo:49,  an:490,  cls:'tier-t'},
+        {label:'Business',seats:'up to 25', max:25,  mo:99,  an:990,  cls:'tier-b'},
+        {label:'Med Business',seats:'26–150',max:150, mo:249, an:2490, cls:'tier-mb'},
+        {label:'Enterprise',seats:'150+',  max:9999,mo:0,   an:0,    cls:'tier-e', custom:true}
+      ]
+    }
+  ];
+
+  /* ─── Stripe Price IDs — replace with real IDs after Stripe setup ─── */
+  const STRIPE_PRICES = {
+    /* Format: toolId_tier_cycle: 'price_xxx' */
+    /* TODO: populate after Stripe account created */
+  };
+
+  const STRIPE_PK = 'pk_live_REPLACE_WITH_PUBLISHABLE_KEY';
+
+  function getTier(tool, seats) {
+    return tool.tiers.find(t => seats <= t.max) || tool.tiers[tool.tiers.length - 1];
+  }
+
+  function fmt(n) { return '$' + n.toLocaleString(); }
+
+  function startCheckout(toolId) {
+    const priceId = STRIPE_PRICES[toolId];
+    if (!priceId) {
+      alert('Stripe checkout coming soon. Contact support@agilityops.com.au to get access.');
+      return;
+    }
+    /* Stripe checkout will be wired here */
+  }
+
+  function render() {
+    const seats   = parseInt(document.getElementById('seatSlider').value);
+    const annual  = document.getElementById('annualToggle').checked;
+    const isEnt   = seats > 150;
+
+    document.getElementById('seatNum').textContent = seats;
+    document.getElementById('saveChip').style.display = annual ? 'inline' : 'none';
+
+    /* Tier bar */
+    const tierKey = seats<=3?'s': seats<=10?'t': seats<=25?'b': seats<=150?'mb':'e';
+    const tierCls = {s:'active-s',t:'active-t',b:'active-b',mb:'active-mb',e:'active-e'};
+    ['s','t','b','mb','e'].forEach(k => {
+      const el = document.getElementById('seg-'+k);
+      el.className = 'tier-seg' + (k===tierKey?' '+tierCls[k]:'');
+    });
+
+    /* Cards */
+    const grid = document.getElementById('pricingGrid');
+    grid.innerHTML = TOOLS.map(tool => {
+      const tier = getTier(tool, seats);
+      const price = annual ? Math.round(tier.an / 12) : tier.mo;
+      const saving = tier.mo * 12 - tier.an;
+      const ctaCls = tier.custom ? 'cta-enterprise' : (tool.flagship ? 'cta-flagship' : 'cta-primary');
+      const ctaText = tier.custom ? 'Contact us →' : 'Start free trial →';
+      const ctaHref = tier.custom ? 'contact.html' : '#';
+      const ctaClick = tier.custom ? '' : `onclick="startCheckout('${tool.id}_${tier.label.toLowerCase().replace(' ','-')}_${annual?'annual':'monthly'}'); return false;"`;
+
+      return `<div class="price-card${tool.flagship?' flagship':''}">
+        ${tool.flagship ? '<div class="flagship-badge">Flagship Tool</div>' : ''}
+        <div class="card-tool">${tool.name}</div>
+        <div class="card-cat">${tool.cat}</div>
+        ${tier.custom
+          ? `<div class="card-custom">Custom pricing</div><div class="card-custom-sub">Tailored to your organisation</div>`
+          : `<div class="card-price">${fmt(price)}</div>
+             <div class="card-per">${annual ? 'per month, billed annually' : 'per month'}</div>
+             ${annual ? `<div class="card-annual">${fmt(tier.an)}/year</div><div class="card-saving">save ${fmt(saving)}</div>` : ''}`
+        }
+        <div class="card-tier ${tier.cls}">${tier.label}</div>
+        <div class="card-seats">${tier.seats} seats</div>
+        <a href="${ctaHref}" class="card-cta ${ctaCls}" ${ctaClick}>${ctaText}</a>
+      </div>`;
+    }).join('');
+
+    /* Bundle */
+    if (isEnt) {
+      document.getElementById('bundlePrice').textContent = 'Custom';
+      document.getElementById('bundlePer').textContent = 'Contact us for enterprise bundle pricing';
+      document.getElementById('bundleSaving').textContent = '';
+      document.getElementById('bundleCta').textContent = 'Get in touch →';
+      document.getElementById('bundleCta').href = 'contact.html';
+      document.getElementById('bundleCta').onclick = null;
+    } else {
+      const totalMo = TOOLS.reduce((s, t) => s + getTier(t, seats).mo, 0);
+      const totalAn = TOOLS.reduce((s, t) => s + getTier(t, seats).an, 0);
+      const bMo = Math.round(totalMo * 0.7);
+      const bAn = Math.round(totalAn * 0.7);
+      const bundle = annual ? Math.round(bAn / 12) : bMo;
+      const saving = annual ? (totalAn - bAn) : (totalMo - bMo) * 12;
+      document.getElementById('bundlePrice').textContent = fmt(bundle);
+      document.getElementById('bundlePer').textContent = annual ? 'per month, billed annually' : 'per month';
+      document.getElementById('bundleSaving').textContent = `Save ${fmt(Math.round(saving))} vs individual tools`;
+      document.getElementById('bundleCta').textContent = 'Get the bundle →';
+      document.getElementById('bundleCta').href = '#';
+      document.getElementById('bundleCta').onclick = function(){ startCheckout('bundle_'+tierKey+'_'+(annual?'annual':'monthly')); return false; };
+    }
+  }
+
+  render();
+  </script>
+</body>
+</html>
