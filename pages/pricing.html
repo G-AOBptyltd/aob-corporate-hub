@@ -12,14 +12,14 @@
   </script>
 
   <title>Pricing — InSite Suite | Agility Ops</title>
-  <meta name="description" content="Simple, transparent pricing for the InSite Suite. From individual practitioners to enterprise PMOs. Start with a 14-day free trial.">
+  <meta name="description" content="Simple, transparent pricing for the InSite Suite in AUD. From individual practitioners to enterprise PMOs. Start with a 14-day free trial.">
   <meta name="robots" content="noindex, nofollow">
   <link rel="canonical" href="https://agilityops.com.au/pages/pricing">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://agilityops.com.au/pages/pricing">
   <meta property="og:title" content="InSite Suite Pricing | Agility Ops">
-  <meta property="og:description" content="Simple, transparent pricing. 14-day free trial. No credit card required to start.">
+  <meta property="og:description" content="Simple, transparent pricing in AUD. 14-day free trial. Credit card required.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -143,7 +143,7 @@
   <section class="pricing-hero">
     <div class="container">
       <h1 class="h1">Simple, transparent pricing</h1>
-      <p>Choose the tools your team needs. Start free for 14 days — no credit card required. Scale up or down at any time.</p>
+      <p>Choose the tools your team needs. Start free for 14 days. Credit card required. Cancel anytime.</p>
 
       <!-- Billing toggle -->
       <div class="billing-toggle">
@@ -179,7 +179,7 @@
   <section class="section" style="padding-top:0;">
     <div class="container">
 
-      <div class="trial-note">All plans include a <strong>14-day free trial</strong>. Cancel any time. Prices in USD.</div>
+      <div class="trial-note">All plans include a <strong>14-day free trial</strong>. Credit card required. Cancel anytime. Prices in AUD (incl. GST). International customers see local currency at checkout.</div>
 
       <div class="pricing-grid" id="pricingGrid"></div>
 
@@ -201,7 +201,7 @@
       <div class="pricing-notes">
         <div class="note-item">
           <div class="note-title">14-day free trial</div>
-          <div class="note-body">Every plan starts with a full-featured 14-day trial. No credit card required to start. You'll be prompted to subscribe when the trial ends.</div>
+          <div class="note-body">Every plan starts with a full-featured 14-day trial. A credit card is required at signup — you won't be charged until day 15. Cancel before then and you pay nothing.</div>
         </div>
         <div class="note-item">
           <div class="note-title">Annual billing saves ~17%</div>
@@ -216,8 +216,8 @@
           <div class="note-body">Teams of 150+ get custom pricing, dedicated support, SLA guarantees, and onboarding assistance. <a href="contact.html" style="color:#06b6d4;">Talk to us →</a></div>
         </div>
         <div class="note-item">
-          <div class="note-title">GST for Australian customers</div>
-          <div class="note-body">Prices shown are in USD ex-GST. Australian customers will be charged in AUD with GST applied at checkout. A tax invoice is issued automatically.</div>
+          <div class="note-title">Currency &amp; GST</div>
+          <div class="note-body">Prices shown in AUD inclusive of GST. International customers will see their local currency at checkout via Stripe Adaptive Pricing. A tax invoice is issued automatically.</div>
         </div>
         <div class="note-item">
           <div class="note-title">Atlassian Marketplace</div>
@@ -289,7 +289,7 @@
         {label:'Enterprise',seats:'150+',  max:9999,mo:0,    an:0,     cls:'tier-e', custom:true}
       ]
     },
-    { id:'flowinsite', name:'FlowInSite', cat:'Meeting Facilitation & Velocity',
+    { id:'flowinsite', name:'FlowInSite', cat:'Individual Velocity Analytics',
       tiers:[
         {label:'Starter', seats:'1–3',   max:3,   mo:49,  an:490,  cls:'tier-s'},
         {label:'Team',    seats:'up to 10', max:10,  mo:149, an:1490, cls:'tier-t'},
@@ -339,7 +339,7 @@
     return tool.tiers.find(t => seats <= t.max) || tool.tiers[tool.tiers.length - 1];
   }
 
-  function fmt(n) { return '$' + n.toLocaleString(); }
+  function fmt(n) { return 'A$' + n.toLocaleString(); }
 
   function startCheckout(toolId) {
     const priceId = STRIPE_PRICES[toolId];
@@ -373,7 +373,7 @@
       const price = annual ? Math.round(tier.an / 12) : tier.mo;
       const saving = tier.mo * 12 - tier.an;
       const ctaCls = tier.custom ? 'cta-enterprise' : (tool.flagship ? 'cta-flagship' : 'cta-primary');
-      const ctaText = tier.custom ? 'Contact us →' : 'Start free trial →';
+      const ctaText = tier.custom ? 'Contact us →' : 'Start 14-day trial →';
       const ctaHref = tier.custom ? 'contact.html' : '#';
       const ctaClick = tier.custom ? '' : `onclick="startCheckout('${tool.id}_${tier.label.toLowerCase().replace(' ','-')}_${annual?'annual':'monthly'}'); return false;"`;
 
