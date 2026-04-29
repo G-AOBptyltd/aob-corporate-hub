@@ -25,6 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/styles.css">
+  <script src="https://js.stripe.com/v3/"></script>
 
   <style>
     /* ── Pricing page overrides ── */
@@ -179,7 +180,7 @@
   <section class="section" style="padding-top:0;">
     <div class="container">
 
-      <div class="trial-note">All plans include a <strong>14-day free trial</strong>. Credit card required. Cancel anytime. Prices in AUD (incl. GST). International customers see local currency at checkout.</div>
+      <div class="trial-note">All plans include a <strong>14-day free trial</strong>. Credit card required. Cancel anytime. Prices in USD. GST and local taxes applied at checkout.</div>
 
       <div class="pricing-grid" id="pricingGrid"></div>
 
@@ -327,27 +328,79 @@
     }
   ];
 
-  /* ─── Stripe Price IDs — replace with real IDs after Stripe setup ─── */
+  /* ─── Stripe Price IDs ─── */
   const STRIPE_PRICES = {
-    /* Format: toolId_tier_cycle: 'price_xxx' */
-    /* TODO: populate after Stripe account created */
+    // FlowInSite
+    'flowinsite_starter_monthly':          'price_1TRNlU1yWUXkg4kiCjSFcd1i',
+    'flowinsite_starter_annual':           'price_1TRNlU1yWUXkg4kiRrxyB0xE',
+    'flowinsite_team_monthly':             'price_1TRNmO1yWUXkg4kiLwnZ4tdl',
+    'flowinsite_team_annual':              'price_1TRNyA1yWUXkg4kiPJbAOrqP',
+    'flowinsite_business_monthly':         'price_1TRNyA1yWUXkg4kihpVTQYNE',
+    'flowinsite_business_annual':          'price_1TRO0T1yWUXkg4kiSPAGla74',
+    'flowinsite_med-business_monthly':     'price_1TRO0T1yWUXkg4kisIMkeaR8',
+    'flowinsite_med-business_annual':      'price_1TROEx1yWUXkg4kiMuuEGrH6',
+    // SprintINSite
+    'sprintinsite-web_starter_monthly':    'price_1TRPbu1yWUXkg4ki4SqiOzfi',
+    'sprintinsite-web_starter_annual':     'price_1TRPbu1yWUXkg4kifJcBSM1g',
+    'sprintinsite-web_team_monthly':       'price_1TRPbu1yWUXkg4kiQ8J6YiKc',
+    'sprintinsite-web_team_annual':        'price_1TRPbu1yWUXkg4kiXdDbczwj',
+    'sprintinsite-web_business_monthly':   'price_1TRPbu1yWUXkg4kiDkEBP6zI',
+    'sprintinsite-web_business_annual':    'price_1TRPbu1yWUXkg4ki9XhuzxUO',
+    'sprintinsite-web_med-business_monthly': 'price_1TRPd31yWUXkg4kiHU9rdE0G',
+    'sprintinsite-web_med-business_annual':  'price_1TRPd31yWUXkg4kigByWiGkI',
+    // ForecastInSite
+    'forecastinsite_starter_monthly':      'price_1TRPjq1yWUXkg4ki4BJqIVMF',
+    'forecastinsite_starter_annual':       'price_1TRPjq1yWUXkg4kiuxfXNFm2',
+    'forecastinsite_team_monthly':         'price_1TRPjq1yWUXkg4kir0fZ32Ls',
+    'forecastinsite_team_annual':          'price_1TRPjq1yWUXkg4kiHv8fITmH',
+    'forecastinsite_business_monthly':     'price_1TRPjq1yWUXkg4kiXNEYZ6U2',
+    'forecastinsite_business_annual':      'price_1TRPjq1yWUXkg4kibbn6Px9t',
+    'forecastinsite_med-business_monthly': 'price_1TRPjq1yWUXkg4ki1zxcZFeV',
+    'forecastinsite_med-business_annual':  'price_1TRPjq1yWUXkg4kibjqbYbfX',
+    // PlanInSite
+    'planinsite_starter_monthly':          'price_1TRPq31yWUXkg4kiN44b7Mop',
+    'planinsite_starter_annual':           'price_1TRPq31yWUXkg4kiWYQ9iifc',
+    'planinsite_team_monthly':             'price_1TRPq31yWUXkg4kiVqKEAPrc',
+    'planinsite_team_annual':              'price_1TRPq31yWUXkg4kicB6H0YfI',
+    'planinsite_business_monthly':         'price_1TRPq31yWUXkg4kiWbindFxE',
+    'planinsite_business_annual':          'price_1TRPq31yWUXkg4kidSdrUCsB',
+    'planinsite_med-business_monthly':     'price_1TRPq31yWUXkg4ki0QEv6m2J',
+    'planinsite_med-business_annual':      'price_1TRPq41yWUXkg4kiCk6ilwWS',
+    // PortfolioInSite
+    'portfolioinsite-web_starter_monthly': 'price_1TRPxL1yWUXkg4ki8vhhZB65',
+    'portfolioinsite-web_starter_annual':  'price_1TRPxL1yWUXkg4ki06jTGfpQ',
+    'portfolioinsite-web_team_monthly':    'price_1TRPxL1yWUXkg4kihrDZVQqJ',
+    'portfolioinsite-web_team_annual':     'price_1TRPxL1yWUXkg4ki6e4bwKHi',
+    'portfolioinsite-web_business_monthly':'price_1TRPxL1yWUXkg4kiAcEUzPTf',
+    'portfolioinsite-web_business_annual': 'price_1TRPxL1yWUXkg4kivjlLDomo',
+    'portfolioinsite-web_med-business_monthly': 'price_1TRPxL1yWUXkg4ki2GdsCTqC',
+    'portfolioinsite-web_med-business_annual':  'price_1TRPxL1yWUXkg4kiWBexExjM',
   };
 
-  const STRIPE_PK = 'pk_live_REPLACE_WITH_PUBLISHABLE_KEY';
+  const STRIPE_PK = 'pk_live_51TRN521yWUXkg4kihEdpTR6Nf8svBvlr0ES1uhzhzLxV4mOMR9USaJnpXa1rEPzGxQ1GdZ0qqWJsPdJpxhH0EQRq00sd1Kg8JC';
 
   function getTier(tool, seats) {
     return tool.tiers.find(t => seats <= t.max) || tool.tiers[tool.tiers.length - 1];
   }
 
-  function fmt(n) { return 'A$' + n.toLocaleString(); }
+  function fmt(n) { return '$' + n.toLocaleString(); }
 
-  function startCheckout(toolId) {
+  async function startCheckout(toolId) {
     const priceId = STRIPE_PRICES[toolId];
     if (!priceId) {
       alert('Stripe checkout coming soon. Contact support@agilityops.com.au to get access.');
       return;
     }
-    /* Stripe checkout will be wired here */
+    const stripe = Stripe(STRIPE_PK);
+    const { error } = await stripe.redirectToCheckout({
+      lineItems: [{ price: priceId, quantity: 1 }],
+      mode: 'subscription',
+      successUrl: 'https://agilityops.com.au/pages/checkout-success',
+      cancelUrl:  'https://agilityops.com.au/pages/pricing',
+    });
+    if (error) {
+      alert('Checkout error: ' + error.message);
+    }
   }
 
   function render() {
