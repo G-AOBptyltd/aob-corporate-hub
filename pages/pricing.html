@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/styles.css">
-  <script src="https://js.stripe.com/v3/"></script>
+  <!-- Stripe Payment Links: no SDK required -->
 
   <style>
     /* ── Pricing page overrides ── */
@@ -328,56 +328,54 @@
     }
   ];
 
-  /* ─── Stripe Price IDs ─── */
-  const STRIPE_PRICES = {
+  /* ─── Stripe Payment Links ─── */
+  const STRIPE_LINKS = {
     // FlowInSite
-    'flowinsite_starter_monthly':          'price_1TRNlU1yWUXkg4kiCjSFcd1i',
-    'flowinsite_starter_annual':           'price_1TRNlU1yWUXkg4kiRrxyB0xE',
-    'flowinsite_team_monthly':             'price_1TRNmO1yWUXkg4kiLwnZ4tdl',
-    'flowinsite_team_annual':              'price_1TRNyA1yWUXkg4kiPJbAOrqP',
-    'flowinsite_business_monthly':         'price_1TRNyA1yWUXkg4kihpVTQYNE',
-    'flowinsite_business_annual':          'price_1TRO0T1yWUXkg4kiSPAGla74',
-    'flowinsite_med-business_monthly':     'price_1TRO0T1yWUXkg4kisIMkeaR8',
-    'flowinsite_med-business_annual':      'price_1TROEx1yWUXkg4kiMuuEGrH6',
+    'flowinsite_starter_monthly':               'https://buy.stripe.com/fZuaEP10b4aC27rgdR5ZC00',
+    'flowinsite_starter_annual':                'https://buy.stripe.com/28EfZ9aALePg6nHbXB5ZC01',
+    'flowinsite_team_monthly':                  'https://buy.stripe.com/cNi00b6kv0Yq9zT7Hl5ZC02',
+    'flowinsite_team_annual':                   'https://buy.stripe.com/7sYbIT9wH22uaDXgdR5ZC03',
+    'flowinsite_business_monthly':              'https://buy.stripe.com/28EbIT9wHcH8cM50eT5ZC04',
+    'flowinsite_business_annual':               'https://buy.stripe.com/bJe00b10bdLcbI1gdR5ZC05',
+    'flowinsite_med-business_monthly':          'https://buy.stripe.com/4gM7sD5gr8qS7rL5zd5ZC06',
+    'flowinsite_med-business_annual':           'https://buy.stripe.com/14AaEPbEP4aC7rLgdR5ZC07',
     // SprintINSite
-    'sprintinsite-web_starter_monthly':    'price_1TRPbu1yWUXkg4ki4SqiOzfi',
-    'sprintinsite-web_starter_annual':     'price_1TRPbu1yWUXkg4kifJcBSM1g',
-    'sprintinsite-web_team_monthly':       'price_1TRPbu1yWUXkg4kiQ8J6YiKc',
-    'sprintinsite-web_team_annual':        'price_1TRPbu1yWUXkg4kiXdDbczwj',
-    'sprintinsite-web_business_monthly':   'price_1TRPbu1yWUXkg4kiDkEBP6zI',
-    'sprintinsite-web_business_annual':    'price_1TRPbu1yWUXkg4ki9XhuzxUO',
-    'sprintinsite-web_med-business_monthly': 'price_1TRPd31yWUXkg4kiHU9rdE0G',
-    'sprintinsite-web_med-business_annual':  'price_1TRPd31yWUXkg4kigByWiGkI',
+    'sprintinsite-web_starter_monthly':         'https://buy.stripe.com/00wdR1gZ95eGcM50eT5ZC08',
+    'sprintinsite-web_starter_annual':          'https://buy.stripe.com/fZu00b9wHePgdQ96Dh5ZC09',
+    'sprintinsite-web_team_monthly':            'https://buy.stripe.com/3cIeV5eR17mOcM5bXB5ZC0a',
+    'sprintinsite-web_team_annual':             'https://buy.stripe.com/cNidR1aAL8qSbI1f9N5ZC0b',
+    'sprintinsite-web_business_monthly':        'https://buy.stripe.com/9B66ozdMXdLcdQ9f9N5ZC0c',
+    'sprintinsite-web_business_annual':         'https://buy.stripe.com/aFa4graAL36yaDXd1F5ZC0d',
+    'sprintinsite-web_med-business_monthly':    'https://buy.stripe.com/dRmfZ95gr8qSaDX8Lp5ZC0e',
+    'sprintinsite-web_med-business_annual':     'https://buy.stripe.com/8x214faALePg8vPf9N5ZC0f',
     // ForecastInSite
-    'forecastinsite_starter_monthly':      'price_1TRPjq1yWUXkg4ki4BJqIVMF',
-    'forecastinsite_starter_annual':       'price_1TRPjq1yWUXkg4kiuxfXNFm2',
-    'forecastinsite_team_monthly':         'price_1TRPjq1yWUXkg4kir0fZ32Ls',
-    'forecastinsite_team_annual':          'price_1TRPjq1yWUXkg4kiHv8fITmH',
-    'forecastinsite_business_monthly':     'price_1TRPjq1yWUXkg4kiXNEYZ6U2',
-    'forecastinsite_business_annual':      'price_1TRPjq1yWUXkg4kibbn6Px9t',
-    'forecastinsite_med-business_monthly': 'price_1TRPjq1yWUXkg4ki1zxcZFeV',
-    'forecastinsite_med-business_annual':  'price_1TRPjq1yWUXkg4kibjqbYbfX',
+    'forecastinsite_starter_monthly':           'https://buy.stripe.com/cNi8wH24faz0cM51iX5ZC0g',
+    'forecastinsite_starter_annual':            'https://buy.stripe.com/4gM28j24f7mO4fz6Dh5ZC0h',
+    'forecastinsite_team_monthly':              'https://buy.stripe.com/3cIdR1gZ9az06nHgdR5ZC0i',
+    'forecastinsite_team_annual':               'https://buy.stripe.com/bJe9AL9wHgXoh2ld1F5ZC0j',
+    'forecastinsite_business_monthly':          'https://buy.stripe.com/00w00baAL9uWaDXgdR5ZC0k',
+    'forecastinsite_business_annual':           'https://buy.stripe.com/dRm28j5grePgfYhbXB5ZC0l',
+    'forecastinsite_med-business_monthly':      'https://buy.stripe.com/aFaeV5eR19uW6nHbXB5ZC0m',
+    'forecastinsite_med-business_annual':       'https://buy.stripe.com/cNi8wHdMX22u7rL5zd5ZC0n',
     // PlanInSite
-    'planinsite_starter_monthly':          'price_1TRPq31yWUXkg4kiN44b7Mop',
-    'planinsite_starter_annual':           'price_1TRPq31yWUXkg4kiWYQ9iifc',
-    'planinsite_team_monthly':             'price_1TRPq31yWUXkg4kiVqKEAPrc',
-    'planinsite_team_annual':              'price_1TRPq31yWUXkg4kicB6H0YfI',
-    'planinsite_business_monthly':         'price_1TRPq31yWUXkg4kiWbindFxE',
-    'planinsite_business_annual':          'price_1TRPq31yWUXkg4kidSdrUCsB',
-    'planinsite_med-business_monthly':     'price_1TRPq31yWUXkg4ki0QEv6m2J',
-    'planinsite_med-business_annual':      'price_1TRPq41yWUXkg4kiCk6ilwWS',
+    'planinsite_starter_monthly':               'https://buy.stripe.com/28EaEP5grbD4bI12n15ZC0o',
+    'planinsite_starter_annual':                'https://buy.stripe.com/eVq6oz7oz9uW7rL3r55ZC0p',
+    'planinsite_team_monthly':                  'https://buy.stripe.com/dRmdR1dMXbD45jD0eT5ZC0q',
+    'planinsite_team_annual':                   'https://buy.stripe.com/7sY7sD10b0YqbI1e5J5ZC0r',
+    'planinsite_business_monthly':              'https://buy.stripe.com/3cIeV57ozgXodQ9e5J5ZC0s',
+    'planinsite_business_annual':               'https://buy.stripe.com/bJeaEP6kv9uW6nHbXB5ZC0t',
+    'planinsite_med-business_monthly':          'https://buy.stripe.com/14AbIT6kvePg4fz2n15ZC0u',
+    'planinsite_med-business_annual':           'https://buy.stripe.com/3cIdR138j7mOdQ97Hl5ZC0v',
     // PortfolioInSite
-    'portfolioinsite-web_starter_monthly': 'price_1TRPxL1yWUXkg4ki8vhhZB65',
-    'portfolioinsite-web_starter_annual':  'price_1TRPxL1yWUXkg4ki06jTGfpQ',
-    'portfolioinsite-web_team_monthly':    'price_1TRPxL1yWUXkg4kihrDZVQqJ',
-    'portfolioinsite-web_team_annual':     'price_1TRPxL1yWUXkg4ki6e4bwKHi',
-    'portfolioinsite-web_business_monthly':'price_1TRPxL1yWUXkg4kiAcEUzPTf',
-    'portfolioinsite-web_business_annual': 'price_1TRPxL1yWUXkg4kivjlLDomo',
-    'portfolioinsite-web_med-business_monthly': 'price_1TRPxL1yWUXkg4ki2GdsCTqC',
-    'portfolioinsite-web_med-business_annual':  'price_1TRPxL1yWUXkg4kiWBexExjM',
+    'portfolioinsite-web_starter_monthly':      'https://buy.stripe.com/14A7sDaALaz013nd1F5ZC0w',
+    'portfolioinsite-web_starter_annual':       'https://buy.stripe.com/5kQ14faAL4aCbI15zd5ZC0x',
+    'portfolioinsite-web_team_monthly':         'https://buy.stripe.com/5kQcMX24fcH8cM51iX5ZC0y',
+    'portfolioinsite-web_team_annual':          'https://buy.stripe.com/aFa7sD9wH9uW5jDgdR5ZC0z',
+    'portfolioinsite-web_business_monthly':     'https://buy.stripe.com/cNi00b24f6iK5jD8Lp5ZC0A',
+    'portfolioinsite-web_business_annual':      'https://buy.stripe.com/3cI9ALgZ90Yq13n3r55ZC0B',
+    'portfolioinsite-web_med-business_monthly': 'https://buy.stripe.com/9B69AL7oz5eG7rLbXB5ZC0C',
+    'portfolioinsite-web_med-business_annual':  'https://buy.stripe.com/bJe9AL9wH0YqfYh7Hl5ZC0D',
   };
-
-  const STRIPE_PK = 'pk_live_51TRN521yWUXkg4kihEdpTR6Nf8svBvlr0ES1uhzhzLxV4mOMR9USaJnpXa1rEPzGxQ1GdZ0qqWJsPdJpxhH0EQRq00sd1Kg8JC';
 
   function getTier(tool, seats) {
     return tool.tiers.find(t => seats <= t.max) || tool.tiers[tool.tiers.length - 1];
@@ -385,22 +383,13 @@
 
   function fmt(n) { return '$' + n.toLocaleString(); }
 
-  async function startCheckout(toolId) {
-    const priceId = STRIPE_PRICES[toolId];
-    if (!priceId) {
-      alert('Stripe checkout coming soon. Contact support@agilityops.com.au to get access.');
+  function startCheckout(toolId) {
+    const url = STRIPE_LINKS[toolId];
+    if (!url) {
+      alert('Checkout coming soon. Contact support@agilityops.com.au to get access.');
       return;
     }
-    const stripe = Stripe(STRIPE_PK);
-    const { error } = await stripe.redirectToCheckout({
-      lineItems: [{ price: priceId, quantity: 1 }],
-      mode: 'subscription',
-      successUrl: 'https://agilityops.com.au/pages/checkout-success',
-      cancelUrl:  'https://agilityops.com.au/pages/pricing',
-    });
-    if (error) {
-      alert('Checkout error: ' + error.message);
-    }
+    window.location.href = url;
   }
 
   function render() {
