@@ -34,6 +34,15 @@ const PRODUCT_MAP = {
   portfolioinsite: 'POI',
 };
 
+/** Map tool code → direct product URL */
+const PRODUCT_URLS = {
+  FLW: 'https://sprintinsite.com/tools/flowinsite',
+  SIS: 'https://sprintinsite.com',
+  FCT: 'https://portfolioinsite.com.au/tools/forecastinsite',
+  PLN: 'https://portfolioinsite.com.au/tools/planinsite',
+  POI: 'https://portfolioinsite.com.au',
+};
+
 function getToolCode(productName) {
   const normalised = (productName || '').toLowerCase().replace(/[^a-z]/g, '');
   for (const [key, code] of Object.entries(PRODUCT_MAP)) {
@@ -158,10 +167,12 @@ async function createLicenceRecord({
 
 // ── Email ─────────────────────────────────────────────────────────────────────
 
-async function sendKeyEmail({ to, name, key, toolName, expiryYMD, isAnnual }) {
+async function sendKeyEmail({ to, name, key, toolName, toolUrl, expiryYMD, isAnnual }) {
   const firstName = (name || 'there').split(' ')[0];
   const expiryFormatted = `${expiryYMD.slice(6,8)}/${expiryYMD.slice(4,6)}/${expiryYMD.slice(0,4)}`;
   const planLabel = isAnnual ? 'Annual' : 'Monthly';
+  const productLink = toolUrl || 'https://agilityops.com.au/pages/brands.html';
+  const portalUrl = 'https://billing.stripe.com/p/login/fZuaEP10b4aC27rgdR5ZC00';
 
   const html = `
 <!DOCTYPE html>
@@ -186,7 +197,7 @@ async function sendKeyEmail({ to, name, key, toolName, expiryYMD, isAnnual }) {
             <p style="margin:0 0 8px;font-size:22px;font-weight:700;color:#111;">Hi ${firstName} 👋</p>
             <p style="margin:0 0 24px;font-size:15px;color:#555;line-height:1.6;">
               Your <strong>${toolName}</strong> access is ready. Here's your licence key —
-              copy it and enter it at the gate when you first open the tool.
+              copy it and follow the steps below to activate your tool.
             </p>
 
             <!-- Key box -->
@@ -211,15 +222,66 @@ async function sendKeyEmail({ to, name, key, toolName, expiryYMD, isAnnual }) {
               </tr>
             </table>
 
-            <!-- CTA -->
-            <p style="margin:0 0 16px;font-size:14px;color:#555;">
-              Head to your tool, enter the code at the gate, and you're in. Keys are saved in your browser
-              so you won't need to enter it again on the same device.
-            </p>
-            <p style="margin:0 0 32px;font-size:13px;color:#888;">
+            <!-- How to activate -->
+            <div style="background:#f8f9fa;border-radius:8px;padding:20px 24px;margin:0 0 24px;">
+              <p style="margin:0 0 14px;font-size:11px;font-weight:700;color:#111;text-transform:uppercase;letter-spacing:0.5px;">How to activate</p>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:6px 0;vertical-align:top;width:28px;">
+                    <span style="display:inline-block;width:20px;height:20px;background:#6366f1;border-radius:50%;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:20px;">1</span>
+                  </td>
+                  <td style="padding:6px 0;font-size:13px;color:#444;line-height:1.5;">
+                    Open your tool at <a href="${productLink}" style="color:#6366f1;font-weight:600;">${productLink}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 0;vertical-align:top;width:28px;">
+                    <span style="display:inline-block;width:20px;height:20px;background:#6366f1;border-radius:50%;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:20px;">2</span>
+                  </td>
+                  <td style="padding:6px 0;font-size:13px;color:#444;line-height:1.5;">
+                    You'll see a licence gate — click <strong>Enter Licence Key</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 0;vertical-align:top;width:28px;">
+                    <span style="display:inline-block;width:20px;height:20px;background:#6366f1;border-radius:50%;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:20px;">3</span>
+                  </td>
+                  <td style="padding:6px 0;font-size:13px;color:#444;line-height:1.5;">
+                    Paste your access code above and click <strong>Activate</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 0;vertical-align:top;width:28px;">
+                    <span style="display:inline-block;width:20px;height:20px;background:#10b981;border-radius:50%;color:#fff;font-size:12px;font-weight:700;text-align:center;line-height:20px;">&#10003;</span>
+                  </td>
+                  <td style="padding:6px 0;font-size:13px;color:#444;line-height:1.5;">
+                    You're in! Your key is saved in your browser — no need to re-enter it on the same device.
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- Open tool CTA -->
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+              <tr>
+                <td align="center">
+                  <a href="${productLink}" style="display:inline-block;background:#6366f1;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;">Open ${toolName} &rarr;</a>
+                </td>
+              </tr>
+            </table>
+
+            <p style="margin:0 0 24px;font-size:13px;color:#888;">
               Need help? Reply to this email or contact
               <a href="mailto:support@agilityops.com.au" style="color:#6366f1;">support@agilityops.com.au</a>
             </p>
+
+            <!-- Manage subscription -->
+            <div style="border-top:1px solid #f0f0f0;padding-top:20px;">
+              <p style="margin:0 0 10px;font-size:13px;color:#888;line-height:1.6;">
+                Need to update your payment details, view invoices, or cancel? You can manage everything yourself:
+              </p>
+              <a href="${portalUrl}" style="display:inline-block;background:#f4f5f7;color:#444;font-size:13px;font-weight:600;text-decoration:none;padding:10px 20px;border-radius:6px;border:1px solid #ddd;">Manage my subscription &rarr;</a>
+            </div>
           </td>
         </tr>
 
@@ -302,6 +364,7 @@ exports.handler = async (event) => {
     // 4. Derive key components
     const toolCode   = getToolCode(product?.name || '');
     const toolName   = product?.name || 'InSite Tool';
+    const toolUrl    = PRODUCT_URLS[toolCode] || 'https://agilityops.com.au/pages/brands.html';
     const email      = session.customer_details?.email;
     const name       = session.customer_details?.name;
     const customerId = makeCustomerId(email, name);
@@ -333,7 +396,7 @@ exports.handler = async (event) => {
     }
 
     // 7. Send email
-    await sendKeyEmail({ to: email, name, key, toolName, expiryYMD, isAnnual });
+    await sendKeyEmail({ to: email, name, key, toolName, toolUrl, expiryYMD, isAnnual });
 
     console.log(`Key email sent to ${email}`);
     return { statusCode: 200, body: 'OK' };
