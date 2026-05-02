@@ -322,6 +322,71 @@ async function sendKeyEmail({ to, name, key, toolName, toolUrl, expiryYMD, isAnn
   return true;
 }
 
+// ── Notion — query & update helpers ──────────────────────────────────────────
+
+/**
+ * Find a Notion licence record by Stripe Subscription ID.
+ * Returns the Notion page ID of the first matching record, or null if not found.
+ */
+async function findLicenceBySubscriptionId(subscriptionId) {
+  const response = await fetch(`https://api.notion.com/v1/databases/${LICENCES_DB_ID}/query`, {
+    method: 'POST',
+    headers: {
+      'Authorization':  `Bearer ${process.env.NOTION_API_KEY}`,
+      'Content-Type':   'application/json',
+      'Notion-Version': '2022-06-28',
+    },
+    body: JSON.stringify({
+      filter: {
+        property: 'Stripe Subscription ID',
+        rich_text: { equals: subscriptionId },
+      },
+      page_size: 1,
+    }),
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Notion query error (${response.status}): ${err}`);
+  }
+
+  const data = await response.json();
+  return data.results?.[0]?.id || null;
+}
+
+/**
+ * Patch the Status (and optionally Cancelled Date) on an existing Notion licence page.
+ */
+async function updateLicenceStatus(pageId, status) {
+  const today = new Date().toISOString().slice(0, 10);
+
+  const properties = {
+    Status: { select: { name: status } },
+  };
+
+  // Record cancellation date when marking as Cancelled
+  if (status === 'Cancelled') {
+    properties['Cancelled Date'] = { date: { start: today } };
+  }
+
+  const response = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization':  `Bearer ${process.env.NOTION_API_KEY}`,
+      'Content-Type':   'application/json',
+      'Notion-Version': '2022-06-28',
+    },
+    body: JSON.stringify({ properties }),
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Notion update error (${response.status}): ${err}`);
+  }
+
+  return true;
+}
+
 // ── Handler ───────────────────────────────────────────────────────────────────
 
 exports.handler = async (event) => {
@@ -342,67 +407,93 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: `Webhook error: ${err.message}` };
   }
 
-  // 2. Only process completed checkouts
-  if (stripeEvent.type !== 'checkout.session.completed') {
-    return { statusCode: 200, body: 'Event ignored' };
-  }
+  // ── checkout.session.completed — new purchase ─────────────────────────────
+  if (stripeEvent.type === 'checkout.session.completed') {
+    const session = stripeEvent.data.object;
 
-  const session = stripeEvent.data.object;
-
-  try {
-    // 3. Fetch line items with product info expanded
-    const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
-      expand: ['data.price.product'],
-      limit: 1,
-    });
-
-    const item     = lineItems.data[0];
-    const price    = item?.price;
-    const product  = price?.product;
-    const isAnnual = price?.recurring?.interval === 'year';
-
-    // 4. Derive key components
-    const toolCode   = getToolCode(product?.name || '');
-    const toolName   = product?.name || 'InSite Tool';
-    const toolUrl    = PRODUCT_URLS[toolCode] || 'https://agilityops.com.au/pages/brands.html';
-    const email      = session.customer_details?.email;
-    const name       = session.customer_details?.name;
-    const customerId = makeCustomerId(email, name);
-
-    // Expiry: annual → 370 days, monthly → 35 days (covers billing cycle + buffer)
-    const expiryYMD  = expiryDate(isAnnual ? 370 : 35);
-
-    // 5. Generate key
-    const key = generateKey(toolCode, customerId, expiryYMD);
-
-    console.log(`Key generated: ${key} for ${email} (${toolName})`);
-
-    // 6. Write licence record to Notion (non-fatal — email always sends regardless)
     try {
-      const pageId = await createLicenceRecord({
-        key,
-        email,
-        name,
-        toolName,
-        isAnnual,
-        stripeCustomerId:     session.customer       || '',
-        stripeSubscriptionId: session.subscription   || '',
-        expiryYMD,
+      // Fetch line items with product info expanded
+      const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
+        expand: ['data.price.product'],
+        limit: 1,
       });
-      console.log(`Notion licence record created: ${pageId}`);
-    } catch (notionErr) {
-      // Log but don't fail — customer must always receive their key
-      console.error('Notion write failed (non-fatal):', notionErr.message);
+
+      const item     = lineItems.data[0];
+      const price    = item?.price;
+      const product  = price?.product;
+      const isAnnual = price?.recurring?.interval === 'year';
+
+      // Derive key components
+      const toolCode   = getToolCode(product?.name || '');
+      const toolName   = product?.name || 'InSite Tool';
+      const toolUrl    = PRODUCT_URLS[toolCode] || 'https://agilityops.com.au/pages/brands.html';
+      const email      = session.customer_details?.email;
+      const name       = session.customer_details?.name;
+      const customerId = makeCustomerId(email, name);
+
+      // Expiry: annual → 370 days, monthly → 35 days (covers billing cycle + buffer)
+      const expiryYMD  = expiryDate(isAnnual ? 370 : 35);
+
+      // Generate key
+      const key = generateKey(toolCode, customerId, expiryYMD);
+
+      console.log(`Key generated: ${key} for ${email} (${toolName})`);
+
+      // Write licence record to Notion (non-fatal — email always sends regardless)
+      try {
+        const pageId = await createLicenceRecord({
+          key,
+          email,
+          name,
+          toolName,
+          isAnnual,
+          stripeCustomerId:     session.customer       || '',
+          stripeSubscriptionId: session.subscription   || '',
+          expiryYMD,
+        });
+        console.log(`Notion licence record created: ${pageId}`);
+      } catch (notionErr) {
+        console.error('Notion write failed (non-fatal):', notionErr.message);
+      }
+
+      // Send key email
+      await sendKeyEmail({ to: email, name, key, toolName, toolUrl, expiryYMD, isAnnual });
+
+      console.log(`Key email sent to ${email}`);
+      return { statusCode: 200, body: 'OK' };
+
+    } catch (err) {
+      console.error('Error processing checkout.session.completed:', err);
+      return { statusCode: 500, body: `Internal error: ${err.message}` };
     }
-
-    // 7. Send email
-    await sendKeyEmail({ to: email, name, key, toolName, toolUrl, expiryYMD, isAnnual });
-
-    console.log(`Key email sent to ${email}`);
-    return { statusCode: 200, body: 'OK' };
-
-  } catch (err) {
-    console.error('Error processing webhook:', err);
-    return { statusCode: 500, body: `Internal error: ${err.message}` };
   }
+
+  // ── customer.subscription.deleted — cancellation ──────────────────────────
+  if (stripeEvent.type === 'customer.subscription.deleted') {
+    const subscription = stripeEvent.data.object;
+    const subscriptionId = subscription.id;
+
+    console.log(`Subscription cancelled: ${subscriptionId}`);
+
+    try {
+      const pageId = await findLicenceBySubscriptionId(subscriptionId);
+
+      if (!pageId) {
+        // No matching record — could be a subscription created before Notion integration
+        console.warn(`No Notion record found for subscription ${subscriptionId} — skipping update`);
+        return { statusCode: 200, body: 'No matching Notion record — ignored' };
+      }
+
+      await updateLicenceStatus(pageId, 'Cancelled');
+      console.log(`Notion licence ${pageId} marked Cancelled for subscription ${subscriptionId}`);
+      return { statusCode: 200, body: 'Cancelled' };
+
+    } catch (err) {
+      console.error('Error processing customer.subscription.deleted:', err);
+      return { statusCode: 500, body: `Internal error: ${err.message}` };
+    }
+  }
+
+  // All other event types — acknowledge but take no action
+  return { statusCode: 200, body: 'Event ignored' };
 };
