@@ -172,6 +172,7 @@ async function sendKeyEmail({ to, name, key, toolName, toolUrl, expiryYMD, isAnn
   const expiryFormatted = `${expiryYMD.slice(6,8)}/${expiryYMD.slice(4,6)}/${expiryYMD.slice(0,4)}`;
   const planLabel = isAnnual ? 'Annual' : 'Monthly';
   const productLink = toolUrl || 'https://agilityops.com.au/pages/brands.html';
+  const portalUrl = 'https://billing.stripe.com/p/login/fZuaEP10b4aC27rgdR5ZC00';
 
   const html = `
 <!DOCTYPE html>
@@ -222,64 +223,65 @@ async function sendKeyEmail({ to, name, key, toolName, toolUrl, expiryYMD, isAnn
             </table>
 
             <!-- How to activate -->
-            <div style="background:#f8f9fa;border-radius:8px;padding:20px 24px;margin:0 0 28px;">
-              <p style="margin:0 0 12px;font-size:13px;font-weight:700;color:#111;text-transform:uppercase;letter-spacing:0.5px;">How to activate</p>
+            <div style="background:#f8f9fa;border-radius:8px;padding:20px 24px;margin:0 0 24px;">
+              <p style="margin:0 0 14px;font-size:11px;font-weight:700;color:#111;text-transform:uppercase;letter-spacing:0.5px;">How to activate</p>
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="padding:6px 0;vertical-align:top;width:24px;">
+                  <td style="padding:6px 0;vertical-align:top;width:28px;">
                     <span style="display:inline-block;width:20px;height:20px;background:#6366f1;border-radius:50%;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:20px;">1</span>
                   </td>
-                  <td style="padding:6px 0 6px 10px;font-size:13px;color:#444;line-height:1.5;">
+                  <td style="padding:6px 0;font-size:13px;color:#444;line-height:1.5;">
                     Open your tool at <a href="${productLink}" style="color:#6366f1;font-weight:600;">${productLink}</a>
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding:6px 0;vertical-align:top;width:24px;">
+                  <td style="padding:6px 0;vertical-align:top;width:28px;">
                     <span style="display:inline-block;width:20px;height:20px;background:#6366f1;border-radius:50%;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:20px;">2</span>
                   </td>
-                  <td style="padding:6px 0 6px 10px;font-size:13px;color:#444;line-height:1.5;">
+                  <td style="padding:6px 0;font-size:13px;color:#444;line-height:1.5;">
                     You'll see a licence gate — click <strong>Enter Licence Key</strong>
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding:6px 0;vertical-align:top;width:24px;">
+                  <td style="padding:6px 0;vertical-align:top;width:28px;">
                     <span style="display:inline-block;width:20px;height:20px;background:#6366f1;border-radius:50%;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:20px;">3</span>
                   </td>
-                  <td style="padding:6px 0 6px 10px;font-size:13px;color:#444;line-height:1.5;">
+                  <td style="padding:6px 0;font-size:13px;color:#444;line-height:1.5;">
                     Paste your access code above and click <strong>Activate</strong>
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding:6px 0;vertical-align:top;width:24px;">
-                    <span style="display:inline-block;width:20px;height:20px;background:#10b981;border-radius:50%;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:20px;">✓</span>
+                  <td style="padding:6px 0;vertical-align:top;width:28px;">
+                    <span style="display:inline-block;width:20px;height:20px;background:#10b981;border-radius:50%;color:#fff;font-size:12px;font-weight:700;text-align:center;line-height:20px;">&#10003;</span>
                   </td>
-                  <td style="padding:6px 0 6px 10px;font-size:13px;color:#444;line-height:1.5;">
+                  <td style="padding:6px 0;font-size:13px;color:#444;line-height:1.5;">
                     You're in! Your key is saved in your browser — no need to re-enter it on the same device.
                   </td>
                 </tr>
               </table>
             </div>
 
-            <!-- CTA button -->
+            <!-- Open tool CTA -->
             <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
               <tr>
                 <td align="center">
-                  <a href="${productLink}" style="display:inline-block;background:#6366f1;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;">
-                    Open ${toolName} →
-                  </a>
+                  <a href="${productLink}" style="display:inline-block;background:#6366f1;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;">Open ${toolName} &rarr;</a>
                 </td>
               </tr>
             </table>
 
-            <p style="margin:0 0 12px;font-size:13px;color:#888;">
+            <p style="margin:0 0 24px;font-size:13px;color:#888;">
               Need help? Reply to this email or contact
               <a href="mailto:support@agilityops.com.au" style="color:#6366f1;">support@agilityops.com.au</a>
             </p>
-            <p style="margin:0 0 0;font-size:12px;color:#bbb;line-height:1.6;">
-              To cancel your subscription, email us at
-              <a href="mailto:support@agilityops.com.au?subject=Cancel subscription — ${toolName}" style="color:#bbb;">support@agilityops.com.au</a>
-              with the subject line <em>Cancel subscription</em> and we'll process it within one business day.
-            </p>
+
+            <!-- Manage subscription -->
+            <div style="border-top:1px solid #f0f0f0;padding-top:20px;">
+              <p style="margin:0 0 10px;font-size:13px;color:#888;line-height:1.6;">
+                Need to update your payment details, view invoices, or cancel? You can manage everything yourself:
+              </p>
+              <a href="${portalUrl}" style="display:inline-block;background:#f4f5f7;color:#444;font-size:13px;font-weight:600;text-decoration:none;padding:10px 20px;border-radius:6px;border:1px solid #ddd;">Manage my subscription &rarr;</a>
+            </div>
           </td>
         </tr>
 
@@ -320,6 +322,71 @@ async function sendKeyEmail({ to, name, key, toolName, toolUrl, expiryYMD, isAnn
   return true;
 }
 
+// ── Notion — query & update helpers ──────────────────────────────────────────
+
+/**
+ * Find a Notion licence record by Stripe Subscription ID.
+ * Returns the Notion page ID of the first matching record, or null if not found.
+ */
+async function findLicenceBySubscriptionId(subscriptionId) {
+  const response = await fetch(`https://api.notion.com/v1/databases/${LICENCES_DB_ID}/query`, {
+    method: 'POST',
+    headers: {
+      'Authorization':  `Bearer ${process.env.NOTION_API_KEY}`,
+      'Content-Type':   'application/json',
+      'Notion-Version': '2022-06-28',
+    },
+    body: JSON.stringify({
+      filter: {
+        property: 'Stripe Subscription ID',
+        rich_text: { equals: subscriptionId },
+      },
+      page_size: 1,
+    }),
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Notion query error (${response.status}): ${err}`);
+  }
+
+  const data = await response.json();
+  return data.results?.[0]?.id || null;
+}
+
+/**
+ * Patch the Status (and optionally Cancelled Date) on an existing Notion licence page.
+ */
+async function updateLicenceStatus(pageId, status) {
+  const today = new Date().toISOString().slice(0, 10);
+
+  const properties = {
+    Status: { select: { name: status } },
+  };
+
+  // Record cancellation date when marking as Cancelled
+  if (status === 'Cancelled') {
+    properties['Cancelled Date'] = { date: { start: today } };
+  }
+
+  const response = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization':  `Bearer ${process.env.NOTION_API_KEY}`,
+      'Content-Type':   'application/json',
+      'Notion-Version': '2022-06-28',
+    },
+    body: JSON.stringify({ properties }),
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Notion update error (${response.status}): ${err}`);
+  }
+
+  return true;
+}
+
 // ── Handler ───────────────────────────────────────────────────────────────────
 
 exports.handler = async (event) => {
@@ -340,67 +407,93 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: `Webhook error: ${err.message}` };
   }
 
-  // 2. Only process completed checkouts
-  if (stripeEvent.type !== 'checkout.session.completed') {
-    return { statusCode: 200, body: 'Event ignored' };
-  }
+  // ── checkout.session.completed — new purchase ─────────────────────────────
+  if (stripeEvent.type === 'checkout.session.completed') {
+    const session = stripeEvent.data.object;
 
-  const session = stripeEvent.data.object;
-
-  try {
-    // 3. Fetch line items with product info expanded
-    const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
-      expand: ['data.price.product'],
-      limit: 1,
-    });
-
-    const item     = lineItems.data[0];
-    const price    = item?.price;
-    const product  = price?.product;
-    const isAnnual = price?.recurring?.interval === 'year';
-
-    // 4. Derive key components
-    const toolCode   = getToolCode(product?.name || '');
-    const toolName   = product?.name || 'InSite Tool';
-    const toolUrl    = PRODUCT_URLS[toolCode] || 'https://agilityops.com.au/pages/brands.html';
-    const email      = session.customer_details?.email;
-    const name       = session.customer_details?.name;
-    const customerId = makeCustomerId(email, name);
-
-    // Expiry: annual → 370 days, monthly → 35 days (covers billing cycle + buffer)
-    const expiryYMD  = expiryDate(isAnnual ? 370 : 35);
-
-    // 5. Generate key
-    const key = generateKey(toolCode, customerId, expiryYMD);
-
-    console.log(`Key generated: ${key} for ${email} (${toolName})`);
-
-    // 6. Write licence record to Notion (non-fatal — email always sends regardless)
     try {
-      const pageId = await createLicenceRecord({
-        key,
-        email,
-        name,
-        toolName,
-        isAnnual,
-        stripeCustomerId:     session.customer       || '',
-        stripeSubscriptionId: session.subscription   || '',
-        expiryYMD,
+      // Fetch line items with product info expanded
+      const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
+        expand: ['data.price.product'],
+        limit: 1,
       });
-      console.log(`Notion licence record created: ${pageId}`);
-    } catch (notionErr) {
-      // Log but don't fail — customer must always receive their key
-      console.error('Notion write failed (non-fatal):', notionErr.message);
+
+      const item     = lineItems.data[0];
+      const price    = item?.price;
+      const product  = price?.product;
+      const isAnnual = price?.recurring?.interval === 'year';
+
+      // Derive key components
+      const toolCode   = getToolCode(product?.name || '');
+      const toolName   = product?.name || 'InSite Tool';
+      const toolUrl    = PRODUCT_URLS[toolCode] || 'https://agilityops.com.au/pages/brands.html';
+      const email      = session.customer_details?.email;
+      const name       = session.customer_details?.name;
+      const customerId = makeCustomerId(email, name);
+
+      // Expiry: annual → 370 days, monthly → 35 days (covers billing cycle + buffer)
+      const expiryYMD  = expiryDate(isAnnual ? 370 : 35);
+
+      // Generate key
+      const key = generateKey(toolCode, customerId, expiryYMD);
+
+      console.log(`Key generated: ${key} for ${email} (${toolName})`);
+
+      // Write licence record to Notion (non-fatal — email always sends regardless)
+      try {
+        const pageId = await createLicenceRecord({
+          key,
+          email,
+          name,
+          toolName,
+          isAnnual,
+          stripeCustomerId:     session.customer       || '',
+          stripeSubscriptionId: session.subscription   || '',
+          expiryYMD,
+        });
+        console.log(`Notion licence record created: ${pageId}`);
+      } catch (notionErr) {
+        console.error('Notion write failed (non-fatal):', notionErr.message);
+      }
+
+      // Send key email
+      await sendKeyEmail({ to: email, name, key, toolName, toolUrl, expiryYMD, isAnnual });
+
+      console.log(`Key email sent to ${email}`);
+      return { statusCode: 200, body: 'OK' };
+
+    } catch (err) {
+      console.error('Error processing checkout.session.completed:', err);
+      return { statusCode: 500, body: `Internal error: ${err.message}` };
     }
-
-    // 7. Send email
-    await sendKeyEmail({ to: email, name, key, toolName, toolUrl, expiryYMD, isAnnual });
-
-    console.log(`Key email sent to ${email}`);
-    return { statusCode: 200, body: 'OK' };
-
-  } catch (err) {
-    console.error('Error processing webhook:', err);
-    return { statusCode: 500, body: `Internal error: ${err.message}` };
   }
+
+  // ── customer.subscription.deleted — cancellation ──────────────────────────
+  if (stripeEvent.type === 'customer.subscription.deleted') {
+    const subscription = stripeEvent.data.object;
+    const subscriptionId = subscription.id;
+
+    console.log(`Subscription cancelled: ${subscriptionId}`);
+
+    try {
+      const pageId = await findLicenceBySubscriptionId(subscriptionId);
+
+      if (!pageId) {
+        // No matching record — could be a subscription created before Notion integration
+        console.warn(`No Notion record found for subscription ${subscriptionId} — skipping update`);
+        return { statusCode: 200, body: 'No matching Notion record — ignored' };
+      }
+
+      await updateLicenceStatus(pageId, 'Cancelled');
+      console.log(`Notion licence ${pageId} marked Cancelled for subscription ${subscriptionId}`);
+      return { statusCode: 200, body: 'Cancelled' };
+
+    } catch (err) {
+      console.error('Error processing customer.subscription.deleted:', err);
+      return { statusCode: 500, body: `Internal error: ${err.message}` };
+    }
+  }
+
+  // All other event types — acknowledge but take no action
+  return { statusCode: 200, body: 'Event ignored' };
 };
