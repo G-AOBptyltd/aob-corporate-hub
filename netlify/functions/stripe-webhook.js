@@ -1,12 +1,14 @@
 /**
  * stripe-webhook.js — Netlify Function
  * Receives Stripe checkout.session.completed events,
- * generates a licence key, and emails it to the customer via Resend.
+ * generates a licence key, emails it to the customer via Resend,
+ * and writes a licence record to the Notion Licences database.
  *
  * Required environment variables (set in Netlify dashboard → Site config → Env vars):
  *   STRIPE_SECRET_KEY        — sk_live_...
  *   STRIPE_WEBHOOK_SECRET    — whsec_...  (from Stripe webhook settings)
  *   RESEND_API_KEY           — re_...     (from resend.com dashboard)
+ *   NOTION_API_KEY           — secret_... (from notion.com/my-integrations → Notion MCP integration)
  */
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -56,6 +58,102 @@ function expiryDate(days) {
 function generateKey(toolCode, customerId, expiryYMD) {
   const hash = computeHash(`${toolCode}-${customerId}-${expiryYMD}`);
   return `${toolCode}-${customerId}-${expiryYMD}-${hash}`;
+}
+
+// ── Notion Licences DB ────────────────────────────────────────────────────────
+
+/**
+ * The Notion database that stores all issued licences.
+ * Lives under AOB Website CMS → Licences
+ * https://app.notion.com/p/76a27c5df2e0459c81a0b5910c943731
+ */
+const LICENCES_DB_ID = '76a27c5d-f2e0-459c-81a0-b5910c943731';
+
+/**
+ * Convert a YYYYMMDD string (used by the key generator) to YYYY-MM-DD (ISO, used by Notion).
+ */
+function ymdToISO(ymd) {
+  return `${ymd.slice(0, 4)}-${ymd.slice(4, 6)}-${ymd.slice(6, 8)}`;
+}
+
+/**
+ * Create a new record in the Notion Licences database.
+ *
+ * Status is set to "Active" (customer has paid via Stripe checkout).
+ * When Phase 2 adds invoice.paid / invoice.payment_failed / subscription.deleted
+ * handlers, those events will update the Status field on the existing record.
+ *
+ * Errors here are non-fatal — the customer email always sends regardless.
+ */
+async function createLicenceRecord({
+  key, email, name, toolName, isAnnual,
+  stripeCustomerId, stripeSubscriptionId, expiryYMD,
+}) {
+  const today     = new Date().toISOString().slice(0, 10);
+  const expiryISO = ymdToISO(expiryYMD);
+  const title     = `${name || email} — ${toolName}`;
+
+  const body = {
+    parent: { database_id: LICENCES_DB_ID },
+    properties: {
+      // Title (required)
+      Name: {
+        title: [{ text: { content: title } }],
+      },
+      // Licence details
+      'Licence Key': {
+        rich_text: [{ text: { content: key } }],
+      },
+      'Status': {
+        select: { name: 'Active' },
+      },
+      'Start Date': {
+        date: { start: today },
+      },
+      'Expiry Date': {
+        date: { start: expiryISO },
+      },
+      'Seats': {
+        number: 1,
+      },
+      // Customer info
+      'Customer Name': {
+        rich_text: [{ text: { content: name || '' } }],
+      },
+      'Customer Email': {
+        email: email,
+      },
+      // Stripe identifiers — used by Phase 2 subscription event handlers
+      'Stripe Customer ID': {
+        rich_text: [{ text: { content: stripeCustomerId || '' } }],
+      },
+      'Stripe Subscription ID': {
+        rich_text: [{ text: { content: stripeSubscriptionId || '' } }],
+      },
+      // Notification tracking — ready for Resend expiry reminder workflows
+      'Notification Sent': {
+        checkbox: false,
+      },
+    },
+  };
+
+  const response = await fetch('https://api.notion.com/v1/pages', {
+    method: 'POST',
+    headers: {
+      'Authorization':  `Bearer ${process.env.NOTION_API_KEY}`,
+      'Content-Type':   'application/json',
+      'Notion-Version': '2022-06-28',
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Notion API error (${response.status}): ${err}`);
+  }
+
+  const page = await response.json();
+  return page.id;
 }
 
 // ── Email ─────────────────────────────────────────────────────────────────────
@@ -216,7 +314,25 @@ exports.handler = async (event) => {
 
     console.log(`Key generated: ${key} for ${email} (${toolName})`);
 
-    // 6. Send email
+    // 6. Write licence record to Notion (non-fatal — email always sends regardless)
+    try {
+      const pageId = await createLicenceRecord({
+        key,
+        email,
+        name,
+        toolName,
+        isAnnual,
+        stripeCustomerId:     session.customer       || '',
+        stripeSubscriptionId: session.subscription   || '',
+        expiryYMD,
+      });
+      console.log(`Notion licence record created: ${pageId}`);
+    } catch (notionErr) {
+      // Log but don't fail — customer must always receive their key
+      console.error('Notion write failed (non-fatal):', notionErr.message);
+    }
+
+    // 7. Send email
     await sendKeyEmail({ to: email, name, key, toolName, expiryYMD, isAnnual });
 
     console.log(`Key email sent to ${email}`);
