@@ -330,6 +330,15 @@
 
   /* ─── Stripe Payment Links ─── */
   const STRIPE_LINKS = {
+    // InSite Suite Bundle
+    'bundle_starter_monthly':      'https://buy.stripe.com/eVq14f8sDcH86nHgdR5ZC0E',
+    'bundle_starter_annual':       'https://buy.stripe.com/aFadR1gZ936ycM54v95ZC0I',
+    'bundle_team_monthly':         'https://buy.stripe.com/7sY14f4cn0Yq27r8Lp5ZC0H',
+    'bundle_team_annual':          'https://buy.stripe.com/00w28jaALfTkcM57Hl5ZC0J',
+    'bundle_business_monthly':     'https://buy.stripe.com/6oU8wHdMXcH8eUd4v95ZC0K',
+    'bundle_business_annual':      'https://buy.stripe.com/fZu4greR14aCbI1gdR5ZC0L',
+    'bundle_med-business_monthly': 'https://buy.stripe.com/dRm00bgZ98qS8vP0eT5ZC0M',
+    'bundle_med-business_annual':  'https://buy.stripe.com/aFa5kv10b0Yq5jD0eT5ZC0N',
     // FlowInSite
     'flowinsite_starter_monthly':               'https://buy.stripe.com/fZuaEP10b4aC27rgdR5ZC00',
     'flowinsite_starter_annual':                'https://buy.stripe.com/28EfZ9aALePg6nHbXB5ZC01',
@@ -455,7 +464,8 @@
       document.getElementById('bundleSaving').textContent = `Save ${fmt(Math.round(saving))} vs individual tools`;
       document.getElementById('bundleCta').textContent = 'Get the bundle →';
       document.getElementById('bundleCta').href = '#';
-      document.getElementById('bundleCta').onclick = function(){ startCheckout('bundle_'+tierKey+'_'+(annual?'annual':'monthly')); return false; };
+      const tierLabelMap = {s:'starter', t:'team', b:'business', mb:'med-business'};
+      document.getElementById('bundleCta').onclick = function(){ startCheckout('bundle_'+(tierLabelMap[tierKey]||tierKey)+'_'+(annual?'annual':'monthly')); return false; };
     }
   }
 
