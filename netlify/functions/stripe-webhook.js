@@ -96,7 +96,7 @@ function ymdToISO(ymd) {
  */
 async function createLicenceRecord({
   key, email, name, toolName, isAnnual,
-  stripeCustomerId, stripeSubscriptionId, expiryYMD,
+  stripeCustomerId, stripeSubscriptionId, expiryYMD, seats,
 }) {
   const today     = new Date().toISOString().slice(0, 10);
   const expiryISO = ymdToISO(expiryYMD);
@@ -123,7 +123,7 @@ async function createLicenceRecord({
         date: { start: expiryISO },
       },
       'Seats': {
-        number: 1,
+        number: seats || 1,   // seats purchased — read from Stripe line item quantity
       },
       // Customer info
       'Customer Name': {
@@ -431,13 +431,16 @@ exports.handler = async (event) => {
       const name       = session.customer_details?.name;
       const customerId = makeCustomerId(email, name);
 
+      // Seat count — read from Stripe line item quantity (what the customer actually paid for)
+      const seats = item?.quantity || 1;
+
       // Expiry: annual → 370 days, monthly → 35 days (covers billing cycle + buffer)
       const expiryYMD  = expiryDate(isAnnual ? 370 : 35);
 
       // Generate key
       const key = generateKey(toolCode, customerId, expiryYMD);
 
-      console.log(`Key generated: ${key} for ${email} (${toolName})`);
+      console.log(`Key generated: ${key} for ${email} (${toolName}, ${seats} seat${seats !== 1 ? 's' : ''})`);
 
       // Write licence record to Notion (non-fatal — email always sends regardless)
       try {
@@ -450,6 +453,7 @@ exports.handler = async (event) => {
           stripeCustomerId:     session.customer       || '',
           stripeSubscriptionId: session.subscription   || '',
           expiryYMD,
+          seats,
         });
         console.log(`Notion licence record created: ${pageId}`);
       } catch (notionErr) {

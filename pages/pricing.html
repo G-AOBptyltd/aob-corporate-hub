@@ -157,6 +157,34 @@
         <span class="save-chip" id="saveChip" style="display:none;">Save ~17%</span>
       </div>
 
+      <!-- Account type selector -->
+      <div id="accountTypeSection" style="margin:0 auto 20px;max-width:480px;text-align:center;">
+        <div style="font-size:13px;color:#6b7280;margin-bottom:10px;font-weight:500;">Who is this for?</div>
+        <div style="display:inline-flex;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;background:#f9fafb;">
+          <button id="btnIndividual" onclick="setAccountType('individual')"
+            style="padding:8px 22px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:.15s;background:#6366f1;color:#fff;">
+            Individual / Team
+          </button>
+          <button id="btnBusiness" onclick="setAccountType('business')"
+            style="padding:8px 22px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:.15s;background:transparent;color:#6b7280;">
+            Business (ABN)
+          </button>
+        </div>
+        <!-- ABN field — shown only when Business selected -->
+        <div id="abnSection" style="display:none;margin-top:12px;">
+          <div style="display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;">
+            <input type="text" id="abnInput" maxlength="14" placeholder="Enter ABN (e.g. 12 345 678 901)"
+              oninput="onAbnInput()"
+              style="padding:8px 14px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;width:220px;outline:none;transition:.15s;"
+              onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#d1d5db'">
+            <span id="abnStatus" style="font-size:12px;font-weight:600;"></span>
+          </div>
+          <div id="starterLockNotice" style="display:none;margin-top:10px;background:#fef3c7;border:1px solid #fcd34d;border-radius:6px;padding:8px 14px;font-size:12px;color:#92400e;">
+            ⚠️ <strong>Starter (1–3 seats)</strong> is for individual users only. Business accounts start at <strong>Team (4+ seats)</strong>.
+          </div>
+        </div>
+      </div>
+
       <!-- Seat selector -->
       <div class="seat-section">
         <label for="seatSlider">How many seats do you need?</label>
@@ -385,6 +413,75 @@
     'portfolioinsite-web_med-business_monthly': 'https://buy.stripe.com/9B69AL7oz5eG7rLbXB5ZC0C',
     'portfolioinsite-web_med-business_annual':  'https://buy.stripe.com/bJe9AL9wH0YqfYh7Hl5ZC0D',
   };
+
+  // ── Account type + ABN logic ──────────────────────────────────────────────
+
+  let accountType = 'individual'; // 'individual' | 'business'
+  let abnValid    = false;
+
+  function setAccountType(type) {
+    accountType = type;
+    const btnI = document.getElementById('btnIndividual');
+    const btnB = document.getElementById('btnBusiness');
+    const abnSec = document.getElementById('abnSection');
+    if (type === 'business') {
+      btnB.style.background = '#6366f1'; btnB.style.color = '#fff';
+      btnI.style.background = 'transparent'; btnI.style.color = '#6b7280';
+      abnSec.style.display = 'block';
+    } else {
+      btnI.style.background = '#6366f1'; btnI.style.color = '#fff';
+      btnB.style.background = 'transparent'; btnB.style.color = '#6b7280';
+      abnSec.style.display = 'none';
+      abnValid = false;
+    }
+    enforceBusinessMinimum();
+    render();
+  }
+
+  /** Validate an Australian ABN (11 digits, weighted checksum) */
+  function validateABN(raw) {
+    const digits = raw.replace(/\D/g, '');
+    if (digits.length !== 11) return false;
+    const weights = [10, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
+    const d = digits.split('').map(Number);
+    d[0] -= 1; // subtract 1 from first digit
+    const sum = weights.reduce((s, w, i) => s + w * d[i], 0);
+    return sum % 89 === 0;
+  }
+
+  function onAbnInput() {
+    const val = document.getElementById('abnInput').value;
+    const statusEl = document.getElementById('abnStatus');
+    abnValid = validateABN(val);
+    if (val.replace(/\D/g, '').length === 0) {
+      statusEl.textContent = ''; statusEl.style.color = '';
+    } else if (abnValid) {
+      statusEl.textContent = '✓ Valid ABN'; statusEl.style.color = '#059669';
+    } else {
+      statusEl.textContent = '✗ Invalid ABN'; statusEl.style.color = '#dc2626';
+    }
+    enforceBusinessMinimum();
+    render();
+  }
+
+  /** If Business + valid ABN, lock slider minimum to 4 seats (Team tier) */
+  function enforceBusinessMinimum() {
+    const slider = document.getElementById('seatSlider');
+    const notice = document.getElementById('starterLockNotice');
+    const segS   = document.getElementById('seg-s');
+    const isBusinessABN = (accountType === 'business' && abnValid);
+
+    if (isBusinessABN) {
+      slider.min = '4';
+      if (parseInt(slider.value) < 4) { slider.value = '4'; }
+      notice.style.display = 'block';
+      if (segS) { segS.style.opacity = '0.35'; segS.style.pointerEvents = 'none'; segS.title = 'Not available for business accounts'; }
+    } else {
+      slider.min = '1';
+      notice.style.display = 'none';
+      if (segS) { segS.style.opacity = ''; segS.style.pointerEvents = ''; segS.title = ''; }
+    }
+  }
 
   function getTier(tool, seats) {
     return tool.tiers.find(t => seats <= t.max) || tool.tiers[tool.tiers.length - 1];
