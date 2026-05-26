@@ -556,40 +556,23 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  // 1. Verify Stripe signature (manual HMAC — Netlify v1 doesn't expose rawBody)
-  const body = event.isBase64Encoded
+  // 1. Verify Stripe signature (manual HMAC — Netlify v1 pretty-prints the body)
+  //    Stripe signs compact JSON; Netlify reformats with whitespace. Re-compact to match.
+  const rawBody = event.isBase64Encoded
     ? Buffer.from(event.body, 'base64').toString('utf8')
     : event.body;
-
-  const sigHeader = event.headers['stripe-signature'] || '';
-  const whSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
-
-  // Diagnostic: compute our HMAC and compare with Stripe's
-  let diagInfo = {};
-  try {
-    const parts = sigHeader.split(',');
-    const ts = (parts.find(p => p.startsWith('t=')) || '').slice(2);
-    const v1sigs = parts.filter(p => p.startsWith('v1=')).map(p => p.slice(3));
-    const ourHmac = crypto.createHmac('sha256', whSecret).update(`${ts}.${body}`, 'utf8').digest('hex');
-    diagInfo = {
-      bodyLen: body.length,
-      bodyFirst20: body.substring(0, 20),
-      bodyLast20: body.substring(body.length - 20),
-      hasCarriageReturn: body.includes('\r'),
-      timestamp: ts,
-      ourHmac: ourHmac.substring(0, 12),
-      theirSig: (v1sigs[0] || '').substring(0, 12),
-      secretLen: whSecret.length,
-      secretLast4: whSecret.slice(-4),
-    };
-  } catch (e) { diagInfo.diagError = e.message; }
+  const body = JSON.stringify(JSON.parse(rawBody));
 
   let stripeEvent;
   try {
-    stripeEvent = verifyStripeWebhook(body, sigHeader, whSecret);
+    stripeEvent = verifyStripeWebhook(
+      body,
+      event.headers['stripe-signature'] || '',
+      process.env.STRIPE_WEBHOOK_SECRET || ''
+    );
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message);
-    return { statusCode: 400, body: JSON.stringify({ error: err.message, ...diagInfo }) };
+    return { statusCode: 400, body: 'Signature verification failed' };
   }
 
   // ── checkout.session.completed — new purchase ─────────────────────────────
