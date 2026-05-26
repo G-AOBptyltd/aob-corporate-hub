@@ -530,7 +530,7 @@ exports.handler = async (event) => {
     );
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message);
-    return { statusCode: 400, body: 'Signature verification failed' };
+    return { statusCode: 400, body: JSON.stringify({ error: err.message, hasRawBody: !!event.rawBody, bodyLen: (event.rawBody || event.body || '').length }) };
   }
 
   // ── checkout.session.completed — new purchase ─────────────────────────────
