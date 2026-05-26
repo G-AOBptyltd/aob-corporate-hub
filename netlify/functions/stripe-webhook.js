@@ -516,15 +516,15 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  // 1. Verify Stripe signature
-  const rawBody = event.isBase64Encoded
+  // 1. Verify Stripe signature — use rawBody (untouched by Netlify) for valid HMAC
+  const payload = event.rawBody || (event.isBase64Encoded
     ? Buffer.from(event.body, 'base64').toString('utf8')
-    : event.body;
+    : event.body);
 
   let stripeEvent;
   try {
     stripeEvent = stripe.webhooks.constructEvent(
-      rawBody,
+      payload,
       event.headers['stripe-signature'] || '',
       process.env.STRIPE_WEBHOOK_SECRET || ''
     );
