@@ -16,9 +16,49 @@
  *   NOTION_API_KEY           — secret_... (from notion.com/my-integrations)
  */
 
+const crypto = require('crypto');
+
 const stripe = process.env.STRIPE_SECRET_KEY
   ? require('stripe')(process.env.STRIPE_SECRET_KEY)
   : null;
+
+/**
+ * Manual Stripe webhook signature verification.
+ * Netlify Functions v1 doesn't expose event.rawBody, and the SDK's
+ * constructEvent fails because Netlify may re-encode the body.
+ * This does the same HMAC-SHA256 check the SDK does, using event.body directly.
+ */
+function verifyStripeWebhook(body, sigHeader, secret, tolerance = 300) {
+  const parts = sigHeader.split(',');
+  const timestamp = (parts.find(p => p.startsWith('t=')) || '').slice(2);
+  const signatures = parts.filter(p => p.startsWith('v1=')).map(p => p.slice(3));
+
+  if (!timestamp || signatures.length === 0) {
+    throw new Error('Invalid Stripe-Signature header');
+  }
+
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(`${timestamp}.${body}`, 'utf8')
+    .digest('hex');
+
+  const match = signatures.some(sig => {
+    try {
+      return crypto.timingSafeEqual(Buffer.from(sig, 'utf8'), Buffer.from(expected, 'utf8'));
+    } catch { return false; }
+  });
+
+  if (!match) {
+    throw new Error('Signature mismatch — payload may have been tampered with');
+  }
+
+  const age = Math.floor(Date.now() / 1000) - parseInt(timestamp, 10);
+  if (age > tolerance) {
+    throw new Error(`Timestamp outside tolerance (${age}s > ${tolerance}s)`);
+  }
+
+  return JSON.parse(body);
+}
 
 // ── Product registry ─────────────────────────────────────────────────────────
 
@@ -516,21 +556,21 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  // 1. Verify Stripe signature — use rawBody (untouched by Netlify) for valid HMAC
-  const payload = event.rawBody || (event.isBase64Encoded
+  // 1. Verify Stripe signature (manual HMAC — Netlify v1 doesn't expose rawBody)
+  const body = event.isBase64Encoded
     ? Buffer.from(event.body, 'base64').toString('utf8')
-    : event.body);
+    : event.body;
 
   let stripeEvent;
   try {
-    stripeEvent = stripe.webhooks.constructEvent(
-      payload,
+    stripeEvent = verifyStripeWebhook(
+      body,
       event.headers['stripe-signature'] || '',
       process.env.STRIPE_WEBHOOK_SECRET || ''
     );
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message);
-    return { statusCode: 400, body: JSON.stringify({ error: err.message, hasRawBody: !!event.rawBody, bodyLen: (event.rawBody || event.body || '').length }) };
+    return { statusCode: 400, body: 'Signature verification failed' };
   }
 
   // ── checkout.session.completed — new purchase ─────────────────────────────
