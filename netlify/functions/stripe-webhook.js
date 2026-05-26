@@ -521,12 +521,19 @@ exports.handler = async (event) => {
     ? Buffer.from(event.body, 'base64').toString('utf8')
     : event.body;
 
+  const whSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
+  const sigHeader = event.headers['stripe-signature'] || '';
+  console.log('[DEBUG] isBase64Encoded:', event.isBase64Encoded);
+  console.log('[DEBUG] STRIPE_WEBHOOK_SECRET set:', !!whSecret, 'len:', whSecret.length, 'last4:', whSecret.slice(-4));
+  console.log('[DEBUG] stripe-signature header present:', !!sigHeader, 'first30:', sigHeader.substring(0, 30));
+  console.log('[DEBUG] rawBody length:', rawBody.length, 'first50:', rawBody.substring(0, 50));
+
   let stripeEvent;
   try {
     stripeEvent = stripe.webhooks.constructEvent(
       rawBody,
-      event.headers['stripe-signature'],
-      process.env.STRIPE_WEBHOOK_SECRET
+      sigHeader,
+      whSecret
     );
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message);
