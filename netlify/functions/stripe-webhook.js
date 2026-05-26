@@ -537,7 +537,16 @@ exports.handler = async (event) => {
     );
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message);
-    return { statusCode: 400, body: `Webhook error: ${err.message}` };
+    const debug = {
+      error: err.message,
+      isBase64: event.isBase64Encoded,
+      secretSet: !!whSecret,
+      secretLen: whSecret.length,
+      secretLast4: whSecret.slice(-4),
+      sigPresent: !!sigHeader,
+      bodyLen: rawBody.length,
+    };
+    return { statusCode: 400, body: JSON.stringify(debug) };
   }
 
   // ── checkout.session.completed — new purchase ─────────────────────────────
