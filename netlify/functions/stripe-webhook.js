@@ -521,38 +521,16 @@ exports.handler = async (event) => {
     ? Buffer.from(event.body, 'base64').toString('utf8')
     : event.body;
 
-  const whSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
-  const sigHeader = event.headers['stripe-signature'] || '';
-  console.log('[DEBUG] isBase64Encoded:', event.isBase64Encoded);
-  console.log('[DEBUG] STRIPE_WEBHOOK_SECRET set:', !!whSecret, 'len:', whSecret.length, 'last4:', whSecret.slice(-4));
-  console.log('[DEBUG] stripe-signature header present:', !!sigHeader, 'first30:', sigHeader.substring(0, 30));
-  console.log('[DEBUG] rawBody length:', rawBody.length, 'first50:', rawBody.substring(0, 50));
-
-  // TODO: Re-enable signature verification before merging to main
-  // Temporarily bypassed for sandbox testing — stripe v14 may not support 2026 API signing
   let stripeEvent;
-  if (process.env.SKIP_SIG_CHECK === 'true') {
-    stripeEvent = JSON.parse(rawBody);
-  } else {
-    try {
-      stripeEvent = stripe.webhooks.constructEvent(
-        rawBody,
-        sigHeader,
-        whSecret
-      );
-    } catch (err) {
-      console.error('Webhook signature verification failed:', err.message);
-      const debug = {
-        error: err.message,
-        isBase64: event.isBase64Encoded,
-        secretSet: !!whSecret,
-        secretLen: whSecret.length,
-        secretLast4: whSecret.slice(-4),
-        sigPresent: !!sigHeader,
-        bodyLen: rawBody.length,
-      };
-      return { statusCode: 400, body: JSON.stringify(debug) };
-    }
+  try {
+    stripeEvent = stripe.webhooks.constructEvent(
+      rawBody,
+      event.headers['stripe-signature'] || '',
+      process.env.STRIPE_WEBHOOK_SECRET || ''
+    );
+  } catch (err) {
+    console.error('Webhook signature verification failed:', err.message);
+    return { statusCode: 400, body: 'Signature verification failed' };
   }
 
   // ── checkout.session.completed — new purchase ─────────────────────────────
