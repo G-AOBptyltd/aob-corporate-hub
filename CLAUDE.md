@@ -78,6 +78,10 @@ aob-corporate-hub/
 ├── robots.txt              — Search engine directives
 ├── css/
 │   └── styles.css          — Main stylesheet
+├── netlify/
+│   └── functions/
+│       ├── stripe-webhook.js   — Stripe webhook handler v2 (licence keys, Notion, email)
+│       └── test-webhook.js     — 84 unit tests for webhook
 ├── js/
 │   ├── main.js             — Interactions, animations
 │   └── notion-cms.js       — CMS client v2 (central API)
@@ -158,6 +162,10 @@ aob-corporate-hub/
 - **fastact.com.au DNS:** Was previously forwarding to agilityops.com.au in GoDaddy — forwarding must be removed before DNS A records can be edited (GoDaddy locks A records when forwarding is active)
 - **CORS on production:** Direct API calls from browser to api.agilityops.com.au are blocked by CORS. Always use the `/api/cms` Netlify proxy instead. This was a painful lesson across all four sites in April 2026.
 - **Central API cache:** 5-minute TTL — Notion changes take up to 5 min to appear on sites
+- **May 26, 2026 — Stripe Webhook v2:** Netlify Functions v1 (Lambda-style `exports.handler`) pretty-prints JSON request bodies, destroying HMAC signatures. `event.rawBody` does NOT exist in v1. The stripe SDK's `constructEvent()` and manual HMAC both fail. **Solution:** verify webhooks via `stripe.events.retrieve(eventId)` instead of signature verification. This is a Stripe-recommended alternative.
+- **Stripe package:** Upgraded from v14 to v22 (package.json `"stripe": "^22.0.0"`). Required for 2026-04-22.dahlia API version.
+- **Webhook product matching:** v2 uses resilient `matchTool()` with keyword matching (strips non-alpha, lowercases). Handles "ForecastInSite", "Forecast InSite", "ForecastInSite Starter Monthly" etc. Bundle detection via `isBundle()`. 5 tool codes: FCT, SIS, FLW, PLN, POI. INS fallback for unmatched products.
+- **Webhook test file:** `netlify/functions/test-webhook.js` — 84 unit tests covering matchTool, isBundle, generateKey, computeHash, makeCustomerId, buildEmailHtml (single + bundle), ALL_TOOLS registry, and Anette backwards compatibility.
 
 ## Workflow Preferences
 
