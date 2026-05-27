@@ -15,67 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
     <style>
-        /* Nav override — match homepage dark nav */
-        .navbar {
-            background: #0f172a !important;
-            padding: 16px 32px !important;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .nav-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-        .logo-icon {
-            background: linear-gradient(135deg, #3b82f6, #60a5fa) !important;
-            color: #fff !important;
-            font-weight: 700;
-            font-size: 14px;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .logo-text {
-            color: #f1f5f9 !important;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700;
-            font-size: 18px;
-        }
-        .navbar .nav-links {
-            display: flex;
-            gap: 28px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        .navbar .nav-links a {
-            color: #94a3b8 !important;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        .navbar .nav-links a:hover,
-        .navbar .nav-links a.active {
-            color: #f1f5f9 !important;
-        }
-        .mobile-toggle {
-            display: none;
-        }
-
         /* Breadcrumb fix */
         .breadcrumb {
             background: #f8fafc;
@@ -331,23 +270,23 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="/" class="logo">
-                <span class="logo-icon">AO</span>
-                <span class="logo-text">Agility Ops</span>
+    <nav class="nav scrolled" role="navigation" aria-label="Main navigation">
+        <div class="container nav-inner">
+            <a href="../index.html" class="nav-logo">
+                <div class="nav-logo-mark">AO</div>
+                Agility Ops
             </a>
-            <button class="mobile-toggle" aria-label="Toggle menu">
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="brands.html">Our Products</a>
+                <a href="team.html">Team</a>
+                <a href="blog.html" class="active">Blog</a>
+                <a href="contact.html" class="nav-cta">Contact</a>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/pages/about">About</a></li>
-                <li><a href="/pages/brands">Our Products</a></li>
-                <li><a href="/pages/team">Team</a></li>
-                <li><a href="/pages/blog" class="active">Blog</a></li>
-                <li><a href="/pages/contact">Contact</a></li>
-            </ul>
         </div>
     </nav>
 
@@ -458,45 +397,46 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container footer-grid">
-            <div class="footer-brand">
-                <a href="/" class="logo">
-                    <span class="logo-icon">AO</span>
-                    <span class="logo-text">Agility Ops</span>
-                </a>
-                <p>Strategic AI adoption for enterprise teams. Australian owned and operated.</p>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="nav-logo" style="color:var(--white); margin-bottom:0;">
+                        <div class="nav-logo-mark">AO</div>
+                        Agility Ops
+                    </a>
+                    <p>Building smart tools and delivering expert training for modern agile teams. Australian owned and operated.</p>
+                </div>
+                <div>
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="team.html">Our Team</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Products</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://sprintinsite.com" target="_blank" rel="noopener">SprintINSite</a></li>
+                        <li><a href="https://portfolioinsite.com.au" target="_blank" rel="noopener">PortfolioInSite</a></li>
+                        <li><a href="https://fastact.com.au" target="_blank" rel="noopener">FACT Training</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://agilityops.com.au/pages/privacy.html" target="_blank" rel="noopener">Privacy Policy</a></li>
+                        <li><a href="https://agilityops.com.au/pages/terms.html" target="_blank" rel="noopener">Terms of Service</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="footer-links">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="/pages/about">About Us</a></li>
-                    <li><a href="/pages/team">Our Team</a></li>
-                    <li><a href="/pages/blog">Blog</a></li>
-                    <li><a href="/pages/contact">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4>Products</h4>
-                <ul>
-                    <li><a href="https://sprintinsite.com">SprintINSite</a></li>
-                    <li><a href="https://portfolioinsite.com.au">PortfolioInSite</a></li>
-                    <li><a href="https://fastact.com.au">FACT Training</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="container footer-bottom">
-            <p>&copy; 2026 Agility Ops Business Pty Ltd. All rights reserved.</p>
-            <div class="social-links">
-                <a href="https://www.linkedin.com/company/agility-ops-business" aria-label="LinkedIn">in</a>
-                <a href="#" aria-label="X">X</a>
-                <a href="https://github.com/G-AOBptyltd" aria-label="GitHub">GH</a>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Agility Ops Business Pty Ltd. All rights reserved.</span>
+                <div class="footer-socials">
+                    <a href="https://www.linkedin.com/company/agility-ops-business" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+                    <a href="https://github.com/G-AOBptyltd" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
+                </div>
             </div>
         </div>
     </footer>
