@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgage Payoff Guide — AOB Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:#0a0f1c;--navy-mid:#111827;--navy-light:#1a2332;
+  --blue:#2563eb;--blue-bright:#3b82f6;--blue-glow:#60a5fa;
+  --cyan:#06b6d4;--violet:#7c3aed;
+  --green:#10b981;--amber:#f59e0b;--red:#ef4444;
+  --white:#ffffff;--gray-50:#f8fafc;--gray-100:#f1f5f9;
+  --gray-200:#e2e8f0;--gray-300:#cbd5e1;--gray-400:#94a3b8;
+  --gray-500:#64748b;--gray-600:#475569;--gray-700:#334155;
+  --gray-800:#1e293b;--gray-900:#0f172a;
+  --fd:'Plus Jakarta Sans',-apple-system,sans-serif;
+  --fb:'Inter',-apple-system,sans-serif;
+  --radius:12px;--radius-lg:20px;--radius-full:9999px;
+  --shadow-md:0 4px 12px rgba(0,0,0,.06);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.08);
+  --shadow-xl:0 24px 48px rgba(0,0,0,.1);
+  --ease:cubic-bezier(.4,0,.2,1);
+  --max-w:1200px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);color:var(--gray-700);background:var(--white);line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--fd);font-weight:800;line-height:1.08;color:var(--gray-900);letter-spacing:-.03em}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+
+/* ── MODALS ── */
+.modal-ov{position:fixed;inset:0;background:rgba(10,15,28,.8);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.modal-ov.hidden{display:none}
+.modal-box{background:var(--white);border-radius:var(--radius-lg);max-width:600px;width:100%;box-shadow:var(--shadow-xl);overflow:hidden;max-height:90vh;overflow-y:auto}
+.modal-head{background:var(--navy);color:#fff;padding:28px 32px 22px;position:relative;overflow:hidden}
+.modal-head::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:40px 40px}
+.modal-head-orb{position:absolute;width:200px;height:200px;background:var(--blue);border-radius:50%;filter:blur(60px);opacity:.25;top:-60px;right:-40px}
+.modal-head h2{font-family:var(--fd);font-size:20px;font-weight:800;margin-bottom:6px;position:relative;z-index:2}
+.modal-head p{font-size:13px;opacity:.6;line-height:1.5;position:relative;z-index:2}
+.modal-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.25);border-radius:var(--radius-full);color:var(--blue-glow);font-size:11px;font-weight:700;margin-bottom:14px;position:relative;z-index:2;letter-spacing:.05em}
+.modal-bd{padding:24px 32px}
+.modal-bd p{font-size:13px;color:var(--gray-600);line-height:1.8;margin-bottom:10px}
+.modal-bd ul{margin:0 0 10px 18px}
+.modal-bd li{font-size:13px;color:var(--gray-600);line-height:1.9}
+.ms-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin:14px 0 6px}
+.modal-ft{padding:16px 32px 28px;display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--gray-100)}
+.btn-ok{background:var(--gray-900);color:#fff;border:none;padding:14px 24px;border-radius:var(--radius-full);font-family:var(--fd);font-size:14px;font-weight:700;cursor:pointer;width:100%;transition:all .3s var(--ease)}
+.btn-ok:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,.3)}
+.mfine{font-size:11px;color:var(--gray-400);text-align:center;line-height:1.6}
+.mfine span{cursor:pointer;text-decoration:underline;color:var(--blue)}
+
+/* ── SEC MODALS ── */
+.sec-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}
+.sec-ov.hidden{display:none}
+.sec-box{background:#fff;border-radius:var(--radius-lg);max-width:620px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-xl)}
+.sec-head{background:var(--navy);color:#fff;padding:18px 24px;border-radius:var(--radius-lg) var(--radius-lg) 0 0;display:flex;justify-content:space-between;align-items:center}
+.sec-head h3{font-family:var(--fd);font-size:17px;font-weight:800}
+.sec-cls{background:none;border:none;color:rgba(255,255,255,.5);font-size:22px;cursor:pointer;line-height:1;transition:color .2s}
+.sec-cls:hover{color:#fff}
+.sec-bd{padding:24px;font-size:13px;color:var(--gray-600);line-height:1.8}
+.sec-bd h4{color:var(--gray-900);font-family:var(--fd);font-size:13px;font-weight:700;margin:14px 0 5px}
+.sec-bd p{margin-bottom:10px}
+
+/* ── NAV ── */
+.site-nav{background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--gray-200);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-md)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--fd);font-weight:800;font-size:1.2rem;color:var(--gray-900);letter-spacing:-.02em}
+.nav-logo-mark{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:.65rem;letter-spacing:0}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-back{font-size:.82rem;font-weight:600;color:var(--gray-500);display:flex;align-items:center;gap:5px;transition:color .3s var(--ease)}
+.nav-back:hover{color:var(--gray-900)}
+.nav-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.12);border-radius:var(--radius-full);color:var(--blue);font-size:11px;font-weight:700;letter-spacing:.04em}
+.nav-links-right{display:flex;gap:12px}
+.nav-lnk{font-size:12px;color:var(--gray-400);cursor:pointer;transition:color .2s}
+.nav-lnk:hover{color:var(--blue)}
+
+/* ── PAGE HEADER ── */
+.page-header{background:var(--navy);padding:72px 0 56px;text-align:center;position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px}
+.ph-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.3}
+.ph-orb-1{width:400px;height:400px;background:var(--blue);top:-150px;right:5%}
+.ph-orb-2{width:250px;height:250px;background:var(--violet);bottom:-80px;left:10%}
+.ph-orb-3{width:200px;height:200px;background:var(--cyan);top:20%;left:40%}
+.ph-inner{position:relative;z-index:2;max-width:700px;margin:0 auto;padding:0 24px}
+.ph-overline{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-glow);margin-bottom:18px}
+.ph-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.page-header h1{color:#fff;font-size:clamp(2rem,5vw,3rem);margin-bottom:12px}
+.gradient-text{background:linear-gradient(135deg,var(--blue) 0%,var(--cyan) 50%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-header .lead{color:rgba(255,255,255,.5);font-size:1.05rem;max-width:550px;margin:0 auto 24px;line-height:1.7}
+.ph-notice{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:var(--radius-full);padding:7px 16px;font-size:11.5px;color:rgba(245,158,11,.9);font-weight:600}
+
+/* ── TAB BAR ── */
+.tab-bar{background:var(--white);border-bottom:1px solid var(--gray-200);padding:0 40px;display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:64px;z-index:90}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:16px 20px;background:none;border:none;color:var(--gray-400);font-family:var(--fb);font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .25s var(--ease);position:relative;top:1px}
+.tab-btn:hover{color:var(--gray-700)}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.tab-btn svg{width:14px;height:14px}
+
+/* ── CONTENT WRAPPER ── */
+.tab-pane{display:none;padding:40px;max-width:var(--max-w);margin:0 auto 80px}
+.tab-pane.active{display:block}
+
+/* ── SECTION HEADINGS ── */
+.pane-head{margin-bottom:28px}
+.overline{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;font-weight:700;color:var(--blue);display:block;margin-bottom:8px}
+.pane-head h2{font-family:var(--fd);font-size:1.6rem;color:var(--gray-900);margin-bottom:6px}
+.pane-head p{color:var(--gray-500);font-size:.9rem;max-width:680px;line-height:1.7}
+
+/* ── DISCLAIMER STRIP ── */
+.dstrip{background:rgba(37,99,235,.04);border:1px solid rgba(37,99,235,.1);border-radius:var(--radius);padding:12px 16px;font-size:12px;color:var(--gray-600);line-height:1.6;margin-bottom:24px;display:flex;gap:10px;align-items:flex-start}
+.dstrip a{color:var(--blue)}
+
+/* ── CARDS ── */
+.card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-md);transition:all .4s var(--ease);position:relative;overflow:hidden}
+.card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.card-accent{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:var(--radius-lg) var(--radius-lg) 0 0;opacity:0;transition:opacity .3s var(--ease)}
+.card:hover .card-accent{opacity:1}
+.clbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.clbl .dot{width:7px;height:7px;border-radius:50%;background:var(--blue)}
+
+/* ── FORM ── */
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.78rem;font-weight:600;color:var(--gray-700);margin-bottom:5px}
+.field .hint{font-size:.72rem;color:var(--gray-400);margin-top:4px;line-height:1.5}
+input[type=number],select{font-family:var(--fb);background:var(--gray-50);border:1px solid var(--gray-200);color:var(--gray-800);border-radius:var(--radius);font-size:.9rem;width:100%;padding:10px 12px;outline:none;transition:all .25s var(--ease)}
+input[type=number]:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,.08);background:var(--white)}
+select{cursor:pointer}
+input[type=range]{width:100%;accent-color:var(--blue);margin-top:6px}
+.pfx{position:relative}
+.pfx span{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--gray-400);font-size:.85rem;pointer-events:none}
+.pfx input{padding-left:22px}
+.tg-grp{display:flex;gap:3px}
+.tg{flex:1;padding:9px;background:var(--gray-50);border:1px solid var(--gray-200);color:var(--gray-500);font-family:var(--fb);font-size:.78rem;font-weight:600;cursor:pointer;border-radius:var(--radius);text-align:center;transition:all .2s var(--ease)}
+.tg:hover{border-color:var(--blue);color:var(--blue)}
+.tg.active{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ── NUMBERS ── */
+.bnum{font-family:var(--fd);font-size:26px;font-weight:800;color:var(--gray-900);line-height:1;letter-spacing:-.02em}
+.bnum.r{color:var(--red)}.bnum.g{color:var(--green)}.bnum.o{color:var(--amber)}.bnum.b{color:var(--blue)}
+.nlbl{font-size:.68rem;color:var(--gray-400);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.calc-l{display:grid;grid-template-columns:340px 1fr;gap:22px}
+
+/* ── STAT BOX ── */
+.srow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.sbox{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px}
+
+/* ── R-ROW ── */
+.rr{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--gray-100);font-size:.88rem;color:var(--gray-600)}
+.rr:last-child{border-bottom:none}
+.rr .v{font-family:var(--fd);font-weight:700;color:var(--gray-900);font-size:.88rem}
+.rr .v.g{color:var(--green)}.rr .v.r{color:var(--red)}.rr .v.b{color:var(--blue)}
+.rr.tot{font-weight:700;border-top:1.5px solid var(--gray-200);border-bottom:none;margin-top:4px;padding-top:10px;color:var(--gray-800)}
+
+/* ── CHARTS ── */
+.cw{position:relative;height:230px}
+.cws{position:relative;height:185px}
+
+/* ── STRAT CARDS ── */
+.sc{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px;transition:all .3s var(--ease)}
+.sc.hl{border-color:var(--blue);background:linear-gradient(135deg,#f8faff,#eff6ff)}
+.sc:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
+
+/* ── CALLOUTS ── */
+.cal{padding:11px 14px;border-radius:var(--radius);font-size:.82rem;line-height:1.7;margin:9px 0}
+.c-bl{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}
+.c-gr{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+.c-am{background:#fffbeb;border:1px solid #fde68a;color:#92400e}
+.c-re{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+.c-na{background:var(--navy);border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-size:.8rem}
+
+/* ── ADVICE CTA ── */
+.acta{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;border-radius:var(--radius-lg);padding:18px 20px;margin:18px 0;display:flex;gap:14px;align-items:flex-start}
+.acta .ai{font-size:22px;flex-shrink:0}
+.acta h4{font-family:var(--fd);font-size:.88rem;font-weight:700;color:var(--blue);margin-bottom:4px}
+.acta p{font-size:.8rem;color:var(--gray-600);line-height:1.65}
+.acta a{color:var(--blue);font-weight:600}
+
+/* ── AMORT TABLE ── */
+.at{width:100%;border-collapse:collapse;font-size:.75rem;display:block;max-height:240px;overflow-y:auto}
+.at th{background:var(--gray-50);color:var(--gray-500);text-align:right;padding:7px 10px;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;position:sticky;top:0;border-bottom:1px solid var(--gray-200)}
+.at th:first-child{text-align:left}
+.at td{padding:7px 10px;border-bottom:1px solid var(--gray-100);text-align:right;color:var(--gray-700)}
+.at td:first-child{text-align:left;color:var(--gray-500)}
+.at tr:hover td{background:var(--gray-50)}
+
+/* ── COST BAR ── */
+.ci{margin-bottom:14px}
+.ct{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:5px;color:var(--gray-600)}
+.ct .am{font-family:var(--fd);font-weight:700;color:var(--gray-900)}
+.cbar{height:6px;background:var(--gray-100);border-radius:3px;overflow:hidden}
+.cfill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .4s var(--ease)}
+.cfill.lmif{background:linear-gradient(90deg,var(--amber),var(--red))}
+
+/* ── WHAT TO KNOW GRID ── */
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.skc{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:22px;transition:all .35s var(--ease);position:relative;overflow:hidden}
+.skc:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px);border-color:var(--gray-300)}
+.skc::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));opacity:0;transition:opacity .3s var(--ease)}
+.skc:hover::after{opacity:1}
+.si{font-size:24px;margin-bottom:10px}
+.st{font-family:var(--fd);font-size:.95rem;font-weight:700;color:var(--gray-900);margin-bottom:8px}
+.sd{font-size:.82rem;color:var(--gray-500);line-height:1.75}
+.itag{display:inline-flex;align-items:center;gap:4px;margin-top:10px;padding:3px 9px;border-radius:var(--radius-full);font-size:.7rem;font-weight:700}
+.ih{background:#ecfdf5;color:var(--green)}.im{background:#fffbeb;color:#92400e}.ii{background:#eff6ff;color:var(--blue)}
+
+/* ── PROF PANEL ── */
+.pp{background:var(--navy);border-radius:var(--radius-lg);padding:28px 32px;margin-top:24px;position:relative;overflow:hidden}
+.pp::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:40px 40px}
+.pp-orb{position:absolute;width:200px;height:200px;background:var(--blue);border-radius:50%;filter:blur(60px);opacity:.2;top:-80px;right:-40px}
+.pp h3{font-family:var(--fd);font-size:1.1rem;color:#fff;margin-bottom:6px;position:relative;z-index:2}
+.pp p{font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:18px;line-height:1.6;position:relative;z-index:2}
+.plinks{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:2}
+.plink{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.8);padding:7px 14px;border-radius:var(--radius-full);font-size:.78rem;font-weight:600;text-decoration:none;transition:all .25s var(--ease)}
+.plink:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ── FOOTER ── */
+.site-footer{background:var(--navy);color:rgba(255,255,255,.5);padding:40px;margin-top:0;font-size:.78rem;line-height:1.7}
+.ft-inner{max-width:var(--max-w);margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:32px;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.06)}
+.ft-brand h4{font-family:var(--fd);color:#fff;font-size:.85rem;font-weight:800;margin-bottom:6px}
+.ft-brand p{max-width:280px;font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.7}
+.ft-col h5{color:rgba(255,255,255,.7);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.ft-col a,.ft-col span{display:block;margin-bottom:8px;color:rgba(255,255,255,.35);font-size:.78rem;cursor:pointer;transition:color .2s}
+.ft-col a:hover,.ft-col span:hover{color:#fff}
+.ft-bottom{max-width:var(--max-w);margin:16px auto 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.72rem;color:rgba(255,255,255,.25)}
+
+/* ── MISC ── */
+hr{border:none;border-top:1px solid var(--gray-200);margin:16px 0}
+.ds{font-size:.7rem;color:var(--gray-400);font-style:italic;margin-top:6px}
+.badge{display:inline-block;padding:2px 8px;border-radius:var(--radius-full);font-size:.68rem;font-weight:700}
+.bg{background:#ecfdf5;color:var(--green)}.br{background:#fef2f2;color:var(--red)}
+
+@media(max-width:900px){.calc-l,.g2,.g3,.g4{grid-template-columns:1fr}.tab-pane{padding:20px}.site-nav,.tab-bar{padding-left:20px;padding-right:20px}}
+@media(max-width:600px){.ft-inner{flex-direction:column}.ft-bottom{flex-direction:column;text-align:center}}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--gray-100)}::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- WELCOME MODAL -->
+<div class="modal-ov" id="welcome-modal">
+<div class="modal-box">
+  <div class="modal-head">
+    <div class="modal-head-orb"></div>
+    <div class="modal-badge">📚 FREE EDUCATIONAL RESOURCE</div>
+    <h2>Mortgage Payoff Guide</h2>
+    <p>Before you explore, please read what this tool is — and what it isn't.</p>
+  </div>
+  <div class="modal-bd">
+    <div class="ms-title">What this guide is</div>
+    <p>A <strong>free educational tool</strong> to help you understand how mortgages work. All numbers are illustrative examples based on simplified models.</p>
+    <div class="ms-title">What this guide is NOT</div>
+    <ul>
+      <li>❌ Not financial product advice — no AFSL held</li>
+      <li>❌ Not credit advice or assistance — no ACL held</li>
+      <li>❌ Not tax advice — no TPB registration held</li>
+      <li>❌ Not legal advice or a recommendation to act</li>
+    </ul>
+    <div class="ms-title">Before making any financial decision</div>
+    <ul>
+      <li>🏦 <strong>Mortgage decisions</strong> — MFAA or FBAA accredited broker</li>
+      <li>📊 <strong>Investment strategy</strong> — ASIC-licensed financial adviser</li>
+      <li>🧾 <strong>Tax implications</strong> — Registered tax agent (TPB register)</li>
+      <li>⚖️ <strong>Legal matters</strong> — Qualified solicitor</li>
+    </ul>
+    <div class="cal c-am" style="margin-top:12px">Figures are based on publicly available data current as at <strong>May 2026</strong>. Always verify directly with your lender, solicitor or state revenue office.</div>
+  </div>
+  <div class="modal-ft">
+    <button class="btn-ok" onclick="closeWelcome()">I understand — this is educational only. Let me explore.</button>
+    <p class="mfine">By continuing you confirm this tool does not provide financial, tax, credit or legal advice. <span onclick="showSec('terms-modal')">View full Terms of Use</span></p>
+  </div>
+</div>
+</div>
+
+<!-- PRIVACY MODAL -->
+<div class="sec-ov hidden" id="privacy-modal">
+<div class="sec-box">
+  <div class="sec-head"><h3>Privacy Notice</h3><button class="sec-cls" onclick="hideSec('privacy-modal')">×</button></div>
+  <div class="sec-bd">
+    <h4>No personal data is collected</h4>
+    <p>This tool runs entirely in your browser. No data you enter is transmitted to any server, stored in any database, or shared with any third party.</p>
+    <h4>Browser storage</h4>
+    <p>If you dismiss the welcome notice, a single flag (no personal data) is stored in browser local storage. No tracking or advertising cookies are set.</p>
+    <h4>Third-party services</h4>
+    <p>Chart.js is loaded from cdnjs.cloudflare.com and fonts from fonts.googleapis.com. These may log your IP address per their own privacy policies. No analytics are used.</p>
+    <h4>Privacy Act 1988 (Cth)</h4>
+    <p>Because no personal information is collected or disclosed, the Australian Privacy Principles are not engaged by use of this tool.</p>
+    <p class="ds">Privacy notice current as at May 2026</p>
+  </div>
+</div>
+</div>
+
+<!-- TERMS MODAL -->
+<div class="sec-ov hidden" id="terms-modal">
+<div class="sec-box">
+  <div class="sec-head"><h3>Terms of Use</h3><button class="sec-cls" onclick="hideSec('terms-modal')">×</button></div>
+  <div class="sec-bd">
+    <h4>1. Nature of this tool</h4>
+    <p>Provided as a free educational resource. Does not constitute financial product advice, credit advice, tax advice or legal advice.</p>
+    <h4>2. No licence or registration held</h4>
+    <p>No AFSL, ACL or TPB registration is held. Nothing here should be relied upon as advice from a licensed professional.</p>
+    <h4>3. Illustrative calculations only</h4>
+    <p>All calculations use simplified models and do not account for all fees, lender policies, daily interest accrual, scheme eligibility or individual tax circumstances. Actual results will differ materially.</p>
+    <h4>4. No warranty of accuracy</h4>
+    <p>No warranty is given as to accuracy or currency. Rates, premiums and tax rules change regularly.</p>
+    <h4>5. Limitation of liability</h4>
+    <p>To the maximum extent permitted by law (including the Australian Consumer Law), all liability for loss or damage arising from use of this tool is excluded. Use entirely at your own risk.</p>
+    <h4>6. Currency of information</h4>
+    <p>Based on data as at <strong>May 2026</strong>: RBA cash rate 4.35%, 2025–26 stamp duty rates, Budget 2026 measures as announced (not yet legislated).</p>
+    <h4>7. Governing law</h4>
+    <p>These Terms are governed by the laws of New South Wales, Australia.</p>
+    <p class="ds">Terms of Use — Version 2, May 2026</p>
+  </div>
+</div>
+</div>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="nav-logo">
+    <div class="nav-logo-mark">AOB</div>
+    AOB Tools
+  </div>
+  <div class="nav-right">
+    <div class="nav-badge">📚 Educational Resource</div>
+    <div class="nav-links-right">
+      <span class="nav-lnk" onclick="showSec('privacy-modal')">Privacy</span>
+      <span class="nav-lnk" onclick="showSec('terms-modal')">Terms</span>
+      <a class="nav-lnk" href="../index.html">← Back to AOB</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="ph-orb ph-orb-1"></div>
+  <div class="ph-orb ph-orb-2"></div>
+  <div class="ph-orb ph-orb-3"></div>
+  <div class="ph-inner">
+    <div class="ph-overline"><span class="ph-dot"></span>Free Tool · No Sign-up Required</div>
+    <h1>Mortgage Payoff<br><span class="gradient-text">Guide</span></h1>
+    <p class="lead">Understand how mortgages work, explore payoff strategies and learn what financially savvy home owners know.</p>
+    <div class="ph-notice">⚠️ Educational purposes only — not financial, tax or legal advice. Figures current May 2026.</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('calc',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg>Explore Repayments</button>
+  <button class="tab-btn" onclick="switchTab('strat',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg>Payoff Strategies</button>
+  <button class="tab-btn" onclick="switchTab('tax',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Tax Concepts</button>
+  <button class="tab-btn" onclick="switchTab('costs',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Upfront Costs</button>
+  <button class="tab-btn" onclick="switchTab('know',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>What to Know</button>
+</nav>
+
+<!-- ══ TAB 1: EXPLORE ══ -->
+<div id="tab-calc" class="tab-pane active">
+<div class="pane-head"><span class="overline">Concept Explorer</span><h2>How Do Mortgage Repayments Work?</h2><p>Enter example figures to see how repayments, offsets and extra payments interact. Illustrative calculations using a standard amortisation model — your actual loan depends on your lender's specific terms.</p></div>
+<div class="dstrip"><span style="flex-shrink:0">ℹ️</span><span>Results are <strong>general illustrations only</strong> — not a forecast. Lenders calculate interest daily; this model uses monthly amortisation. <strong>Confirm all details with your lender or broker.</strong></span></div>
+<div class="calc-l">
+<div style="display:flex;flex-direction:column;gap:18px">
+<div class="card"><div class="card-accent"></div>
+<div class="clbl"><span class="dot"></span>Example Loan Details</div>
+<div class="field"><label>Loan Amount</label><div class="pfx"><span>$</span><input type="number" id="c_loan" value="600000" step="10000" oninput="recalc()"></div></div>
+<div class="field"><label>Interest Rate — <span id="rl" style="color:var(--blue);font-weight:700">6.30%</span></label>
+<input type="range" id="c_rs" min="2" max="12" step="0.05" value="6.30" oninput="sr(this.value)">
+<input type="number" id="c_rate" value="6.30" step="0.05" min="0.5" max="25" oninput="sri(this.value)" style="margin-top:6px">
+<div class="hint">Average new OO variable rate ~5.93% p.a. (RBA May 2026). Cash rate 4.35%.</div></div>
+<div class="field"><label>Loan Term (years)</label><input type="number" id="c_term" value="30" step="1" min="1" max="40" oninput="recalc()"></div>
+<div class="field"><label>Loan Type</label><div class="tg-grp"><button class="tg active" id="btn-pi" onclick="setLT('PI')">Principal &amp; Interest</button><button class="tg" id="btn-io" onclick="setLT('IO')">Interest Only</button></div></div>
+<div class="field" id="io-f" style="display:none"><label>Interest-Only Period (years)</label><input type="number" id="c_io" value="5" min="1" max="15" oninput="recalc()"></div>
+<div class="field"><label>Repayment Frequency</label>
+<select id="c_freq" onchange="recalc()">
+<option value="monthly">Monthly</option>
+<option value="ftrue">Fortnightly — half-monthly (true acceleration)</option>
+<option value="fequal">Fortnightly — annual ÷ 26 (no acceleration)</option>
+<option value="weekly">Weekly</option>
+</select>
+<div class="hint">💡 Half-monthly fortnightly = 13 monthly payments per year — this is where the time saving comes from.</div></div>
+</div>
+<div class="card"><div class="card-accent"></div>
+<div class="clbl"><span class="dot" style="background:var(--amber)"></span>Offset &amp; Extra Repayments</div>
+<div class="field"><label>Offset Account Balance</label><div class="pfx"><span>$</span><input type="number" id="c_off" value="50000" step="1000" oninput="recalc()"></div><div class="hint">Interest is calculated on loan balance minus offset balance daily — earning your home loan rate, tax-free.</div></div>
+<div class="field"><label>Monthly Deposits to Offset (e.g. salary)</label><div class="pfx"><span>$</span><input type="number" id="c_offmo" value="0" step="500" oninput="recalc()"></div></div>
+<div class="field"><label>Additional Monthly Repayment</label><div class="pfx"><span>$</span><input type="number" id="c_ex" value="0" step="100" oninput="recalc()"></div></div>
+<div class="cal c-bl" style="font-size:.78rem">💡 Adjusting these values illustrates the <em>concept</em> only — caps on extra repayments and your lender's actual terms apply.</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:18px">
+<div class="card"><div class="card-accent"></div>
+<div class="clbl"><span class="dot" style="background:var(--green)"></span>Illustrative Repayment</div>
+<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+<div><div class="bnum b" id="r_pay">$3,712</div><div class="nlbl" id="r_paylbl">Illustrative Monthly Repayment</div><div class="ds">Standard P&amp;I amortisation — indicative only</div></div>
+<div id="io-sh" style="display:none" class="cal c-am"></div>
+</div>
+<hr>
+<div class="srow">
+<div class="sbox"><div class="bnum r" id="r_int" style="font-size:20px">$737,040</div><div class="nlbl">Illustrative Total Interest</div></div>
+<div class="sbox"><div class="bnum" id="r_tot" style="font-size:20px">$1,337,040</div><div class="nlbl">Illustrative Total Cost</div></div>
+<div class="sbox"><div class="bnum o" id="r_po" style="font-size:20px">Jun 2055</div><div class="nlbl">Estimated Payoff Date</div></div>
+<div class="sbox"><div class="bnum g" id="r_sv" style="font-size:20px">—</div><div class="nlbl">Illustrative Saving</div></div>
+</div>
+<div class="cal c-am" style="margin-top:10px;font-size:.78rem">⚠️ <strong>Illustrative only.</strong> Your actual cost varies based on lender fees, rate changes, compounding and repayment behaviour.</div>
+</div>
+<div class="card"><div class="card-accent"></div><div class="clbl"><span class="dot"></span>Illustrative Loan Balance Over Time</div><div class="cw"><canvas id="ch_bal"></canvas></div><div class="ds" style="margin-top:6px">Simplified annual snapshots · Monthly amortisation model · Illustrative only · May 2026</div></div>
+<div class="g2">
+<div class="card"><div class="card-accent"></div><div class="clbl"><span class="dot" style="background:var(--red)"></span>Interest vs Principal</div><div class="cws"><canvas id="ch_don"></canvas></div></div>
+<div class="card"><div class="card-accent"></div><div class="clbl"><span class="dot" style="background:var(--amber)"></span>Year-by-Year (illustrative)</div>
+<table class="at"><thead><tr><th>Year</th><th>Interest</th><th>Principal</th><th>Balance</th></tr></thead><tbody id="at_body"></tbody></table>
+<div class="ds" style="margin-top:5px">Illustrative annual figures only</div></div>
+</div>
+<div class="acta"><div class="ai">🏦</div><div><h4>Want your actual repayments?</h4><p>A mortgage broker can compare real loan products for your circumstances — free to consumers, must act in your best interests (NCCP Best Interests Duty). Find one at <a href="https://www.mfaa.com.au/find-a-broker" target="_blank" rel="noopener">mfaa.com.au ↗</a> or <a href="https://www.fbaa.com.au" target="_blank" rel="noopener">fbaa.com.au ↗</a></p></div></div>
+</div>
+</div>
+</div>
+
+<!-- ══ TAB 2: STRATEGIES ══ -->
+<div id="tab-strat" class="tab-pane">
+<div class="pane-head"><span class="overline">Strategy Concepts</span><h2>How Do Different Approaches Affect the Outcome?</h2><p>Mathematical concepts behind common strategies. Simplified models — use as conversation-starters with your broker.</p></div>
+<div class="dstrip"><span style="flex-shrink:0">ℹ️</span><span>Strategy comparisons are <strong>general illustrations only</strong>. Many lenders cap extra repayments on fixed loans. Not a recommendation to adopt any strategy.</span></div>
+<div class="g4" id="sg" style="margin-bottom:22px"></div>
+<div class="g2">
+<div class="card"><div class="card-accent"></div><div class="clbl"><span class="dot"></span>Illustrative Interest Comparison</div><div class="cw"><canvas id="ch_str"></canvas></div><div class="ds" style="margin-top:6px">Using inputs from Explore tab · Simplified model · May 2026</div></div>
+<div class="card"><div class="card-accent"></div>
+<div class="clbl"><span class="dot" style="background:var(--amber)"></span>Understanding the "Loyalty Gap"</div>
+<p style="font-size:.82rem;color:var(--gray-500);margin-bottom:12px">The ACCC Home Loan Price Inquiry (Nov 2020) documented existing borrowers paying materially more than new customers.</p>
+<div class="cal c-am" style="margin-bottom:12px;font-size:.78rem">📋 These are documented ACCC figures — not your specific loan. Discuss with your mortgage broker.</div>
+<div class="field"><label>How long have you had your loan?</label>
+<select id="s_age" onchange="calcLoy()">
+<option value="0.29">Less than 1 year — ACCC gap ~0.29%</option>
+<option value="0.47">1–3 years — ACCC gap ~0.47%</option>
+<option value="0.58" selected>3–5 years — ACCC gap ~0.58%</option>
+<option value="0.71">5–10 years — ACCC gap ~0.71%</option>
+<option value="1.04">Over 10 years — ACCC gap ~1.04%</option>
+</select></div>
+<div class="field"><label>Example Loan Balance</label><div class="pfx"><span>$</span><input type="number" id="s_lb" value="500000" step="10000" oninput="calcLoy()"></div></div>
+<div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px">
+<div class="rr"><span>Documented loyalty gap (ACCC)</span><span class="v b" id="ly_g">0.58%</span></div>
+<div class="rr"><span>Illustrative extra cost per year</span><span class="v r" id="ly_y">$2,900</span></div>
+<div class="rr tot"><span>Potential 5-year illustration</span><span class="v r" id="ly_5">$14,500</span></div>
+</div>
+<div class="acta" style="margin-top:12px"><div class="ai">📞</div><div><h4>Speak to a broker about a rate review</h4><p>A broker can request a pricing team review on your behalf — a factual description of an available process, not advice to act.</p></div></div>
+</div>
+</div>
+<div class="card" style="margin-top:20px"><div class="card-accent"></div>
+<div class="clbl"><span class="dot" style="background:var(--green)"></span>Rate Difference Concept</div>
+<p style="font-size:.82rem;color:var(--gray-500);margin-bottom:14px">Explore what a lower rate might mean. Illustrative only — refinancing involves costs and requires assessment by a licensed credit professional.</p>
+<div class="g2">
+<div>
+<div class="field"><label>Current Rate (%) — example</label><input type="number" id="s_r1" value="6.30" step="0.05" oninput="calcRD()"></div>
+<div class="field"><label>Alternative Rate (%) — example</label><input type="number" id="s_r2" value="5.80" step="0.05" oninput="calcRD()"></div>
+<div class="field"><label>Remaining Balance</label><div class="pfx"><span>$</span><input type="number" id="s_rb" value="500000" step="10000" oninput="calcRD()"></div></div>
+<div class="field"><label>Remaining Term (years)</label><input type="number" id="s_rt" value="25" step="1" oninput="calcRD()"></div>
+<div class="cal c-am" style="font-size:.78rem">Refinancing typically costs $700–$1,500. Fixed loans may incur break costs.</div>
+</div>
+<div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius);padding:16px;align-self:start">
+<div class="rr"><span>Illustrative monthly saving</span><span class="v g" id="rd_m">—</span></div>
+<div class="rr"><span>Illustrative annual saving</span><span class="v g" id="rd_y">—</span></div>
+<div class="rr tot"><span>Illustrative total saving</span><span class="v g" id="rd_t">—</span></div>
+<div id="rd_n" class="cal c-gr" style="margin-top:8px;font-size:.78rem"></div>
+<div class="ds" style="margin-top:6px">Illustrative only — not a forecast · May 2026</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ══ TAB 3: TAX ══ -->
+<div id="tab-tax" class="tab-pane">
+<div class="pane-head"><span class="overline">Tax Education</span><h2>Understanding the Tax Side of Mortgages</h2><p>General tax concepts relevant to Australian property owners. <strong>None of this is tax advice.</strong> Always consult a registered tax agent.</p></div>
+<div class="dstrip"><span style="flex-shrink:0">⚠️</span><span><strong>Important:</strong> Tax outcomes depend entirely on individual circumstances. No TPB registration held. <strong>Engage a registered tax agent before taking any action.</strong> Find one at <a href="https://www.tpb.gov.au/find-a-tax-practitioner" target="_blank" rel="noopener">tpb.gov.au ↗</a></span></div>
+<div class="g2">
+<div>
+<div class="card" style="margin-bottom:18px"><div class="card-accent"></div>
+<div class="clbl"><span class="dot" style="background:var(--amber)"></span>Negative Gearing — General Concept</div>
+<div class="cal c-re" style="margin-bottom:12px">⚠️ <strong>2026 Budget announcement (not yet legislated):</strong> Negative gearing on <em>established</em> properties purchased after 7:30pm 12 May 2026 may be phased out from 1 July 2027. New builds remain proposed as eligible.</div>
+<div class="field"><label>Property Type</label><div class="tg-grp"><button class="tg active" id="btn-est" onclick="setPT('est')">Established</button><button class="tg" id="btn-new" onclick="setPT('new')">New Build</button></div></div>
+<div class="field"><label>Example Loan Amount</label><div class="pfx"><span>$</span><input type="number" id="t_loan" value="600000" step="10000" oninput="calcTax()"></div></div>
+<div class="field"><label>Example Interest Rate (%)</label><input type="number" id="t_rate" value="6.30" step="0.05" oninput="calcTax()"></div>
+<div class="field"><label>Example Annual Rental Income</label><div class="pfx"><span>$</span><input type="number" id="t_rent" value="30000" step="500" oninput="calcTax()"></div></div>
+<div class="field"><label>Other Annual Expenses</label><div class="pfx"><span>$</span><input type="number" id="t_exp" value="8000" step="500" oninput="calcTax()"></div></div>
+<div class="field"><label>Depreciation (if applicable)</label><div class="pfx"><span>$</span><input type="number" id="t_dep" value="5000" step="500" oninput="calcTax()"></div></div>
+<div class="field"><label>Marginal Tax Rate — illustrative</label>
+<select id="t_marg" onchange="calcTax()">
+<option value="0.19">19% — $18,201–$45,000</option>
+<option value="0.325">34.5% — $45,001–$135,000</option>
+<option value="0.39" selected>39% — $135,001–$190,000</option>
+<option value="0.47">47% — Over $190,000</option>
+</select></div>
+<div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px">
+<div class="rr"><span>Annual interest cost</span><span class="v r" id="to_i">—</span></div>
+<div class="rr"><span>Annual rent received</span><span class="v g" id="to_r">—</span></div>
+<div class="rr"><span>Other expenses</span><span class="v r" id="to_e">—</span></div>
+<div class="rr"><span>Depreciation</span><span class="v r" id="to_d">—</span></div>
+<div class="rr tot"><span>Net rental <span id="to_gl">loss</span></span><span class="v" id="to_n">—</span></div>
+<div class="rr"><span id="to_bl">Illustrative tax benefit</span><span class="v g" id="to_b">—</span></div>
+<div class="rr tot"><span>Illustrative after-tax cashflow</span><span class="v" id="to_cf">—</span></div>
+<div class="rr"><span>Weekly (illustrative)</span><span class="v" id="to_wk">—</span></div>
+</div>
+<div id="t_note" class="cal c-am" style="margin-top:10px;font-size:.78rem"></div>
+<div class="ds" style="margin-top:6px">General concept only · Not tax advice · Verify with a registered tax agent · May 2026</div>
+</div>
+</div>
+<div>
+<div class="card" style="margin-bottom:18px"><div class="card-accent"></div>
+<div class="clbl"><span class="dot" style="background:var(--green)"></span>Debt Recycling — Conceptual Illustration</div>
+<div class="cal c-bl" style="margin-bottom:10px">📋 <strong>What is debt recycling?</strong> Converting non-deductible PPOR debt to deductible investment debt. Legal under ATO TR 2000/2 — but only when correctly structured with separate loan splits.</div>
+<div class="cal c-re" style="margin-bottom:12px">⚠️ <strong>Not advice to implement.</strong> Part IVA risk exists if incorrectly structured. Obtain independent tax and financial advice first.</div>
+<div class="field"><label>PPOR Loan Balance</label><div class="pfx"><span>$</span><input type="number" id="dr_b" value="600000" step="10000" oninput="calcDR()"></div></div>
+<div class="field"><label>Annual Lump Sum Available</label><div class="pfx"><span>$</span><input type="number" id="dr_l" value="20000" step="1000" oninput="calcDR()"></div></div>
+<div class="field"><label>Home Loan Rate (%)</label><input type="number" id="dr_r" value="6.30" step="0.05" oninput="calcDR()"></div>
+<div class="field"><label>Marginal Rate</label><select id="dr_m" onchange="calcDR()"><option value="0.325">34.5%</option><option value="0.39" selected>39%</option><option value="0.47">47%</option></select></div>
+<div class="field"><label>Years (illustrative)</label><input type="number" id="dr_y" value="10" min="1" max="30" oninput="calcDR()"></div>
+<div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px">
+<div class="rr"><span>Deductible debt after <span id="dr_yl">10</span> yrs</span><span class="v b" id="dr_ded">—</span></div>
+<div class="rr"><span>Annual tax offset at end</span><span class="v g" id="dr_an">—</span></div>
+<div class="rr tot"><span>Cumulative tax savings</span><span class="v g" id="dr_cu">—</span></div>
+</div>
+</div>
+<div class="card"><div class="card-accent"></div>
+<div class="clbl"><span class="dot" style="background:var(--red)"></span>⚠️ Offset vs Redraw — Critical ATO Distinction</div>
+<div class="cal c-re" style="margin-bottom:10px"><strong>ATO TR 2000/2:</strong> Redrawing from an investment loan for private use permanently reduces the tax-deductible portion. Offset withdrawals have no such consequence.</div>
+<div class="g2" style="gap:10px">
+<div class="sbox"><div style="font-size:.7rem;color:var(--green);font-weight:700;margin-bottom:7px;letter-spacing:.05em">✅ OFFSET ACCOUNT</div><ul style="font-size:.78rem;color:var(--gray-600);list-style:none;line-height:2"><li>→ Separate deposit account</li><li>→ Govt deposit guarantee</li><li>→ Withdraw: no tax impact</li><li>→ Deductibility preserved</li></ul></div>
+<div class="sbox"><div style="font-size:.7rem;color:var(--red);font-weight:700;margin-bottom:7px;letter-spacing:.05em">❌ REDRAW (risk)</div><ul style="font-size:.78rem;color:var(--gray-600);list-style:none;line-height:2"><li>→ Extra repayments built in</li><li>→ Each redraw = new borrowing</li><li>→ Private use = loss of deduction</li><li>→ Permanent effect</li></ul></div>
+</div>
+<div class="acta" style="margin-top:12px"><div class="ai">🧾</div><div><h4>Get a tax professional's view on your loans</h4><p>Find a registered tax agent at <a href="https://www.tpb.gov.au/find-a-tax-practitioner" target="_blank" rel="noopener">tpb.gov.au ↗</a></p></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ══ TAB 4: COSTS ══ -->
+<div id="tab-costs" class="tab-pane">
+<div class="pane-head"><span class="overline">Cost Awareness</span><h2>What Upfront Costs Should I Be Aware Of?</h2><p>Illustrative estimates based on published 2025–26 rates. Always verify with your solicitor, broker and state revenue office.</p></div>
+<div class="dstrip"><span style="flex-shrink:0">ℹ️</span><span>Stamp duty uses published state tables but may not reflect recent amendments. LMI is indicative — set by QBE or Helia and varies by lender. <strong>Verify all figures before exchanging contracts.</strong></span></div>
+<div class="g2">
+<div>
+<div class="card" style="margin-bottom:18px"><div class="card-accent"></div>
+<div class="clbl"><span class="dot" style="background:var(--amber)"></span>Property Details</div>
+<div class="field"><label>State / Territory</label><select id="uc_st" onchange="calcC()"><option value="NSW">New South Wales</option><option value="VIC">Victoria</option><option value="QLD">Queensland</option><option value="WA">Western Australia</option><option value="SA">South Australia</option><option value="TAS">Tasmania</option><option value="ACT">Australian Capital Territory</option><option value="NT">Northern Territory</option></select></div>
+<div class="field"><label>Purchase Price</label><div class="pfx"><span>$</span><input type="number" id="uc_p" value="750000" step="10000" oninput="calcC()"></div></div>
+<div class="field"><label>Your Deposit</label><div class="pfx"><span>$</span><input type="number" id="uc_d" value="150000" step="5000" oninput="calcC()"></div></div>
+<div class="field"><label>Buyer Type</label><div class="tg-grp"><button class="tg active" id="btn-oo" onclick="setBy('oo')">Owner-Occupier</button><button class="tg" id="btn-iv" onclick="setBy('iv')">Investor</button></div></div>
+<div class="field"><label>First Home Buyer?</label><div class="tg-grp"><button class="tg" id="btn-fy" onclick="setF(true)">Yes</button><button class="tg active" id="btn-fn" onclick="setF(false)">No</button></div></div>
+<div id="fhb_n" class="cal c-gr" style="display:none;font-size:.78rem"></div>
+</div>
+<div class="card"><div class="card-accent"></div>
+<div class="clbl"><span class="dot"></span>Stamp Duty Reference (OO, $750K, no concession)</div>
+<div style="display:grid;grid-template-columns:1fr auto;gap:3px 12px;font-size:.82rem;line-height:2.2;color:var(--gray-500)">
+<span>NSW</span><span style="font-weight:700;color:var(--gray-900)">~$28,162</span>
+<span>VIC (most expensive)</span><span style="font-weight:700;color:var(--red)">~$40,070</span>
+<span>QLD (home concession)</span><span style="font-weight:700;color:var(--green)">~$18,850</span>
+<span>WA</span><span style="font-weight:700;color:var(--gray-900)">~$26,915</span>
+<span>SA</span><span style="font-weight:700;color:var(--gray-900)">~$32,330</span>
+<span>TAS</span><span style="font-weight:700;color:var(--gray-900)">~$28,935</span>
+<span>ACT</span><span style="font-weight:700;color:var(--green)">~$19,208</span>
+<span>NT</span><span style="font-weight:700;color:var(--gray-900)">~$34,074</span>
+</div>
+<div class="ds" style="margin-top:6px">Reference only · 2025–26 published rates · Verify with state revenue office</div>
+</div>
+</div>
+<div>
+<div class="card" style="margin-bottom:18px"><div class="card-accent"></div>
+<div class="clbl"><span class="dot" style="background:var(--green)"></span>Illustrative Cost Breakdown</div>
+<div class="ci"><div class="ct"><span>Stamp Duty (indicative)</span><span class="am" id="uc_sd">$28,162</span></div><div class="cbar"><div class="cfill" id="b_sd" style="width:60%"></div></div></div>
+<div class="ci"><div class="ct"><span>Lenders Mortgage Insurance (indicative)</span><span class="am" id="uc_lm">$0</span></div><div class="cbar"><div class="cfill lmif" id="b_lm" style="width:0%"></div></div></div>
+<div class="ci"><div class="ct"><span>Solicitor / Conveyancer (estimate)</span><span class="am">~$2,000</span></div><div class="cbar"><div class="cfill" style="width:5%"></div></div></div>
+<div class="ci"><div class="ct"><span>Building &amp; Pest Inspection (estimate)</span><span class="am">~$600</span></div><div class="cbar"><div class="cfill" style="width:1.5%"></div></div></div>
+<div class="ci"><div class="ct"><span>Loan Establishment Fee (estimate)</span><span class="am">~$500</span></div><div class="cbar"><div class="cfill" style="width:1%"></div></div></div>
+<div class="ci"><div class="ct"><span>Moving Costs (estimate)</span><span class="am">~$1,500</span></div><div class="cbar"><div class="cfill" style="width:3%"></div></div></div>
+<hr>
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font-family:var(--fd);font-size:.9rem;font-weight:700;color:var(--gray-900)">Illustrative Total Upfront</span>
+<span class="bnum o" id="uc_tot" style="font-size:22px">$32,762</span>
+</div>
+<div style="display:flex;justify-content:space-between;margin-top:5px;font-size:.82rem;color:var(--gray-500)"><span>LVR</span><span style="font-weight:700;color:var(--gray-900)" id="uc_lvr">80.0%</span></div>
+<div class="cal c-am" style="margin-top:12px;font-size:.78rem">⚠️ Indicative estimates only. Actual stamp duty must be calculated by your solicitor. LMI must be quoted by your lender.</div>
+<div class="ds" style="margin-top:6px">2025–26 published rates · LMI indicative (Helia/QBE) · Last reviewed May 2026</div>
+</div>
+<div class="card"><div class="card-accent"></div>
+<div class="clbl"><span class="dot"></span>About Lenders Mortgage Insurance</div>
+<div class="cal c-bl" style="margin-bottom:10px;font-size:.82rem">LMI protects your <em>lender</em> — not you. At 90% LVR on $750K it can add $14,000–$20,000.</div>
+<div style="display:grid;grid-template-columns:auto 1fr auto;gap:3px 10px;line-height:2.2;align-items:center;font-size:.82rem">
+<span style="font-weight:700;color:var(--green)">≤80%</span><span style="color:var(--gray-500)">LVR — No LMI required</span><span style="color:var(--green);font-weight:700">$0</span>
+<span style="font-weight:700;color:var(--amber)">80–85%</span><span style="color:var(--gray-500)">LMI approx.</span><span style="color:var(--amber);font-weight:600">~0.65% of loan</span>
+<span style="font-weight:700;color:var(--amber)">85–90%</span><span style="color:var(--gray-500)">LMI approx.</span><span style="color:var(--amber);font-weight:600">~1.23% of loan</span>
+<span style="font-weight:700;color:var(--red)">90–95%</span><span style="color:var(--gray-500)">LMI approx.</span><span style="color:var(--red);font-weight:600">~2.44% of loan</span>
+</div>
+<hr>
+<p style="font-size:.78rem;color:var(--gray-500);line-height:1.7"><strong>First Home Guarantee:</strong> 5% deposit, no LMI — expanded Oct 2025, no income/place cap. Check at <a href="https://www.nhfic.gov.au" target="_blank" rel="noopener" style="color:var(--blue)">nhfic.gov.au ↗</a></p>
+</div>
+<div class="acta"><div class="ai">⚖️</div><div><h4>Get exact figures from your solicitor before exchange</h4><p>Your solicitor calculates actual stamp duty including concessions, surcharges and exemptions. Never rely on a calculator alone for settlement planning.</p></div></div>
+</div>
+</div>
+</div>
+
+<!-- ══ TAB 5: WHAT TO KNOW ══ -->
+<div id="tab-know" class="tab-pane">
+<div class="pane-head"><span class="overline">Things to Know</span><h2>What Do Financially Savvy Mortgage Holders Know?</h2><p>General concepts and publicly available strategies. Think of these as good questions to ask your broker, adviser or tax accountant — not recommendations to act.</p></div>
+<div class="dstrip"><span style="flex-shrink:0">ℹ️</span><span><strong>General educational information</strong> based on ATO published rulings, ACCC reports and published lender practices. Not recommendations. Everyone's situation is different.</span></div>
+<div class="sg">
+<div class="skc"><div class="si">📅</div><div class="st">How Fortnightly Repayments Actually Work</div><div class="sd">A calendar year has 26 fortnights — not 24. If your fortnightly payment is exactly half your monthly payment, you make the equivalent of 13 monthly payments per year. On a $600K loan at 6.3%/30yr, that can reduce the loan by roughly 4–5 years. Not all lenders calculate this way — ask your lender or broker.</div><span class="itag ih">📊 Potentially significant over time</span></div>
+<div class="skc"><div class="si">🏦</div><div class="st">How Offset Accounts Reduce Interest</div><div class="sd">Lenders calculate interest daily on your loan balance minus what's in your offset account. Parking your salary in the offset — even briefly — reduces the average daily balance interest is calculated on. Whether an offset is right for you depends on your loan's fees and habits.</div><span class="itag ih">💡 Worth understanding when choosing a loan</span></div>
+<div class="skc"><div class="si">💳</div><div class="st">The Credit Card Float Concept</div><div class="sd">Some borrowers pay monthly expenses on a 55-day interest-free card while salary sits in the offset longer. <strong>Only works if you pay the card in full every month.</strong> Credit card interest (18–22%) eliminates any benefit immediately. Not suitable for everyone.</div><span class="itag im">⚡ Modest benefit — discipline required</span></div>
+<div class="skc"><div class="si">📊</div><div class="st">The Documented "Loyalty Gap"</div><div class="sd">The ACCC Home Loan Price Inquiry (November 2020) found existing borrowers paying materially more than new customers — 0.29% for loans under 1 year old to 1.04% for loans over 10 years. Some borrowers address this through a broker-led rate review or refinancing.</div><span class="itag ih">📞 Worth raising with your broker</span></div>
+<div class="skc"><div class="si">🔄</div><div class="st">Understanding Debt Recycling</div><div class="sd">Converting non-deductible PPOR debt to deductible investment debt. The ATO accepts this under TR 2000/2 when correctly structured with separate loan splits. Carries Part IVA risk if incorrectly implemented. Requires a registered tax agent and financial adviser.</div><span class="itag ii">⚖️ Legal but requires professional advice</span></div>
+<div class="skc"><div class="si">⚠️</div><div class="st">The Redraw vs Offset Tax Distinction</div><div class="sd">ATO TR 2000/2 treats redraw withdrawals as new borrowings — private use permanently reduces deductibility on an investment loan. Offset withdrawals have no such consequence. One of the most commonly misunderstood areas of property tax.</div><span class="itag ih">🛡️ Critical before renting a property</span></div>
+<div class="skc"><div class="si">📈</div><div class="st">Offset vs Term Deposit — After-Tax</div><div class="sd">Money in your offset earns the equivalent of your home loan rate — tax-free. A term deposit earns taxable interest. At 39% marginal rate, a 5.0% term deposit nets ~3.05% after tax; a 6.3% offset is worth ~6.3% after tax. Discuss with a financial adviser.</div><span class="itag ih">💡 Important for higher-income earners</span></div>
+<div class="skc"><div class="si">🎯</div><div class="st">How the APRA Buffer Works</div><div class="sd">APRA requires banks to assess repayability at your actual rate plus 3 percentage points. At 6.3%, you're assessed at 9.3% — significantly reducing borrowing capacity. APRA has provisions for a lower buffer in some refinancing situations where current repayments demonstrate serviceability.</div><span class="itag ii">📋 Useful to know when refinancing</span></div>
+<div class="skc"><div class="si">📐</div><div class="st">Multiple Offset Accounts</div><div class="sd">Several lenders allow multiple offset accounts linked to one loan — CBA allows up to 99, NAB and Westpac expanded to 10 in early 2025. Some borrowers use named "buckets" for different goals. Not all lenders offer this — a feature to compare when choosing a loan.</div><span class="itag im">💡 A feature to compare</span></div>
+<div class="skc"><div class="si">🔍</div><div class="st">Comparison Rate vs Interest Rate</div><div class="sd">ASIC requires lenders to display a comparison rate alongside advertised rates — it incorporates most fees into a standardised calculation ($150K/25yr). Far better than headline rates alone. Always ask for and compare comparison rates.</div><span class="itag ii">📋 Always compare comparison rates</span></div>
+<div class="skc"><div class="si">🏗️</div><div class="st">Rate Lock for Fixed Loans</div><div class="sd">When applying for a fixed-rate loan, a 4–8 week settlement gap means rates can change. A "rate lock" (~0.15% of loan) guarantees the rate applied for. With the RBA raising rates three times in the first five months of 2026, some borrowers found rate locks worthwhile.</div><span class="itag im">📊 Worth discussing in volatile markets</span></div>
+<div class="skc"><div class="si">🏛️</div><div class="st">First Home Super Saver Scheme</div><div class="sd">Eligible first home buyers can make voluntary super contributions of up to $15,000/year ($50,000 lifetime, $100,000 for couples) and withdraw them for a deposit. Contributions taxed at 15% inside super rather than your marginal rate (up to 47%). Eligibility rules are strict — confirm with your super fund and a financial adviser.</div><span class="itag ih">🏠 Significant for first home buyers</span></div>
+</div>
+<div class="pp">
+<div class="pp-orb"></div>
+<h3>Ready to Go Beyond the Concepts?</h3>
+<p>These professionals can help you apply what you've learnt to your actual situation — with advice tailored to your circumstances, goals and risk tolerance.</p>
+<div class="plinks">
+<a class="plink" href="https://www.mfaa.com.au/find-a-broker" target="_blank" rel="noopener">🏦 MFAA Mortgage Broker ↗</a>
+<a class="plink" href="https://www.fbaa.com.au" target="_blank" rel="noopener">🏦 FBAA Mortgage Broker ↗</a>
+<a class="plink" href="https://www.moneysmart.gov.au/financial-advice/financial-advisers-register" target="_blank" rel="noopener">📊 Licensed Financial Adviser ↗</a>
+<a class="plink" href="https://www.tpb.gov.au/find-a-tax-practitioner" target="_blank" rel="noopener">🧾 Registered Tax Agent ↗</a>
+<a class="plink" href="https://www.moneysmart.gov.au" target="_blank" rel="noopener">📚 ASIC MoneySmart ↗</a>
+<a class="plink" href="https://www.afca.org.au" target="_blank" rel="noopener">⚖️ Financial Complaints — AFCA ↗</a>
+</div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+<div class="ft-inner">
+<div class="ft-brand">
+<h4>Mortgage Payoff Guide</h4>
+<p>A free educational tool to help Australians understand general mortgage concepts. No AFSL, ACL or TPB registration held. Calculations are illustrative only.</p>
+<p style="margin-top:8px;font-size:.72rem;color:rgba(255,255,255,.25)">Last reviewed: May 2026 · RBA cash rate 4.35% · Stamp duty rates 2025–26</p>
+</div>
+<div class="ft-col">
+<h5>Legal</h5>
+<span onclick="showSec('terms-modal')">Terms of Use</span>
+<span onclick="showSec('privacy-modal')">Privacy Notice</span>
+<span onclick="document.getElementById('welcome-modal').classList.remove('hidden')">Educational Disclaimer</span>
+<a href="https://www.afca.org.au" target="_blank" rel="noopener">Complaints — AFCA ↗</a>
+</div>
+<div class="ft-col">
+<h5>Find Professional Advice</h5>
+<a href="https://www.mfaa.com.au/find-a-broker" target="_blank" rel="noopener">MFAA — Find a Broker ↗</a>
+<a href="https://www.moneysmart.gov.au/financial-advice/financial-advisers-register" target="_blank" rel="noopener">ASIC — Financial Advisers ↗</a>
+<a href="https://www.tpb.gov.au/find-a-tax-practitioner" target="_blank" rel="noopener">TPB — Tax Agents ↗</a>
+<a href="https://www.nhfic.gov.au" target="_blank" rel="noopener">Home Guarantee Scheme ↗</a>
+</div>
+</div>
+<div class="ft-bottom">
+<span>© 2026 AOB Tools · Mortgage Payoff Guide · NSW, Australia</span>
+<span>General information only · No AFSL/ACL/TPB held · Seek professional advice before acting</span>
+</div>
+</footer>
+
+<script>
+'use strict';
+const S={lt:'PI',pt:'est',by:'oo',fhb:false};
+let cB=null,cD=null,cS=null;
+function closeWelcome(){document.getElementById('welcome-modal').classList.add('hidden');try{localStorage.setItem('mpg2','1')}catch(e){}}
+function showSec(id){document.getElementById(id).classList.remove('hidden')}
+function hideSec(id){document.getElementById(id).classList.add('hidden')}
+window.addEventListener('click',e=>{['privacy-modal','terms-modal'].forEach(id=>{const m=document.getElementById(id);if(e.target===m)hideSec(id)})});
+(function(){try{if(localStorage.getItem('mpg2')==='1')document.getElementById('welcome-modal').classList.add('hidden')}catch(e){}})();
+function fm(n,d=0){if(n==null||isNaN(n))return'—';return'$'+Math.abs(n).toLocaleString('en-AU',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function fy(m){const y=Math.floor(m/12),mo=m%12;return y>0?(mo>0?`${y}y ${mo}m`:`${y}yr`):`${mo}m`}
+function mp(P,r,n){if(n<=0)return 0;const mr=r/100/12;if(mr===0)return P/n;return P*mr*Math.pow(1+mr,n)/(Math.pow(1+mr,n)-1)}
+function amort(P,r,n,oi,om,ex,lt,io){const mr=r/100/12,bp=mp(P,r,n);let bal=P,off=oi,ti=0,sched=[];for(let m=1;m<=n;m++){off+=om;const eb=Math.max(0,bal-off),int=eb*mr;let pp=lt==='IO'&&m<=io*12?0:Math.min(bal,Math.max(0,(bp+ex)-int));bal=Math.max(0,bal-pp);ti+=int;sched.push({m,yr:Math.ceil(m/12),bal,int,pp,ti});if(bal<0.01)break;}return{sched,ti,months:sched.length,bp};}
+function yrd(sched){const y={};sched.forEach(s=>{if(!y[s.yr])y[s.yr]={int:0,pp:0,bal:0,yr:s.yr};y[s.yr].int+=s.int;y[s.yr].pp+=s.pp;y[s.yr].bal=s.bal;});return Object.values(y);}
+function recalc(){
+  const P=+document.getElementById('c_loan').value||600000,r=+document.getElementById('c_rate').value||6.3,n=(+document.getElementById('c_term').value||30)*12;
+  const oi=+document.getElementById('c_off').value||0,om=+document.getElementById('c_offmo').value||0,ex=+document.getElementById('c_ex').value||0;
+  const freq=document.getElementById('c_freq').value,io=+document.getElementById('c_io').value||5,lt=S.lt;
+  let effEx=ex;if(freq==='ftrue'||freq==='weekly')effEx+=mp(P,r,n)/12;
+  const base=amort(P,r,n,0,0,0,lt,io),opt=amort(P,r,n,oi,om,effEx,lt,io);
+  let disp=opt.bp;if(freq==='ftrue'||freq==='fequal')disp=opt.bp/2;else if(freq==='weekly')disp=opt.bp/4.333;
+  const ll={monthly:'Monthly',ftrue:'Fortnightly (True Acceleration)',fequal:'Fortnightly (No Acceleration)',weekly:'Weekly'};
+  document.getElementById('r_pay').textContent=fm(disp);
+  document.getElementById('r_paylbl').textContent='Illustrative '+ll[freq]+' Repayment';
+  document.getElementById('r_int').textContent=fm(opt.ti);document.getElementById('r_tot').textContent=fm(P+opt.ti);
+  const pd=new Date(new Date().getFullYear(),new Date().getMonth()+opt.months);
+  document.getElementById('r_po').textContent=pd.toLocaleString('en-AU',{month:'short',year:'numeric'});
+  const sv=base.ti-opt.ti;const el=document.getElementById('r_sv');el.textContent=sv>100?fm(sv):'—';el.className='bnum '+(sv>100?'g':'');
+  if(lt==='IO'){const np=mp(P,r,n-io*12);document.getElementById('io-sh').style.display='block';document.getElementById('io-sh').innerHTML=`⚠️ After ${io} years IO, P&I repayments will be approximately <strong>${fm(np)}/month</strong>.`;}
+  else document.getElementById('io-sh').style.display='none';
+  updBal(opt,base);updDon(P,opt.ti);updAT(opt.sched);updSC(P,r,n,oi,lt,io);
+}
+const grd={color:'rgba(226,232,240,.6)',drawBorder:false};
+function updBal(opt,base){const ctx=document.getElementById('ch_bal').getContext('2d');const bd=yrd(base.sched),od=yrd(opt.sched);if(cB)cB.destroy();
+cB=new Chart(ctx,{type:'line',data:{labels:bd.map(y=>`Yr ${y.yr}`),datasets:[{label:'Standard',data:bd.map(y=>y.bal),borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.06)',fill:true,tension:.3,borderWidth:1.5,pointRadius:0},{label:'Your Scenario',data:od.map(y=>y.bal),borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,.08)',fill:true,tension:.3,borderWidth:2,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#64748b',font:{size:11,family:'Inter'},boxWidth:14}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${fm(c.parsed.y)}`}}},scales:{x:{ticks:{color:'#94a3b8',font:{size:10},maxTicksLimit:10},grid:grd},y:{ticks:{color:'#94a3b8',font:{size:10},callback:v=>'$'+(v/1000).toFixed(0)+'K'},grid:grd}}}});}
+function updDon(P,ti){const ctx=document.getElementById('ch_don').getContext('2d');if(cD)cD.destroy();
+cD=new Chart(ctx,{type:'doughnut',data:{labels:['Principal','Total Interest'],datasets:[{data:[P,ti],backgroundColor:['#10b981','#ef4444'],borderColor:['#fff','#fff'],borderWidth:3,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{labels:{color:'#64748b',font:{size:11,family:'Inter'},boxWidth:12}},tooltip:{callbacks:{label:c=>` ${c.label}: ${fm(c.parsed)}`}}}}});}
+function updAT(sched){document.getElementById('at_body').innerHTML=yrd(sched).map(y=>`<tr><td>Year ${y.yr}</td><td>${fm(y.int)}</td><td>${fm(y.pp)}</td><td>${fm(y.bal)}</td></tr>`).join('');}
+function updSC(P,r,n,oi,lt,io){
+  const base=amort(P,r,n,0,0,0,lt,io);
+  const st=[{nm:'Standard Monthly',d:amort(P,r,n,0,0,0,lt,io),c:'#ef4444'},{nm:'Fortnightly (true)',d:amort(P,r,n,0,0,mp(P,r,n)/12,lt,io),c:'#f59e0b'},{nm:`Offset ($${(oi/1000).toFixed(0)}K)`,d:amort(P,r,n,oi,0,0,lt,io),c:'#2563eb'},{nm:'Extra $500/mo',d:amort(P,r,n,0,0,500,lt,io),c:'#10b981'}];
+  const mi=Math.min(...st.map(s=>s.d.ti));
+  document.getElementById('sg').innerHTML=st.map(s=>{const sv=base.ti-s.d.ti,best=s.d.ti===mi;
+    return`<div class="sc ${best?'hl':''}"><div style="font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:${s.c};margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">${s.nm}${best?' <span class="badge bg">Best</span>':''}</div><div class="bnum" style="font-size:18px;color:${s.c}">${fm(s.d.ti)}</div><div class="nlbl" style="margin-bottom:7px">Illustrative Interest</div><div style="font-size:.78rem;color:var(--gray-400);margin-bottom:5px">Term: ${fy(s.d.months)}</div>${sv>100?`<div style="font-size:.75rem;color:var(--green);font-weight:700">≈ ${fm(sv)} less interest</div>`:'<div style="font-size:.75rem;color:var(--gray-400)">Baseline</div>'}<div class="ds" style="margin-top:5px">Illustrative only</div></div>`;}).join('');
+  updStr(st);
+}
+function updStr(st){const ctx=document.getElementById('ch_str');if(!ctx)return;if(cS)cS.destroy();
+cS=new Chart(ctx,{type:'bar',data:{labels:st.map(s=>s.nm),datasets:[{label:'Illustrative Total Interest',data:st.map(s=>s.d.ti),backgroundColor:['rgba(239,68,68,.7)','rgba(245,158,11,.7)','rgba(37,99,235,.7)','rgba(16,185,129,.7)'],borderColor:['#ef4444','#f59e0b','#2563eb','#10b981'],borderWidth:1.5,borderRadius:6}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${fm(c.parsed.x)}`}}},scales:{x:{ticks:{color:'#94a3b8',callback:v=>'$'+(v/1000).toFixed(0)+'K'},grid:{color:'rgba(226,232,240,.6)'}},y:{ticks:{color:'#334155',font:{size:11,family:'Inter'}},grid:{display:false}}}}});}
+function sr(v){document.getElementById('c_rate').value=parseFloat(v).toFixed(2);document.getElementById('rl').textContent=parseFloat(v).toFixed(2)+'%';recalc()}
+function sri(v){document.getElementById('c_rs').value=v;document.getElementById('rl').textContent=parseFloat(v).toFixed(2)+'%';recalc()}
+function setLT(t){S.lt=t;document.getElementById('btn-pi').className='tg'+(t==='PI'?' active':'');document.getElementById('btn-io').className='tg'+(t==='IO'?' active':'');document.getElementById('io-f').style.display=t==='IO'?'block':'none';recalc()}
+function calcLoy(){const g=parseFloat(document.getElementById('s_age').value),b=+document.getElementById('s_lb').value||500000;document.getElementById('ly_g').textContent=g.toFixed(2)+'%';document.getElementById('ly_y').textContent=fm(b*g/100);document.getElementById('ly_5').textContent=fm(b*g/100*5)}
+function calcRD(){const r1=+document.getElementById('s_r1').value||6.3,r2=+document.getElementById('s_r2').value||5.8,b=+document.getElementById('s_rb').value||500000,y=+document.getElementById('s_rt').value||25,n=y*12;const p1=mp(b,r1,n),p2=mp(b,r2,n),ms=p1-p2;document.getElementById('rd_m').textContent=fm(ms);document.getElementById('rd_y').textContent=fm(ms*12);document.getElementById('rd_t').textContent=fm((p1-p2)*n);document.getElementById('rd_n').innerHTML=ms>0?`✅ Illustrative saving: <strong>${fm(ms)}/month</strong>. Break-even on ~$1,500 costs: ~<strong>${Math.ceil(1500/ms)} months</strong>.`:'⚠️ Alternative rate shown is higher — this would cost more.';}
+function setPT(t){S.pt=t;document.getElementById('btn-est').className='tg'+(t==='est'?' active':'');document.getElementById('btn-new').className='tg'+(t==='new'?' active':'');calcTax()}
+function calcTax(){
+  const loan=+document.getElementById('t_loan').value||600000,r=+document.getElementById('t_rate').value||6.3,rent=+document.getElementById('t_rent').value||30000,exp=+document.getElementById('t_exp').value||8000,dep=+document.getElementById('t_dep').value||5000,marg=parseFloat(document.getElementById('t_marg').value);
+  const int=loan*r/100,net=rent-int-exp-dep,cf=rent-int-exp,isNeg=net<0,isNew=S.pt==='new';
+  document.getElementById('to_i').textContent='–'+fm(int);document.getElementById('to_r').textContent='+'+fm(rent);document.getElementById('to_e').textContent='–'+fm(exp);document.getElementById('to_d').textContent='–'+fm(dep);
+  document.getElementById('to_n').textContent=(net<0?'–':'+')+fm(Math.abs(net));document.getElementById('to_n').className='v '+(net<0?'r':'g');
+  document.getElementById('to_gl').textContent=net<0?'loss':'gain';
+  let ben=0,atcf=cf;
+  if(isNeg){ben=Math.abs(net)*marg;atcf=cf+ben;document.getElementById('to_bl').textContent=isNew?'Illustrative tax benefit (new build)':'Illustrative tax benefit (established — see note)';document.getElementById('to_b').textContent='+'+fm(ben);document.getElementById('t_note').innerHTML=isNew?'✅ New builds proposed to remain eligible under announced 2026 Budget measures. Confirm with your tax agent.':'⚠️ Established properties bought after 7:30pm 12 May 2026 may lose negative gearing from 1 July 2027 under proposed (not yet legislated) measures. Speak with a registered tax agent.';document.getElementById('t_note').className='cal '+(isNew?'c-gr':'c-am');}
+  else{document.getElementById('to_bl').textContent='Tax benefit';document.getElementById('to_b').textContent='$0 (positive cashflow)';document.getElementById('t_note').innerHTML='✅ Positively geared — net income taxable at your marginal rate.';document.getElementById('t_note').className='cal c-gr';}
+  document.getElementById('to_cf').textContent=(atcf<0?'–':'+')+fm(Math.abs(atcf));document.getElementById('to_cf').className='v '+(atcf<0?'r':'g');
+  document.getElementById('to_wk').textContent=(atcf<0?'–':'+')+fm(Math.abs(atcf/52))+'/wk';document.getElementById('to_wk').className='v '+(atcf<0?'r':'g');
+}
+function calcDR(){const b=+document.getElementById('dr_b').value||600000,l=+document.getElementById('dr_l').value||20000,r=+document.getElementById('dr_r').value||6.3,m=parseFloat(document.getElementById('dr_m').value),y=+document.getElementById('dr_y').value||10;let d=0,t=0;for(let i=1;i<=y;i++){d+=l;t+=d*r/100*m}document.getElementById('dr_yl').textContent=y;document.getElementById('dr_ded').textContent=fm(d);document.getElementById('dr_an').textContent=fm(d*r/100*m)+'/yr';document.getElementById('dr_cu').textContent=fm(t)}
+function setBy(t){S.by=t;document.getElementById('btn-oo').className='tg'+(t==='oo'?' active':'');document.getElementById('btn-iv').className='tg'+(t==='iv'?' active':'');calcC()}
+function setF(v){S.fhb=v;document.getElementById('btn-fy').className='tg'+(v?' active':'');document.getElementById('btn-fn').className='tg'+(!v?' active':'');calcC()}
+function sd(val,st,fhb,inv){let d=0;switch(st){case'NSW':if(val<=16000)d=val*.0125;else if(val<=35000)d=200+(val-16000)*.015;else if(val<=93000)d=485+(val-35000)*.0175;else if(val<=351000)d=1500+(val-93000)*.035;else if(val<=1168000)d=10530+(val-351000)*.045;else if(val<=3505000)d=47295+(val-1168000)*.055;else d=175830+(val-3505000)*.07;if(fhb&&!inv){if(val<=800000)d=0;else if(val<=1000000)d*=(val-800000)/200000;}break;case'VIC':if(val<=25000)d=val*.014;else if(val<=130000)d=350+(val-25000)*.024;else if(val<=960000)d=2870+(val-130000)*.06;else d=52670+(val-960000)*.055;if(fhb&&!inv){if(val<=600000)d=0;else if(val<=750000)d*=(val-600000)/150000;}break;case'QLD':if(val<=350000)d=val*.01;else if(val<=540000)d=3500+(val-350000)*.035;else if(val<=1000000)d=10150+(val-540000)*.045;else d=30850+(val-1000000)*.0575;if(fhb&&!inv){if(val<=700000)d=0;else if(val<=800000)d*=(val-700000)/100000;}break;case'SA':if(val<=12000)d=val*.01;else if(val<=30000)d=120+(val-12000)*.02;else if(val<=50000)d=480+(val-30000)*.03;else if(val<=100000)d=1080+(val-50000)*.035;else if(val<=200000)d=2830+(val-100000)*.04;else if(val<=250000)d=6830+(val-200000)*.0425;else if(val<=300000)d=8955+(val-250000)*.0475;else d=11330+(val-300000)*.055;break;case'WA':if(val<=120000)d=val*.019;else if(val<=150000)d=2280+(val-120000)*.0285;else if(val<=360000)d=3135+(val-150000)*.038;else if(val<=725000)d=11115+(val-360000)*.0475;else d=28453+(val-725000)*.0515;if(fhb&&!inv){if(val<=430000)d=0;else if(val<=530000)d*=(val-430000)/100000;}break;case'TAS':if(val<=3000)d=50;else if(val<=25000)d=50+(val-3000)*.0175;else if(val<=75000)d=435+(val-25000)*.0225;else if(val<=200000)d=1560+(val-75000)*.035;else if(val<=375000)d=5935+(val-200000)*.04;else if(val<=725000)d=12935+(val-375000)*.0425;else d=27810+(val-725000)*.045;if(fhb&&!inv&&val<=750000)d*=.5;break;case'ACT':if(val<=200000)d=val*.006;else if(val<=300000)d=1200+(val-200000)*.022;else if(val<=500000)d=3400+(val-300000)*.034;else if(val<=750000)d=10200+(val-500000)*.0432;else if(val<=1000000)d=21000+(val-750000)*.059;else d=35750+(val-1000000)*.0665;if(fhb&&!inv&&val<=700000)d=0;break;case'NT':const V=val/1000;d=0.06571441*V*V+15*V;if(fhb&&!inv)d=0;break;}return Math.round(d);}
+function lmi(loan,price){const lvr=loan/price*100;if(lvr<=80)return 0;let rt;if(lvr<=85)rt=.0065;else if(lvr<=90)rt=.0123;else if(lvr<=92)rt=.018;else if(lvr<=95)rt=.0244;else rt=.03;return Math.round(loan*rt*(S.by==='iv'?1.15:1))}
+function calcC(){const price=+document.getElementById('uc_p').value||750000,dep=+document.getElementById('uc_d').value||150000,state=document.getElementById('uc_st').value,loan=price-dep,lvr=loan/price*100;const sdt=sd(price,state,S.fhb,S.by==='iv'),lmt=lmi(loan,price),other=4600;document.getElementById('uc_sd').textContent=fm(sdt)+' (indicative)';document.getElementById('uc_lm').textContent=lmt>0?fm(lmt)+' (indicative)':'$0 — not required at this LVR';document.getElementById('uc_tot').textContent=fm(sdt+lmt+other);document.getElementById('uc_lvr').textContent=lvr.toFixed(1)+'%';const mx=Math.max(sdt,lmt,other,5000);document.getElementById('b_sd').style.width=Math.min(100,sdt/mx*100)+'%';document.getElementById('b_lm').style.width=Math.min(100,lmt/mx*100)+'%';const msgs={NSW:p=>p<=800000?'✅ NSW FHB: Full stamp duty exemption up to $800K. Verify with Revenue NSW.':p<=1000000?'⚠️ NSW FHB: Partial concession above $800K.':'',VIC:p=>p<=600000?'✅ VIC FHB: Full exemption up to $600K. Verify with State Revenue Office.':p<=750000?'⚠️ VIC FHB: Partial concession $600K–$750K.':'',QLD:p=>p<=700000?'✅ QLD FHB: Full exemption up to $700K. Verify with Queensland Revenue Office.':'',WA:p=>p<=430000?'✅ WA FHB: Full exemption up to $430K. Verify with Revenue WA.':'⚠️ WA FHB: Limited or no exemption above $430K.',SA:()=>'⚠️ SA: No stamp duty exemption for FHBs on established property.',TAS:p=>p<=750000?'✅ TAS FHB: 50% concession — check expiry with State Revenue Tasmania.':'',ACT:p=>p<=700000?'✅ ACT FHB: Full exemption via Home Buyer Concession Scheme (income-tested).':'',NT:()=>'✅ NT: Full exemption via HomeGrow Access — check current status with NT Revenue.'};const fn=msgs[state],nm=document.getElementById('fhb_n');if(S.fhb&&fn){const msg=fn(price);nm.innerHTML=msg?msg+'<div style="font-size:.68rem;margin-top:3px;opacity:.8">Indicative only — verify with your state revenue office and solicitor before acting</div>':'';nm.style.display=msg?'block':'none';}else nm.style.display='none';}
+function switchTab(id,btn){document.querySelectorAll('.tab-pane').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');if(id==='strat'){const P=+document.getElementById('c_loan').value||600000,r=+document.getElementById('c_rate').value||6.3,n=(+document.getElementById('c_term').value||30)*12,oi=+document.getElementById('c_off').value||0;updSC(P,r,n,oi,S.lt,+document.getElementById('c_io').value||5);calcLoy();calcRD();}}
+document.addEventListener('DOMContentLoaded',()=>{recalc();calcTax();calcDR();calcC();calcLoy();calcRD()});
+</script>
+</body>
+</html>
