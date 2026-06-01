@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>TrailView — Topographic Hiker</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --forest:   #1a2b1a;
+    --canopy:   #253625;
+    --moss:     #3d5c3d;
+    --fern:     #5a8a4a;
+    --amber:    #d4861f;
+    --amber-lt: #f0a835;
+    --stone:    #c8b89a;
+    --cream:    #ede8df;
+    --ink:      #0d1a0d;
+    --panel-bg: rgba(13, 26, 13, 0.88);
+    --panel-border: rgba(90, 138, 74, 0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Barlow Condensed', sans-serif;
+    background: var(--forest);
+    color: var(--cream);
+  }
+
+  #map {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+  }
+
+  /* ── Header bar ── */
+  #header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--panel-bg);
+    border-bottom: 1px solid var(--panel-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  #header .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #header .logo-icon {
+    width: 32px; height: 32px;
+    background: var(--amber);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  #header .logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--cream);
+  }
+
+  #header .logo-text span {
+    color: var(--amber-lt);
+  }
+
+  #status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #666;
+    display: inline-block;
+    margin-right: 6px;
+    transition: background 0.3s;
+  }
+  #status-dot.active { background: #4ade80; box-shadow: 0 0 6px #4ade80; }
+  #status-dot.searching { background: var(--amber-lt); animation: pulse 1s infinite; }
+  #status-dot.error { background: #f87171; }
+
+  #status-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--stone);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── Stats panel ── */
+  #stats {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: var(--panel-bg);
+    border-top: 1px solid var(--panel-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 14px 16px 20px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .stat-cell {
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .stat-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--fern);
+    margin-bottom: 4px;
+  }
+
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1;
+  }
+
+  .stat-unit {
+    font-size: 10px;
+    color: var(--stone);
+    margin-top: 2px;
+  }
+
+  /* ── Coordinates bar ── */
+  #coords-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+
+  #coords-bar .coord {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--amber-lt);
+    letter-spacing: 0.5px;
+  }
+
+  #coords-bar .coord-sep {
+    color: var(--moss);
+    font-size: 14px;
+  }
+
+  /* ── Control buttons ── */
+  #controls {
+    position: fixed;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ctrl-btn {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    border: 1px solid var(--panel-border);
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--cream);
+    font-size: 20px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .ctrl-btn:active { transform: scale(0.93); }
+
+  .ctrl-btn.active {
+    background: rgba(212, 134, 31, 0.25);
+    border-color: var(--amber);
+    box-shadow: 0 0 12px rgba(212, 134, 31, 0.3);
+  }
+
+  /* ── Permission overlay ── */
+  #permission-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(13, 26, 13, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+  }
+
+  #permission-overlay.hidden { display: none; }
+
+  .overlay-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 12px rgba(212,134,31,0.4));
+  }
+
+  .overlay-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+
+  .overlay-sub {
+    font-size: 15px;
+    color: var(--stone);
+    line-height: 1.6;
+    margin-bottom: 32px;
+    max-width: 280px;
+  }
+
+  .overlay-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: var(--amber);
+    color: var(--ink);
+    border: none;
+    border-radius: 12px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(212,134,31,0.4);
+  }
+
+  .overlay-btn:active { transform: scale(0.96); }
+
+  /* ── Accuracy ring label ── */
+  .accuracy-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--amber-lt);
+    background: var(--panel-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* Leaflet overrides */
+  .leaflet-control-zoom {
+    display: none !important;
+  }
+
+  .leaflet-container {
+    background: var(--forest);
+  }
+
+  /* Custom marker */
+  .hiker-marker {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--amber);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .hiker-marker::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(212,134,31,0.5);
+    animation: sonar 2s infinite;
+  }
+
+  @keyframes sonar {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+
+  /* Snackbar */
+  #snack {
+    position: fixed;
+    top: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1500;
+    background: rgba(13,26,13,0.95);
+    border: 1px solid var(--panel-border);
+    color: var(--stone);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  #snack.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- Permission overlay -->
+<div id="permission-overlay">
+  <div class="overlay-icon">🗺️</div>
+  <div class="overlay-title">TrailView</div>
+  <div class="overlay-sub">Topographic hiking companion with live GPS tracking. Tap below to share your location and start navigating.</div>
+  <button class="overlay-btn" onclick="startTracking()">
+    📍 Enable GPS Tracking
+  </button>
+</div>
+
+<!-- Header -->
+<div id="header">
+  <div class="logo">
+    <div class="logo-icon">⛰️</div>
+    <div class="logo-text">Trail<span>View</span></div>
+  </div>
+  <div style="display:flex; align-items:center;">
+    <span id="status-dot"></span>
+    <span id="status-label">Standby</span>
+  </div>
+</div>
+
+<!-- Map -->
+<div id="map"></div>
+
+<!-- Side controls -->
+<div id="controls">
+  <button class="ctrl-btn active" id="btn-lock" title="Lock to position" onclick="toggleLock()">🎯</button>
+  <button class="ctrl-btn" id="btn-zoomin" onclick="map.zoomIn()">＋</button>
+  <button class="ctrl-btn" id="btn-zoomout" onclick="map.zoomOut()">－</button>
+  <button class="ctrl-btn" id="btn-topo" title="Topo layer" onclick="showSnack('Topographic layer active')">⛰</button>
+</div>
+
+<!-- Stats panel -->
+<div id="stats">
+  <div id="coords-bar">
+    <span class="coord" id="coord-lat">–––.–––––°</span>
+    <span class="coord-sep">|</span>
+    <span class="coord" id="coord-lng">–––.–––––°</span>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-cell">
+      <div class="stat-label">Altitude</div>
+      <div class="stat-value" id="val-alt">–</div>
+      <div class="stat-unit">metres</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Speed</div>
+      <div class="stat-value" id="val-speed">–</div>
+      <div class="stat-unit">km/h</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Accuracy</div>
+      <div class="stat-value" id="val-acc">–</div>
+      <div class="stat-unit">metres</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Heading</div>
+      <div class="stat-value" id="val-heading">–</div>
+      <div class="stat-unit">degrees</div>
+    </div>
+  </div>
+</div>
+
+<div id="snack"></div>
+
+<script>
+// ── Map init ──
+const map = L.map('map', {
+  zoomControl: false,
+  attributionControl: true
+}).setView([-33.8688, 151.2093], 13); // Default: Sydney
+
+// Topographic layer (OpenTopoMap)
+L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+  maxZoom: 17,
+  attribution: '© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)',
+  opacity: 0.95
+}).addTo(map);
+
+// ── State ──
+let watchId = null;
+let userMarker = null;
+let accuracyCircle = null;
+let lockedToPosition = true;
+let lastPos = null;
+
+// ── Custom marker icon ──
+const hikerIcon = L.divIcon({
+  className: '',
+  html: '<div class="hiker-marker"></div>',
+  iconSize: [20, 20],
+  iconAnchor: [10, 10]
+});
+
+// ── Lock toggle ──
+function toggleLock() {
+  lockedToPosition = !lockedToPosition;
+  const btn = document.getElementById('btn-lock');
+  btn.classList.toggle('active', lockedToPosition);
+  if (lockedToPosition && lastPos) {
+    map.panTo([lastPos.coords.latitude, lastPos.coords.longitude]);
+  }
+  showSnack(lockedToPosition ? 'Locked to position' : 'Map unlocked — pan freely');
+}
+
+// Unlock when user pans
+map.on('dragstart', () => {
+  if (lockedToPosition) {
+    lockedToPosition = false;
+    document.getElementById('btn-lock').classList.remove('active');
+  }
+});
+
+// ── Start GPS ──
+function startTracking() {
+  document.getElementById('permission-overlay').classList.add('hidden');
+  setStatus('searching', 'Acquiring GPS…');
+
+  if (!navigator.geolocation) {
+    setStatus('error', 'GPS unavailable');
+    showSnack('Geolocation not supported on this device');
+    return;
+  }
+
+  watchId = navigator.geolocation.watchPosition(
+    onPosition,
+    onError,
+    {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 0
+    }
+  );
+}
+
+// ── Position update ──
+function onPosition(pos) {
+  lastPos = pos;
+  const { latitude, longitude, altitude, speed, accuracy, heading } = pos.coords;
+  const latlng = [latitude, longitude];
+
+  setStatus('active', 'GPS Active');
+
+  // Update marker
+  if (!userMarker) {
+    userMarker = L.marker(latlng, { icon: hikerIcon, zIndexOffset: 1000 }).addTo(map);
+  } else {
+    userMarker.setLatLng(latlng);
+  }
+
+  // Update accuracy circle
+  if (!accuracyCircle) {
+    accuracyCircle = L.circle(latlng, {
+      radius: accuracy,
+      color: 'rgba(212, 134, 31, 0.8)',
+      fillColor: 'rgba(212, 134, 31, 0.08)',
+      fillOpacity: 1,
+      weight: 1.5,
+      dashArray: '4 4'
+    }).addTo(map);
+  } else {
+    accuracyCircle.setLatLng(latlng).setRadius(accuracy);
+  }
+
+  // Lock pan
+  if (lockedToPosition) {
+    map.panTo(latlng, { animate: true, duration: 0.5 });
+  }
+
+  // Update stats
+  document.getElementById('coord-lat').textContent = latitude.toFixed(5) + '°';
+  document.getElementById('coord-lng').textContent = longitude.toFixed(5) + '°';
+  document.getElementById('val-acc').textContent = Math.round(accuracy);
+
+  if (altitude !== null) {
+    document.getElementById('val-alt').textContent = Math.round(altitude);
+  } else {
+    document.getElementById('val-alt').textContent = 'n/a';
+  }
+
+  if (speed !== null && speed >= 0) {
+    document.getElementById('val-speed').textContent = (speed * 3.6).toFixed(1);
+  } else {
+    document.getElementById('val-speed').textContent = '0.0';
+  }
+
+  if (heading !== null) {
+    document.getElementById('val-heading').textContent = Math.round(heading) + '°';
+  } else {
+    document.getElementById('val-heading').textContent = '–';
+  }
+}
+
+// ── Error ──
+function onError(err) {
+  const msgs = {
+    1: 'Location permission denied',
+    2: 'Position unavailable — check signal',
+    3: 'GPS timeout — retrying…'
+  };
+  setStatus('error', msgs[err.code] || 'GPS error');
+  showSnack(msgs[err.code] || 'Location error');
+}
+
+// ── Helpers ──
+function setStatus(state, label) {
+  const dot = document.getElementById('status-dot');
+  const lbl = document.getElementById('status-label');
+  dot.className = state;
+  lbl.textContent = label;
+}
+
+let snackTimer;
+function showSnack(msg) {
+  const el = document.getElementById('snack');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(snackTimer);
+  snackTimer = setTimeout(() => el.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
