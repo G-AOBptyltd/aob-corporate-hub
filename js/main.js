@@ -27,6 +27,102 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ---- "Our Products" slide-out drawer ----
+  // Turns the "Our Products" nav item into a right-side drawer listing every
+  // product home page plus the sales portal. Built once here so a single JS +
+  // CSS change lights it up on every page (the nav is duplicated across pages).
+  (() => {
+    // Internal links resolve relative to whether we're at the site root or in /pages/.
+    const inPages = window.location.pathname.includes('/pages/');
+    const base = inPages ? '' : 'pages/';
+
+    const products = [
+      { name: 'SprintINSite',    desc: 'Predictive sprint analytics',        url: 'https://sprintinsite.com' },
+      { name: 'PortfolioInSite', desc: 'AI-native portfolio governance',     url: 'https://portfolioinsite.com.au' },
+      { name: 'ForecastInSite',  desc: 'Delivery forecasting, no Jira',       url: 'https://portfolioinsite.com.au/tools/forecastinsite' },
+      { name: 'PlanInSite',      desc: 'PI planning workspace',              url: 'https://portfolioinsite.com.au/tools/planinsite' },
+      { name: 'FlowInSite',      desc: 'Flow metrics & cycle time',          url: 'https://sprintinsite.com/tools/flowinsite' },
+      { name: 'ReportInSite',    desc: 'Jira board reporting & scorecards',   url: 'https://reportinsite.com.au' },
+      { name: 'SurveyInSite',    desc: 'Team health & engagement surveys',   url: 'https://surveyinsite.com.au' },
+      { name: 'FACT Training',   desc: 'Applied AI training & advisory',     url: 'https://fastact.com.au' }
+    ];
+
+    const triggers = Array.from(document.querySelectorAll('.nav-links a'))
+      .filter(a => a.textContent.trim() === 'Our Products');
+    if (!triggers.length) return;
+
+    // Build the drawer + backdrop once.
+    const backdrop = document.createElement('div');
+    backdrop.className = 'products-drawer-backdrop';
+
+    const drawer = document.createElement('aside');
+    drawer.className = 'products-drawer';
+    drawer.id = 'products-drawer';
+    drawer.setAttribute('role', 'dialog');
+    drawer.setAttribute('aria-modal', 'true');
+    drawer.setAttribute('aria-label', 'Our Products');
+    drawer.setAttribute('aria-hidden', 'true');
+    drawer.innerHTML = `
+      <div class="products-drawer-head">
+        <span class="products-drawer-eyebrow">Our Products</span>
+        <button type="button" class="products-drawer-close" aria-label="Close products menu">&times;</button>
+      </div>
+      <nav class="products-drawer-list" aria-label="Products">
+        ${products.map(p => `
+          <a href="${p.url}" target="_blank" rel="noopener">
+            <span class="pd-name">${p.name}</span>
+            <span class="pd-desc">${p.desc}</span>
+            <span class="pd-arrow" aria-hidden="true">&rarr;</span>
+          </a>`).join('')}
+      </nav>
+      <div class="products-drawer-foot">
+        <a href="${base}pricing.html" class="products-drawer-cta">
+          <span class="pd-name">Sales portal</span>
+          <span class="pd-desc">Pricing, plans &amp; purchase</span>
+          <span class="pd-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href="${base}brands.html" class="products-drawer-all">View all products &rarr;</a>
+      </div>`;
+
+    document.body.appendChild(backdrop);
+    document.body.appendChild(drawer);
+
+    const openDrawer = () => {
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('drawer-open');
+      triggers.forEach(t => t.setAttribute('aria-expanded', 'true'));
+      // Collapse the mobile nav if it was open.
+      if (navLinks) navLinks.classList.remove('open');
+      drawer.querySelector('.products-drawer-close').focus();
+    };
+    const closeDrawer = () => {
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+      triggers.forEach(t => t.setAttribute('aria-expanded', 'false'));
+    };
+
+    triggers.forEach(trigger => {
+      trigger.setAttribute('role', 'button');
+      trigger.setAttribute('aria-haspopup', 'dialog');
+      trigger.setAttribute('aria-controls', 'products-drawer');
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.addEventListener('click', e => {
+        e.preventDefault();
+        openDrawer();
+      });
+    });
+
+    backdrop.addEventListener('click', closeDrawer);
+    drawer.querySelector('.products-drawer-close').addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+    });
+  })();
+
   // ---- Scroll-triggered reveal animations ----
   const revealEls = document.querySelectorAll('.reveal');
   if (revealEls.length && 'IntersectionObserver' in window) {
