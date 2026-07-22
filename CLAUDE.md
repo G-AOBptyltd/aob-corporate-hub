@@ -120,6 +120,16 @@ aob-corporate-hub/
 - Email notifications configured to `greg@agilityops.com.au` with subject "AO Website - Contact Request"
 - Form handler in `js/main.js` uses `fetch()` POST to root URL with `x-www-form-urlencoded` encoding
 
+## Product surfacing — "Our Products" drawer & footers (Jul 2026)
+
+The `Our Products` nav item is a **right-side slide-out drawer**, not a plain link. It is built **once** in `js/main.js` (an IIFE that injects the drawer + backdrop and wires every `.nav-links a` whose text is "Our Products") and styled in `css/styles.css` (`.products-drawer*`). Because it's injected by JS, it works on **every page** with no per-page HTML — do NOT hand-add drawer markup to pages. Drawer = all product home pages + a gradient "Sales portal" CTA → `pricing.html` + a "View all products" → `brands.html` (internal links auto-resolve for root vs `/pages/`).
+
+**Canonical product list (keep drawer + all footers in sync).** The footer product column exists in three markup variants across pages (`ul.footer-links`, `div.footer-links>ul>li`, `div.footer-col>a`) — they were standardised to ONE list on all 17 content pages. Current canonical order:
+
+`SurveyInSite · SprintINSite · PortfolioInSite · ForecastInSite · PlanInSite · FlowInSite · ReportInSite · CareerInSite · FACT Training · Tools & Games` (footer); the drawer is the same minus Tools & Games, plus its own order. All product links `target="_blank" rel="noopener"`.
+
+**Launch checklist — when a new product goes live, surface it on the parent brand site:** add it to (1) the drawer array in `js/main.js`, (2) the footer product list on **every** page, (3) `brands.html`, (4) `sitemap.xml`, (5) `product.html` if applicable. ReportInSite + CareerInSite are both pre-launch/`noindex` but are linked here at Greg's request.
+
 ## Image Guidelines
 
 - Product screenshots: PNG format, full browser width, no OS chrome

@@ -1,0 +1,26 @@
+{
+  "project": "AOB Corporate Hub",
+  "product_code": "AOB-WEB",
+  "suite": "AOB Corporate (parent brand)",
+  "company": "Agility Ops Business Pty Ltd",
+  "abn": "[redacted — held in Notion RDTI log, never committed]",
+  "financial_year": "FY27",
+  "fy_start": "2026-07-01",
+  "fy_end": "2027-06-30",
+  "note": "aob-corporate-hub is the corporate marketing website (agilityops.com.au) — parent-brand hub, legal pages, blog, contact, pricing, and the Stripe webhook handler. It is NOT an R&D product line: routine work here (nav, footers, copy, marketing pages, link fixes, deployment) is standard front-end development and admin, and is expected to be 0 eligible hours as a rule. Only log RD-CORE/RD-SUPP if a genuine hypothesis-driven technical experiment is ever run in this repo (e.g. novel algorithm in the Stripe/licence-generation path with real technical uncertainty). Kept for completeness so any session in this repo has somewhere honest to record activity.",
+  "cost_rates": {
+    "_note": "Cost rates are NOT stored here — held in Notion RDTI log only. Never commit rates to this repo."
+  },
+  "activity_codes": {
+    "RD-CORE": { "description": "Core R&D — systematic experimentation to resolve technical uncertainty (new architecture, hypothesis-driven)", "rdti_eligible": true },
+    "RD-SUPP": { "description": "Supporting R&D — integration/deployment work directly supporting Core R&D", "rdti_eligible": true },
+    "DEV": { "description": "Standard Development — not R&D eligible", "rdti_eligible": false },
+    "ADMIN": { "description": "Administrative — project management, documentation, infrastructure/ops overhead", "rdti_eligible": false }
+  },
+  "record_retention_years": 5,
+  "registration_deadline": "2027-04-30",
+  "rdti_registration_body": "AusIndustry (Department of Industry, Science and Resources)",
+  "also_logged_to": [
+    "Notion: RDTI R&D Log — AOB Corporate / InSite Suite (link TBD — corporate-site work is generally non-eligible, so a dedicated log may not be warranted)"
+  ]
+}
