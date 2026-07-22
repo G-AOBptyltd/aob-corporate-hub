@@ -13,18 +13,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.7; }
         
         /* Nav */
-        nav { background: #0f172a; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .nav-logo-icon { background: linear-gradient(135deg, #3b82f6, #60a5fa); color: #fff; font-weight: 700; font-size: 14px; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-        .nav-logo-text { color: #f1f5f9; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 18px; }
-        .nav-links { display: flex; gap: 28px; list-style: none; }
-        .nav-links a { color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-        .nav-links a:hover, .nav-links a.active { color: #f1f5f9; }
         
         /* Breadcrumbs */
         .breadcrumbs { max-width: 780px; margin: 24px auto 0; padding: 0 24px; font-size: 13px; color: #64748b; }
@@ -100,12 +94,14 @@
             .footer-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 600px) {
-            nav { padding: 12px 16px; }
-            .nav-links { gap: 16px; }
-            .nav-links a { font-size: 13px; }
             .article-hero h1 { font-size: 26px; }
             .footer-grid { grid-template-columns: 1fr; }
         }
+        /* Standardised shared nav (styles.css) — clear the fixed navbar + keep article list markers */
+        body { padding-top: 70px; }
+        .article-body ul { list-style: disc; padding-left: 22px; }
+        .article-body ol { list-style: decimal; padding-left: 22px; }
+        .references ol { list-style: decimal; }
     </style>
     <script type="application/ld+json">
     {
@@ -122,19 +118,24 @@
     </script>
 </head>
 <body>
-    <nav>
-        <a href="/" class="nav-logo">
-            <div class="nav-logo-icon">AO</div>
-            <div class="nav-logo-text">Agility Ops</div>
-        </a>
-        <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/pages/about">About</a></li>
-            <li><a href="/pages/brands">Our Products</a></li>
-            <li><a href="/pages/team">Team</a></li>
-            <li><a href="/pages/blog" class="active">Blog</a></li>
-            <li><a href="/pages/contact">Contact</a></li>
-        </ul>
+    <nav class="nav scrolled" role="navigation" aria-label="Main navigation">
+        <div class="container nav-inner">
+            <a href="../index.html" class="nav-logo">
+                <div class="nav-logo-mark">AO</div>
+                Agility Ops
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="brands.html">Our Products</a>
+                <a href="team.html">Team</a>
+                <a href="blog.html" class="active">Blog</a>
+                <a href="contact.html" class="nav-cta">Contact</a>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
     </nav>
 
     <div class="breadcrumbs">
@@ -332,5 +333,6 @@
             </div>
         </div>
     </footer>
+    <script src="../js/main.js"></script>
 </body>
 </html>
