@@ -1,0 +1,7 @@
+# Internal dev/tax artifacts — never serve on the public site (publish = ".")
+.rdti/
+CLAUDE.md
+
+# OS noise
+.DS_Store
+*/.DS_Store
