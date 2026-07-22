@@ -6,7 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---- Navbar scroll effect ----
   const nav = document.querySelector('.nav');
   if (nav) {
+    // Pages that hardcode `class="nav scrolled"` (subpages with no dark hero)
+    // want a solid nav at all times — only the transparent-at-top pages (e.g. the
+    // homepage over its dark hero) should toggle on scroll. Without this, the
+    // on-load call stripped `scrolled` and left white nav text on a white page.
+    const alwaysSolid = nav.classList.contains('scrolled');
     const onScroll = () => {
+      if (alwaysSolid) { nav.classList.add('scrolled'); return; }
       nav.classList.toggle('scrolled', window.scrollY > 50);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
