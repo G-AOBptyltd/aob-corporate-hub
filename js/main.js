@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { name: 'PlanInSite',      desc: 'PI planning workspace',              url: 'https://portfolioinsite.com.au/tools/planinsite' },
       { name: 'FlowInSite',      desc: 'Flow metrics & cycle time',          url: 'https://sprintinsite.com/tools/flowinsite' },
       { name: 'ReportInSite',    desc: 'Jira board reporting & scorecards',   url: 'https://reportinsite.com.au' },
+      { name: 'CareerInSite',    desc: 'Career-relevance scoring & AI coaching', url: 'https://careerinsite.com.au' },
       { name: 'SurveyInSite',    desc: 'Team health & engagement surveys',   url: 'https://surveyinsite.com.au' },
       { name: 'FACT Training',   desc: 'Applied AI training & advisory',     url: 'https://fastact.com.au' }
     ];
