@@ -90,6 +90,18 @@ function expiryDate(days) {
   return d.toISOString().slice(0, 10).replace(/-/g, '');
 }
 
+/**
+ * How long a licence KEY's embedded expiry date should last.
+ *
+ * The date baked into the key is NOT the subscription gate — the Notion Status
+ * (kept live by this webhook's cancellation handler) is. So the key only needs
+ * to outlive the subscription, not track the billing period. Early keys embedded
+ * a 35-day monthly expiry, which made active, paying customers' keys read as
+ * "expired" (this is what locked Anette out). Give keys a long life; the Notion
+ * 'Expiry Date' field still records the actual billing-period end for admin use.
+ */
+const KEY_LIFETIME_DAYS = 365 * 5;
+
 // ── Product matching ─────────────────────────────────────────────────────────
 
 /**
@@ -428,8 +440,9 @@ async function sendKeyEmail({ to, name, toolName, key, toolUrl, productUrl, expi
 // ── Single tool purchase handler ─────────────────────────────────────────────
 
 async function handleSingleToolPurchase({ tool, email, name, customerId, isAnnual, seats, session }) {
-  const expiryYMD = expiryDate(isAnnual ? 370 : 35);
-  const key = generateKey(tool.code, customerId, expiryYMD);
+  const keyExpiryYMD    = expiryDate(KEY_LIFETIME_DAYS);        // long-lived — key never falsely "expires" mid-subscription
+  const periodExpiryYMD = expiryDate(isAnnual ? 370 : 35);      // billing-period end, recorded on the Notion record
+  const key = generateKey(tool.code, customerId, keyExpiryYMD);
 
   console.log(`Key generated: ${key} for ${email} (${tool.name}, ${seats} seat${seats !== 1 ? 's' : ''})`);
 
@@ -440,7 +453,7 @@ async function handleSingleToolPurchase({ tool, email, name, customerId, isAnnua
       isAnnual,
       stripeCustomerId:     session.customer       || '',
       stripeSubscriptionId: session.subscription   || '',
-      expiryYMD,
+      expiryYMD: periodExpiryYMD,
       seats,
     });
     console.log(`Notion licence record created: ${pageId}`);
@@ -454,7 +467,7 @@ async function handleSingleToolPurchase({ tool, email, name, customerId, isAnnua
     key,
     toolUrl: tool.toolUrl,
     productUrl: tool.productUrl,
-    expiryYMD,
+    expiryYMD: periodExpiryYMD,
     isAnnual,
   });
 
@@ -464,14 +477,15 @@ async function handleSingleToolPurchase({ tool, email, name, customerId, isAnnua
 // ── Bundle purchase handler ──────────────────────────────────────────────────
 
 async function handleBundlePurchase({ email, name, customerId, isAnnual, seats, session }) {
-  const expiryYMD = expiryDate(isAnnual ? 370 : 35);
+  const keyExpiryYMD    = expiryDate(KEY_LIFETIME_DAYS);        // long-lived — keys never falsely "expire" mid-subscription
+  const periodExpiryYMD = expiryDate(isAnnual ? 370 : 35);      // billing-period end, recorded on the Notion records
   const total = ALL_TOOLS.length;
 
   console.log(`Bundle purchase for ${email} — generating ${total} keys`);
 
   for (let i = 0; i < ALL_TOOLS.length; i++) {
     const tool = ALL_TOOLS[i];
-    const key = generateKey(tool.code, customerId, expiryYMD);
+    const key = generateKey(tool.code, customerId, keyExpiryYMD);
 
     console.log(`  [${i + 1}/${total}] ${tool.code}: ${key}`);
 
@@ -482,7 +496,7 @@ async function handleBundlePurchase({ email, name, customerId, isAnnual, seats, 
         isAnnual,
         stripeCustomerId:     session.customer       || '',
         stripeSubscriptionId: session.subscription   || '',
-        expiryYMD,
+        expiryYMD: periodExpiryYMD,
         seats,
       });
     } catch (notionErr) {
@@ -495,7 +509,7 @@ async function handleBundlePurchase({ email, name, customerId, isAnnual, seats, 
       key,
       toolUrl: tool.toolUrl,
       productUrl: tool.productUrl,
-      expiryYMD,
+      expiryYMD: periodExpiryYMD,
       isAnnual,
       bundleInfo: {
         index: i + 1,
@@ -566,8 +580,9 @@ exports.handler = async (event) => {
         if (!tool) {
           console.warn(`WARNING: No tool match for Stripe product "${productName}" — falling back to INS suite key`);
           // Fallback: generate a single INS key (backwards compatible)
-          const expiryYMD = expiryDate(isAnnual ? 370 : 35);
-          const key = generateKey('INS', customerId, expiryYMD);
+          const keyExpiryYMD    = expiryDate(KEY_LIFETIME_DAYS);
+          const periodExpiryYMD = expiryDate(isAnnual ? 370 : 35);
+          const key = generateKey('INS', customerId, keyExpiryYMD);
 
           try {
             await createLicenceRecord({
@@ -576,7 +591,7 @@ exports.handler = async (event) => {
               isAnnual,
               stripeCustomerId:     session.customer       || '',
               stripeSubscriptionId: session.subscription   || '',
-              expiryYMD,
+              expiryYMD: periodExpiryYMD,
               seats,
             });
           } catch (notionErr) {
@@ -589,7 +604,7 @@ exports.handler = async (event) => {
             key,
             toolUrl: 'https://agilityops.com.au/pages/brands.html',
             productUrl: 'https://agilityops.com.au',
-            expiryYMD,
+            expiryYMD: periodExpiryYMD,
             isAnnual,
           });
 
