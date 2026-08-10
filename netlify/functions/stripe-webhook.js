@@ -119,6 +119,39 @@ function isBundle(productName) {
   return normalised.includes('bundle') || normalised.includes('suite') || normalised.includes('all tools');
 }
 
+/**
+ * Resolve how many seats a licence should be provisioned with.
+ *
+ * Pricing is FLAT PER TIER (see pages/pricing.html): one price covers the whole
+ * seat band — Starter includes up to 3, Team up to 10, etc. The pricing page's
+ * seat slider only selects the tier; it does NOT pass a per-seat quantity to
+ * Stripe. So we must provision the TIER MAXIMUM, not the checkout line quantity
+ * (which is usually 1 for a flat per-tier Payment Link). Provisioning the
+ * quantity is what under-provisioned early customers (e.g. Anette → 1 seat).
+ *
+ * Tier is derived from the price lookup key / nickname / product name
+ * (e.g. "bundle_starter_monthly" → starter → 3). If no tier can be identified,
+ * we fall back to the purchased quantity so we never under-provision what was
+ * actually bought. Order matters: check 'medbusiness' before 'business'.
+ */
+const TIER_SEATS = [
+  { key: 'medbusiness', max: 150 },
+  { key: 'enterprise',  max: 9999 },
+  { key: 'business',    max: 25 },
+  { key: 'team',        max: 10 },
+  { key: 'starter',     max: 3 },
+];
+
+function seatsForTier({ lookupKey, nickname, productName, quantity }) {
+  const hay = `${lookupKey || ''} ${nickname || ''} ${productName || ''}`
+    .toLowerCase().replace(/[^a-z]/g, '');
+  const q = quantity || 1;
+  for (const tier of TIER_SEATS) {
+    if (hay.includes(tier.key)) return Math.max(tier.max, q);
+  }
+  return q; // tier not detected — grant what was purchased
+}
+
 // ── Notion Licences DB ────────────────────────────────────────────────────────
 
 const LICENCES_DB_ID = '76a27c5d-f2e0-459c-81a0-b5910c943731';
@@ -550,7 +583,13 @@ exports.handler = async (event) => {
       const price    = item?.price;
       const product  = price?.product;
       const isAnnual = price?.recurring?.interval === 'year';
-      const seats    = item?.quantity || 1;
+      // Flat-per-tier pricing → provision the tier maximum, not the line quantity.
+      const seats    = seatsForTier({
+        lookupKey:   price?.lookup_key,
+        nickname:    price?.nickname,
+        productName: product?.name,
+        quantity:    item?.quantity,
+      });
 
       const email      = session.customer_details?.email;
       const name       = session.customer_details?.name;
@@ -648,6 +687,7 @@ if (typeof module !== 'undefined') {
     expiryDate,
     matchTool,
     isBundle,
+    seatsForTier,
     buildEmailHtml,
     ALL_TOOLS,
   };
