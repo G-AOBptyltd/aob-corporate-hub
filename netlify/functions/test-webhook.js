@@ -8,7 +8,7 @@
  */
 
 const { _test } = require('./stripe-webhook');
-const { computeHash, generateKey, makeCustomerId, matchTool, isBundle, buildEmailHtml, ALL_TOOLS } = _test;
+const { computeHash, generateKey, makeCustomerId, matchTool, isBundle, seatsForTier, buildEmailHtml, ALL_TOOLS } = _test;
 
 let passed = 0;
 let failed = 0;
@@ -180,6 +180,26 @@ ALL_TOOLS.forEach(tool => {
   assert(tool.productUrl.startsWith('https://'), `${tool.code} has HTTPS product URL`);
   assert(tool.keywords.length >= 2, `${tool.code} has at least 2 keywords`);
 });
+
+// ── seatsForTier() — provision tier maximum, not line quantity ───────────────
+
+section('seatsForTier() — tier maximum from lookup key');
+assert(seatsForTier({ lookupKey: 'bundle_starter_monthly_v2', quantity: 1 }) === 3, 'bundle_starter → 3 (not the qty of 1)');
+assert(seatsForTier({ lookupKey: 'bundle_team_monthly' }) === 10, 'bundle_team → 10');
+assert(seatsForTier({ lookupKey: 'bundle_business_annual' }) === 25, 'bundle_business → 25');
+assert(seatsForTier({ lookupKey: 'bundle_med-business_monthly' }) === 150, 'bundle_med-business → 150 (not business/25)');
+assert(seatsForTier({ lookupKey: 'flowinsite_starter_annual' }) === 3, 'single-tool starter → 3');
+
+section('seatsForTier() — tier from nickname / product name');
+assert(seatsForTier({ nickname: 'Starter Monthly' }) === 3, 'nickname "Starter Monthly" → 3');
+assert(seatsForTier({ productName: 'InSite Suite Bundle Team' }) === 10, 'productName "...Team" → 10');
+assert(seatsForTier({ productName: 'InSite Suite Bundle — Med Business' }) === 150, 'productName "Med Business" → 150');
+
+section('seatsForTier() — Anette regression + quantity fallback');
+assert(seatsForTier({ lookupKey: 'bundle_starter_monthly_v2', quantity: 1 }) === 3, 'Anette scenario: picked 1, Starter → 3');
+assert(seatsForTier({ lookupKey: 'bundle_starter_monthly', quantity: 5 }) === 5, 'qty above tier max is honoured (max(3,5)=5)');
+assert(seatsForTier({ productName: 'Mystery Product' }) === 1, 'unknown tier + no qty → 1');
+assert(seatsForTier({ productName: 'Mystery Product', quantity: 4 }) === 4, 'unknown tier → falls back to purchased qty');
 
 // ── Summary ──────────────────────────────────────────────────────────────────
 
