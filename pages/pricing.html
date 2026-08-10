@@ -64,6 +64,10 @@
     .tier-seg.active-b { background: #f5f3ff; color: #5b21b6; }
     .tier-seg.active-mb { background: #fffbeb; color: #92400e; }
     .tier-seg.active-e { background: #fef2f2; color: #991b1b; }
+    /* Seat entitlement line */
+    .seat-entitlement { max-width: 640px; margin: -32px auto 48px; text-align: center; font-size: 14px; color: #374151; line-height: 1.5; }
+    .seat-entitlement strong { color: #065f46; }
+    .seat-entitlement a { color: #06b6d4; }
 
     /* Cards grid */
     .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 48px; }
@@ -159,9 +163,9 @@
 
       <!-- Seat selector -->
       <div class="seat-section">
-        <label for="seatSlider">How many seats do you need?</label>
+        <label for="seatSlider">How many people need access?</label>
         <div class="seat-display" id="seatNum">10</div>
-        <span class="seat-unit">seats</span>
+        <span class="seat-unit">people on your team</span>
         <input type="range" id="seatSlider" class="seat-slider" min="1" max="200" value="10" oninput="render()">
       </div>
 
@@ -173,6 +177,9 @@
         <div class="tier-seg" id="seg-mb"><span class="t-name">Med Business</span><span class="t-range">26–150</span></div>
         <div class="tier-seg" id="seg-e"><span class="t-name">Enterprise</span><span class="t-range">150+</span></div>
       </div>
+
+      <!-- Seat entitlement (flat-per-tier: one price includes every seat in the band) -->
+      <p class="seat-entitlement" id="seatEntitlement"></p>
     </div>
   </section>
 
@@ -211,6 +218,10 @@
         <div class="note-item">
           <div class="note-title">Per tool or bundle</div>
           <div class="note-body">Subscribe to individual tools or save 30% with the full InSite Suite bundle. Mix and match isn't available — it's per-tool or the full bundle.</div>
+        </div>
+        <div class="note-item">
+          <div class="note-title">Seats &amp; licences</div>
+          <div class="note-body">Each plan is one flat price for its whole tier — you're entitled to every seat in your band, not just the number you enter. Starter covers up to 3 people, Team up to 10, and so on. Your team shares a single licence key across their devices, and you can add people any time at no extra cost until you reach your tier limit.</div>
         </div>
         <div class="note-item">
           <div class="note-title">Enterprise &amp; custom</div>
@@ -421,6 +432,13 @@
       el.className = 'tier-seg' + (k===tierKey?' '+tierCls[k]:'');
     });
 
+    /* Seat entitlement — flat price per tier includes every seat in the band, on one shared licence */
+    const entName = {s:'Starter',t:'Team',b:'Business',mb:'Med Business',e:'Enterprise'}[tierKey];
+    const entMax  = {s:3,t:10,b:25,mb:150}[tierKey];
+    document.getElementById('seatEntitlement').innerHTML = entMax
+      ? `You'll be on the <strong>${entName}</strong> plan — one flat price that includes <strong>up to ${entMax} seats</strong>, all sharing a single licence key. Add teammates any time at no extra cost until you reach the limit.`
+      : `<strong>Enterprise</strong> — custom pricing for teams of 150+. <a href="contact.html">Talk to us →</a>`;
+
     /* Cards */
     const grid = document.getElementById('pricingGrid');
     grid.innerHTML = TOOLS.map(tool => {
@@ -443,7 +461,7 @@
              ${annual ? `<div class="card-annual">${fmt(tier.an)}/year</div><div class="card-saving">save ${fmt(saving)}</div>` : ''}`
         }
         <div class="card-tier ${tier.cls}">${tier.label}</div>
-        <div class="card-seats">${tier.seats} seats</div>
+        <div class="card-seats">${tier.custom ? '150+ seats' : 'Up to ' + tier.max + ' seats included'}</div>
         <a href="${ctaHref}" class="card-cta ${ctaCls}" ${ctaClick}>${ctaText}</a>
       </div>`;
     }).join('');
