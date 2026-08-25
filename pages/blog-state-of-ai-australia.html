@@ -15,269 +15,181 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
     <style>
-        .article-header {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 80px 24px 0;
+        :root{
+            --a-navy:#0a0f1c; --a-navy2:#1a2332; --a-blue:#2563eb; --a-blue2:#3b82f6;
+            --a-glow:#60a5fa; --a-cyan:#06b6d4; --a-violet:#7c3aed;
+            --a-g100:#f1f5f9; --a-g200:#e2e8f0; --a-g400:#94a3b8; --a-g500:#64748b;
+            --a-g600:#475569; --a-g700:#334155; --a-ink:#0f172a;
+            --fd:'Plus Jakarta Sans',sans-serif;
         }
-        .article-tag {
-            display: inline-block;
-            background: #ecfdf5;
-            color: #047857;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
-        }
-        .article-header h1 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            font-weight: 800;
-            line-height: 1.2;
-            color: #0f172a;
-            margin-bottom: 16px;
-        }
-        .article-meta {
-            font-size: 0.875rem;
-            color: #64748b;
-            margin-bottom: 32px;
-        }
-        .article-meta strong {
-            color: #334155;
-        }
-        /* Designed hero band — data visual, no stock imagery */
-        .article-hero-band {
-            max-width: 960px;
-            margin: 0 auto 48px;
-            padding: 0 24px;
-        }
-        .hero-band-inner {
+        body{background:#fafbfc;}
+        .art-wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+        .art-narrow{max-width:780px;margin:0 auto;padding:0 24px;}
+
+        /* HERO */
+        .art-hero{
             background:
-                radial-gradient(700px 320px at 82% -20%, rgba(124,58,237,0.35), transparent 60%),
-                radial-gradient(560px 300px at 8% 120%, rgba(6,182,212,0.28), transparent 55%),
-                #0a0f1c;
-            border-radius: 14px;
-            padding: 44px 40px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 24px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+                radial-gradient(1100px 560px at 80% -8%, rgba(124,58,237,.38), transparent 60%),
+                radial-gradient(880px 480px at 8% 112%, rgba(6,182,212,.3), transparent 55%),
+                var(--a-navy);
+            color:#fff; padding:150px 0 64px; position:relative; overflow:hidden;
         }
-        .hero-band-inner .hb-stat .n {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: clamp(1.9rem, 4vw, 2.6rem);
-            font-weight: 800;
-            color: #fff;
-            line-height: 1;
-            letter-spacing: -0.02em;
+        .back-link{
+            display:inline-flex; align-items:center; gap:6px; color:var(--a-g400);
+            text-decoration:none; font-size:.875rem; font-weight:500; margin-bottom:26px; transition:color .2s;
         }
-        .hero-band-inner .hb-stat .n span { color: #60a5fa; }
-        .hero-band-inner .hb-stat .l {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            margin-top: 8px;
-            line-height: 1.45;
+        .back-link:hover{color:#fff;}
+        .art-eyebrow{
+            display:inline-flex; gap:8px; font-family:var(--fd); font-weight:700; font-size:.72rem;
+            letter-spacing:.14em; text-transform:uppercase; color:var(--a-glow);
+            background:rgba(96,165,250,.1); border:1px solid rgba(96,165,250,.28);
+            padding:6px 14px; border-radius:999px;
         }
-        .hero-band-src {
-            grid-column: 1 / -1;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 14px;
-            font-size: 0.72rem;
-            color: #64748b;
+        .art-hero h1{
+            color:#fff; font-family:var(--fd); font-size:clamp(2rem,4.6vw,3.2rem); font-weight:800;
+            line-height:1.12; letter-spacing:-.02em; margin:20px 0 18px; max-width:21ch;
         }
-        .article-body {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 24px 80px;
-            font-size: 1.05rem;
-            line-height: 1.85;
-            color: #334155;
+        .art-hero .stand{font-size:clamp(1.02rem,1.9vw,1.22rem); color:#cbd5e1; max-width:58ch; line-height:1.7;}
+        .art-byline{margin-top:26px; color:var(--a-g400); font-size:.88rem;}
+        .art-byline b{color:var(--a-g200);}
+
+        /* HERO STAT STRIP */
+        .hero-stats{
+            max-width:1080px; margin:-34px auto 0; padding:0 24px; position:relative; z-index:5;
         }
-        .article-body h2 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin: 48px 0 16px;
+        .hero-stats-inner{
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px;
         }
-        .article-body h3 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin: 36px 0 12px;
+        .hs{
+            background:#fff; border:1px solid var(--a-g200); border-radius:16px; padding:22px 20px;
+            box-shadow:0 14px 34px rgba(15,23,42,.09); position:relative; overflow:hidden;
         }
-        .article-body p {
-            margin-bottom: 20px;
+        .hs::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+            background:linear-gradient(var(--a-blue),var(--a-cyan));}
+        .hs.warn::before{background:linear-gradient(var(--a-violet),var(--a-blue2));}
+        .hs.risk::before{background:linear-gradient(#f59e0b,#ef4444);}
+        .hs .n{font-family:var(--fd); font-weight:800; font-size:2.3rem; color:var(--a-ink); line-height:1; letter-spacing:-.03em;}
+        .hs .n small{font-size:1rem; color:var(--a-g400); font-weight:700;}
+        .hs .l{font-size:.83rem; color:var(--a-g600); margin-top:9px; line-height:1.5;}
+        .hero-stats-src{
+            text-align:center; font-size:.72rem; color:var(--a-g400); margin-top:14px;
         }
-        .article-body blockquote {
-            border-left: 4px solid #3b82f6;
-            margin: 32px 0;
-            padding: 16px 24px;
-            background: #f8fafc;
-            border-radius: 0 8px 8px 0;
-            font-style: italic;
-            color: #475569;
+
+        /* BODY */
+        .art-body{padding:52px 0 0; font-size:1.05rem; line-height:1.85; color:var(--a-g700);}
+        .art-body p{margin:0 0 20px;}
+        .art-body p.lead{font-size:1.16rem; color:var(--a-ink);}
+        .art-kick{font-family:var(--fd); font-weight:700; font-size:.74rem; letter-spacing:.13em;
+            text-transform:uppercase; color:var(--a-blue); display:block; margin-top:44px;}
+        .art-body h2{font-family:var(--fd); font-size:clamp(1.45rem,2.8vw,1.95rem); font-weight:800;
+            color:var(--a-ink); margin:8px 0 16px; letter-spacing:-.02em; line-height:1.2;}
+        .art-body h3{font-family:var(--fd); font-size:1.2rem; font-weight:700; color:var(--a-ink); margin:34px 0 12px;}
+
+        /* PULL QUOTE */
+        .pull{
+            border-left:4px solid var(--a-violet); background:#fff; border-radius:0 16px 16px 0;
+            padding:26px 30px; margin:34px 0; font-family:var(--fd); font-weight:700;
+            font-size:clamp(1.12rem,2.1vw,1.4rem); color:var(--a-ink); letter-spacing:-.01em; line-height:1.4;
+            box-shadow:0 2px 14px rgba(15,23,42,.05);
         }
-        .stat-callout {
-            background: linear-gradient(135deg, #eff6ff, #f8fafc);
-            border-radius: 12px;
-            padding: 28px 32px;
-            margin: 32px 0;
-            border: 1px solid #dbeafe;
+        .pull span{display:block; font-family:'Inter',sans-serif; font-weight:500; font-size:.85rem;
+            color:var(--a-g500); margin-top:10px; letter-spacing:0;}
+
+        /* STAT CALLOUT */
+        .stat-callout{
+            background:linear-gradient(135deg,#eff6ff,#f8fafc); border-radius:14px;
+            padding:28px 32px; margin:32px 0; border:1px solid #dbeafe;
         }
-        .stat-callout .stat-number {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #2563eb;
-            line-height: 1;
+        .stat-callout .stat-number{font-family:var(--fd); font-size:2.6rem; font-weight:800; color:var(--a-blue); line-height:1;}
+        .stat-callout .stat-label{font-size:.92rem; color:var(--a-g600); margin-top:8px; line-height:1.6;}
+        .stat-callout .stat-source{font-size:.75rem; color:var(--a-g400); margin-top:10px;}
+
+        /* DARK CALLOUT */
+        .dark-box{
+            background:linear-gradient(135deg,var(--a-navy),var(--a-navy2)); color:#fff;
+            border-radius:20px; padding:34px 36px; margin:36px 0; position:relative; overflow:hidden;
         }
-        .stat-callout .stat-label {
-            font-size: 0.9rem;
-            color: #475569;
-            margin-top: 6px;
+        .dark-box::after{content:""; position:absolute; right:-70px; top:-70px; width:260px; height:260px;
+            border-radius:50%; background:radial-gradient(circle,rgba(124,58,237,.4),transparent 70%);}
+        .dark-box h3{color:#fff; margin:0 0 14px; font-family:var(--fd); font-size:1.15rem; position:relative; z-index:2;}
+        .dark-box p{color:#cbd5e1; position:relative; z-index:2; margin-bottom:14px;}
+        .dark-box p:last-child{margin-bottom:0;}
+        .dark-box b{color:#fff;}
+
+        /* POSTURES */
+        .posture-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(225px,1fr)); gap:16px; margin:30px 0;}
+        .posture{background:#fff; border:1px solid var(--a-g200); border-top:4px solid var(--a-blue2);
+            border-radius:16px; padding:22px; transition:transform .2s, box-shadow .2s;}
+        .posture:hover{transform:translateY(-3px); box-shadow:0 14px 30px rgba(15,23,42,.08);}
+        .posture.p1{border-top-color:#10b981;} .posture.p2{border-top-color:#f59e0b;}
+        .posture.p3{border-top-color:var(--a-blue2);} .posture.p4{border-top-color:var(--a-g400);}
+        .posture h4{font-family:var(--fd); font-size:1.02rem; color:var(--a-ink); margin:0 0 2px;}
+        .posture .pshare{font-family:var(--fd); font-size:1.8rem; font-weight:800; color:var(--a-ink);}
+        .posture p{font-size:.86rem; color:var(--a-g500); line-height:1.6; margin:8px 0 0;}
+
+        /* CHART */
+        .chart{background:#fff; border:1px solid var(--a-g200); border-radius:16px; padding:26px 28px 20px; margin:30px 0;}
+        .chart h4{font-family:var(--fd); font-size:1.02rem; color:var(--a-ink); margin:0 0 4px;}
+        .chart .csub{color:var(--a-g500); font-size:.84rem; margin-bottom:16px;}
+        .bar-row{display:grid; grid-template-columns:190px 1fr; gap:14px; align-items:center; margin:10px 0;}
+        .bar-row .bl{font-size:.85rem; color:var(--a-g700); text-align:right; line-height:1.35;}
+        .track{background:var(--a-g100); border-radius:999px; height:25px; position:relative; overflow:hidden;}
+        .fill{height:100%; border-radius:999px; background:linear-gradient(90deg,var(--a-blue),var(--a-blue2));
+            display:flex; align-items:center; justify-content:flex-end; padding-right:10px; color:#fff;
+            font-family:var(--fd); font-weight:700; font-size:.78rem; min-width:44px;}
+        .fill.c2{background:linear-gradient(90deg,var(--a-violet),#a855f7);}
+        @media(max-width:560px){.bar-row{grid-template-columns:105px 1fr;}.bar-row .bl{font-size:.76rem;}}
+
+        /* FUTURIST */
+        .future{
+            background:
+                radial-gradient(900px 500px at 85% 0%, rgba(6,182,212,.16), transparent 55%),
+                radial-gradient(700px 420px at 5% 100%, rgba(124,58,237,.18), transparent 55%),
+                var(--a-navy);
+            color:#cbd5e1; padding:60px 0; margin:52px 0;
         }
-        .stat-callout .stat-source {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            margin-top: 8px;
+        .future .art-kick{color:var(--a-cyan);}
+        .future h2{color:#fff; font-family:var(--fd); font-size:clamp(1.45rem,2.8vw,1.95rem); font-weight:800;
+            margin:8px 0 16px; letter-spacing:-.02em; line-height:1.2;}
+        .future p{color:#cbd5e1; font-size:1.02rem; line-height:1.8; margin:0 0 18px;}
+        .future b{color:#fff;}
+        .disclaimer{
+            background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.35); border-radius:14px;
+            padding:18px 22px; margin:0 0 28px; color:#fcd34d; font-size:.92rem; line-height:1.7;
         }
-        .article-body a {
-            color: #2563eb;
-            text-decoration: underline;
-            text-decoration-color: #bfdbfe;
-            text-underline-offset: 3px;
-            transition: text-decoration-color 0.2s;
+        .disclaimer b{color:#fde68a;}
+        .horizon{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; margin:26px 0;}
+        .hz{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:22px;}
+        .hz .yr{font-family:var(--fd); font-weight:800; font-size:1.02rem; color:var(--a-cyan);}
+        .hz h4{color:#fff; font-family:var(--fd); font-size:1rem; margin:8px 0;}
+        .hz p{font-size:.87rem; color:var(--a-g400); margin:0; line-height:1.65;}
+
+        /* ACTION LIST */
+        .act{background:#fff; border:1px solid var(--a-g200); border-radius:20px; padding:30px 32px; margin:30px 0;}
+        .act h3{margin:0 0 6px;}
+        .act ol{margin:14px 0 0 20px; padding:0; list-style:decimal;}
+        .act li{margin:13px 0; font-size:.99rem; color:var(--a-g700); line-height:1.7;}
+        .act li b{color:var(--a-ink);}
+
+        /* SOURCES */
+        .sources{background:#f8fafc; border-top:1px solid var(--a-g200); padding:48px 0; margin-top:52px;}
+        .sources h2{font-family:var(--fd); font-size:1.35rem; font-weight:800; color:var(--a-ink); margin:0 0 12px;}
+        .sources > .art-wrap > p{font-size:.95rem; color:var(--a-g600); max-width:76ch; line-height:1.7;}
+        .srcs{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:10px; margin-top:20px;}
+        .src-i{background:#fff; border:1px solid var(--a-g200); border-radius:12px; padding:14px 18px;
+            font-size:.86rem; color:var(--a-g600); line-height:1.55;}
+        .src-i b{color:var(--a-ink); font-family:var(--fd);}
+
+        /* CTA */
+        .article-cta{
+            background:linear-gradient(135deg,#1e3a5f,#0f172a); border-radius:18px; padding:44px 40px;
+            text-align:center; margin:52px auto 72px; max-width:780px;
         }
-        .article-body a:hover {
-            text-decoration-color: #2563eb;
-        }
-        .key-takeaway {
-            background: #0f172a;
-            color: #e2e8f0;
-            border-radius: 12px;
-            padding: 32px;
-            margin: 40px 0;
-        }
-        .key-takeaway h3 {
-            color: #fff;
-            margin-top: 0;
-            font-size: 1.1rem;
-        }
-        .key-takeaway p {
-            color: #cbd5e1;
-            margin-bottom: 12px;
-        }
-        .key-takeaway p:last-child {
-            margin-bottom: 0;
-        }
-        .projection-note {
-            background: #fffbeb;
-            border: 1px solid #fde68a;
-            border-radius: 12px;
-            padding: 20px 24px;
-            margin: 32px 0;
-            font-size: 0.95rem;
-            color: #78350f;
-        }
-        .projection-note strong { color: #92400e; }
-        .posture-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin: 32px 0;
-        }
-        .posture {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-top: 4px solid #3b82f6;
-            border-radius: 12px;
-            padding: 20px;
-        }
-        .posture.p1 { border-top-color: #10b981; }
-        .posture.p2 { border-top-color: #f59e0b; }
-        .posture.p3 { border-top-color: #3b82f6; }
-        .posture.p4 { border-top-color: #94a3b8; }
-        .posture h4 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1rem;
-            color: #0f172a;
-            margin: 0 0 2px;
-        }
-        .posture .pshare {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #0f172a;
-        }
-        .posture p {
-            font-size: 0.85rem;
-            color: #64748b;
-            line-height: 1.6;
-            margin: 8px 0 0;
-        }
-        .sources-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 28px 32px;
-            margin: 40px 0 0;
-            font-size: 0.9rem;
-            color: #475569;
-        }
-        .sources-box h3 {
-            margin-top: 0;
-            font-size: 1.05rem;
-        }
-        .sources-box ul {
-            list-style: disc;
-            margin: 12px 0 0 20px;
-            padding: 0;
-        }
-        .sources-box li { margin: 6px 0; }
-        .article-cta {
-            background: linear-gradient(135deg, #1e3a5f, #0f172a);
-            border-radius: 14px;
-            padding: 40px;
-            text-align: center;
-            margin: 48px 0 0;
-        }
-        .article-cta h3 {
-            color: #fff;
-            margin-top: 0;
-        }
-        .article-cta p {
-            color: #94a3b8;
-        }
-        .article-cta a {
-            display: inline-block;
-            background: #3b82f6;
-            color: #fff;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-        .article-cta a:hover {
-            background: #2563eb;
-        }
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #64748b;
-            text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 24px;
-            transition: color 0.2s;
-        }
-        .back-link:hover { color: #2563eb; }
+        .article-cta h3{color:#fff; font-family:var(--fd); font-size:1.35rem; margin:0 0 10px;}
+        .article-cta p{color:#94a3b8; margin:0 0 22px; line-height:1.7;}
+        .article-cta a{display:inline-block; background:var(--a-blue2); color:#fff; padding:13px 30px;
+            border-radius:8px; font-weight:600; text-decoration:none; transition:background .2s;}
+        .article-cta a:hover{background:var(--a-blue);}
     </style>
     <script type="application/ld+json">
     {
@@ -322,157 +234,191 @@
         </div>
     </nav>
 
-    <!-- Article Header -->
-    <header class="article-header">
-        <a href="/pages/blog" class="back-link">&larr; Back to Blog</a>
-        <span class="article-tag">Australian AI Research</span>
-        <h1>The Capability Reckoning: Australia Has Adopted AI. It Hasn't Earned It Yet.</h1>
-        <div class="article-meta">
-            <strong>Agility Ops</strong> &middot; August 25, 2026 &middot; 11 min read
+    <!-- HERO -->
+    <header class="art-hero">
+        <div class="art-wrap">
+            <a href="/pages/blog" class="back-link">&larr; Back to Blog</a><br>
+            <span class="art-eyebrow">Australian AI Research &middot; Practitioner Perspective</span>
+            <h1>The Capability Reckoning: Australia has adopted AI. It hasn't earned it yet.</h1>
+            <p class="stand">We read eight independent AI studies — Australian and global — so you don't have to. They disagree on almost nothing. Adoption is everywhere. Capability is rare. And the window between the two is where businesses will be made or lost.</p>
+            <div class="art-byline">By <b>Agility Ops</b> &middot; August 25, 2026 &middot; 11 min read &middot; Built on eight independent research sources, credited in full below</div>
         </div>
     </header>
 
-    <!-- Hero data band (designed, not stock imagery) -->
-    <div class="article-hero-band">
-        <div class="hero-band-inner">
-            <div class="hb-stat"><div class="n">71<span>%</span></div><div class="l">of Australian SMEs say AI has materially lifted operations and growth</div></div>
-            <div class="hb-stat"><div class="n">31<span>%</span></div><div class="l">have a clear AI strategy and roadmap behind that activity</div></div>
-            <div class="hb-stat"><div class="n">23<span>%</span></div><div class="l">have AI genuinely connected to their business systems</div></div>
-            <div class="hb-stat"><div class="n">5<span>%</span></div><div class="l">of Australian SMBs rate as fully AI-enabled on Deloitte's maturity index</div></div>
-            <div class="hero-band-src">Sources: Decidr, The State of AI in Australian Business 2026 (research by Nature, n=1,324) &middot; Deloitte Access Economics, The AI Edge for SMBs (2025)</div>
+    <!-- HERO STAT STRIP -->
+    <div class="hero-stats">
+        <div class="hero-stats-inner">
+            <div class="hs"><div class="n">71<small>%</small></div><div class="l">of Australian SMEs say AI has materially lifted operations and growth</div></div>
+            <div class="hs warn"><div class="n">31<small>%</small></div><div class="l">have a clear AI strategy and roadmap behind that activity</div></div>
+            <div class="hs warn"><div class="n">23<small>%</small></div><div class="l">have AI genuinely connected to their business systems</div></div>
+            <div class="hs risk"><div class="n">5<small>%</small></div><div class="l">of Australian SMBs rate as fully AI-enabled on Deloitte's maturity index</div></div>
         </div>
+        <div class="hero-stats-src">Sources: Decidr, The State of AI in Australian Business 2026 (research by Nature, n=1,324) &middot; Deloitte Access Economics, The AI Edge for SMBs (2025)</div>
     </div>
 
-    <!-- Article Body -->
-    <article class="article-body">
+    <!-- BODY -->
+    <article class="art-body">
+        <div class="art-narrow">
 
-        <p>There's a comfortable story doing the rounds in Australian boardrooms right now. It goes like this: <em>we've adopted AI, our people are using it, we're ahead of the curve.</em> The first two parts are true. The third is where it falls apart.</p>
+            <p class="lead">There's a comfortable story doing the rounds in Australian boardrooms right now. It goes like this: <em>we've adopted AI, our people are using it, we're ahead of the curve.</em> The first two parts are true. The third is where it falls apart.</p>
 
-        <p>Using AI and being good at AI are different things. We recently read eight independent AI studies side by side &mdash; Australian and global, government-sponsored and commercial &mdash; and went looking for the sceptical ones. They disagree on almost nothing. The tools are in. The capability isn't. And the businesses telling themselves that adoption equals readiness are about to discover the difference, at market speed.</p>
+            <p>Using AI and being good at AI are different things. Every credible study we can find — and we went looking for the sceptical ones — lands on the same uncomfortable pattern. The tools are in. The capability isn't. And the businesses telling themselves that adoption equals readiness are about to find out the difference, at market speed.</p>
 
-        <h2>Eight Studies. One Verdict.</h2>
+            <span class="art-kick">The evidence</span>
+            <h2>Eight studies. One verdict.</h2>
 
-        <p>Decidr's national survey of more than 1,300 Australian businesses &mdash; independently fielded by research firm Nature &mdash; found that while 71% of SMEs credit AI with materially improving their operations and growth this past year, fewer than a third have any real AI strategy behind that activity. Not a bad plan. <strong>No plan.</strong> Just under half are openly experimenting without one.</p>
+            <p>Decidr's national survey of more than 1,300 Australian businesses — independently fielded by research firm Nature — found that while 71% of SMEs credit AI with materially improving their operations and growth this past year, fewer than a third have any real AI strategy behind that activity. Not a bad plan. <strong>No plan.</strong> Just under half are openly experimenting without one.</p>
 
-        <p>You could dismiss a single survey. You can't dismiss the chorus. Deloitte Access Economics, studying more than a thousand Australian SMBs, found roughly two-thirds using AI &mdash; and just 5% mature enough to be classed as genuinely AI-enabled. Atlassian's global research across 12,000 knowledge workers found near-universal AI use among technology teams, yet more than half haven't built it into how they actually work day to day &mdash; and only 9% of executives can point to organisation-wide returns with confidence.</p>
+            <p>You could dismiss a single survey. You can't dismiss the chorus. Deloitte Access Economics, studying more than a thousand Australian SMBs, found roughly two-thirds using AI — and just 5% mature enough to be classed as genuinely AI-enabled. Atlassian's global research across 12,000 knowledge workers found near-universal AI use among technology teams, yet more than half haven't built it into how they actually work day to day — and only 9% of executives can point to organisation-wide returns with confidence.</p>
 
-        <div class="stat-callout">
-            <div class="stat-number">&lt;10%</div>
-            <div class="stat-label">Typical cost savings reported by organisations using AI &mdash; with revenue gains most commonly under 5%. Adoption has surged; measurable value hasn't kept pace.</div>
-            <div class="stat-source">Source: Stanford HAI AI Index 2025, reporting McKinsey survey data</div>
-        </div>
-
-        <p>Microsoft's 2026 Work Trend Index &mdash; 20,000 workers across ten markets including Australia &mdash; adds the finding most leaders don't want to hear: organisational factors like culture, management support and talent practices drive roughly twice as much of AI's real-world impact as individual effort does. Your people cannot out-hustle your operating model. And only about a quarter of AI users believe their leadership is clearly aligned on AI at all.</p>
-
-        <blockquote>The technology has never been the constraint. The business underneath it is. That's the consistent finding across all eight sources &mdash; Australian and global, SME and enterprise.</blockquote>
-
-        <h2>Three Clocks Are Ticking at Once</h2>
-
-        <h3>The competitive clock</h3>
-
-        <p>Decidr's research segments the Australian market into four readiness postures &mdash; its Trailblazers, White Knucklers, Tinkerers and Sleepwalkers (their framework, and a genuinely useful one). The leading segment grew seven points in a single year. The market isn't drifting apart slowly; it's splitting. MYOB's data puts a number on what that split costs: Australian SMEs using AI are growing nearly three times faster than those that aren't. Every quarter of drift compounds.</p>
-
-        <div class="posture-grid">
-            <div class="posture p1">
-                <h4>The front-runners</h4>
-                <div class="pshare">24%</div>
-                <p>High urgency, low friction. Executing, not experimenting &mdash; and pulling away fastest. (Decidr's "Trailblazers")</p>
+            <div class="chart">
+                <h4>The same gap, in four independent studies</h4>
+                <div class="csub">AI adoption (blue) vs demonstrated capability behind it (violet)</div>
+                <div class="bar-row"><div class="bl">Decidr AU: see real AI impact</div><div class="track"><div class="fill" style="width:71%">71%</div></div></div>
+                <div class="bar-row"><div class="bl">&hellip;but have a clear strategy</div><div class="track"><div class="fill c2" style="width:31%">31%</div></div></div>
+                <div class="bar-row"><div class="bl">Deloitte AU: SMBs using AI</div><div class="track"><div class="fill" style="width:65%">65%</div></div></div>
+                <div class="bar-row"><div class="bl">&hellip;but rated fully AI-enabled</div><div class="track"><div class="fill c2" style="width:5%">5%</div></div></div>
+                <div class="bar-row"><div class="bl">Atlassian: tech workers using AI</div><div class="track"><div class="fill" style="width:96%">96%</div></div></div>
+                <div class="bar-row"><div class="bl">&hellip;execs sure of org-wide ROI</div><div class="track"><div class="fill c2" style="width:9%">9%</div></div></div>
             </div>
-            <div class="posture p2">
-                <h4>The stuck strivers</h4>
-                <div class="pshare">26%</div>
-                <p>They get it, they're pushing &mdash; and they're jammed on data, integration and expertise. (Decidr's "White Knucklers")</p>
+
+            <div class="stat-callout">
+                <div class="stat-number">&lt;10%</div>
+                <div class="stat-label">Typical cost savings reported by organisations using AI — with revenue gains most commonly under 5%. Adoption has surged; measurable value hasn't kept pace.</div>
+                <div class="stat-source">Source: Stanford HAI AI Index 2025, reporting McKinsey survey data</div>
             </div>
-            <div class="posture p3">
-                <h4>The dabblers</h4>
-                <div class="pshare">32%</div>
-                <p>Pockets of experimentation, no leadership mandate. Progress rides on individual initiative. (Decidr's "Tinkerers")</p>
+
+            <p>Microsoft's 2026 Work Trend Index — 20,000 workers across ten markets including Australia — adds the finding most leaders don't want to hear: organisational factors like culture, management support and talent practices drive roughly twice as much of AI's real-world impact as individual effort does. Your people cannot out-hustle your operating model. And only about a quarter of AI users believe their leadership is clearly aligned on AI at all.</p>
+
+            <div class="pull">The technology has never been the constraint. The business underneath it is.
+                <span>The consistent finding across all eight sources — Australian and global, SME and enterprise.</span>
             </div>
-            <div class="posture p4">
-                <h4>The drifters</h4>
-                <div class="pshare">19%</div>
-                <p>Not against AI &mdash; just unsure where to start, and most cautious on trust and security. (Decidr's "Sleepwalkers")</p>
+
+            <span class="art-kick">Why this is urgent, not interesting</span>
+            <h2>Three clocks are ticking at once</h2>
+
+            <h3>The competitive clock</h3>
+
+            <p>Decidr's research segments the Australian market into four readiness postures — its Trailblazers, White Knucklers, Tinkerers and Sleepwalkers (their framework, and a genuinely useful one). The leading segment grew seven points in a single year. The market isn't drifting apart slowly; it's splitting. MYOB's data puts a number on what that split costs: Australian SMEs using AI are growing nearly three times faster than those that aren't. Every quarter of drift compounds.</p>
+
+            <div class="posture-grid">
+                <div class="posture p1">
+                    <h4>The front-runners</h4>
+                    <div class="pshare">24%</div>
+                    <p>High urgency, low friction. Executing, not experimenting — and pulling away fastest. (Decidr's "Trailblazers")</p>
+                </div>
+                <div class="posture p2">
+                    <h4>The stuck strivers</h4>
+                    <div class="pshare">26%</div>
+                    <p>They get it, they're pushing — and they're jammed on data, integration and expertise. (Decidr's "White Knucklers")</p>
+                </div>
+                <div class="posture p3">
+                    <h4>The dabblers</h4>
+                    <div class="pshare">32%</div>
+                    <p>Pockets of experimentation, no leadership mandate. Progress rides on individual initiative. (Decidr's "Tinkerers")</p>
+                </div>
+                <div class="posture p4">
+                    <h4>The drifters</h4>
+                    <div class="pshare">19%</div>
+                    <p>Not against AI — just unsure where to start, and most cautious on trust and security. (Decidr's "Sleepwalkers")</p>
+                </div>
             </div>
+
+            <h3>The regulatory clock</h3>
+
+            <p>Under the Privacy Act, affected Australian businesses need updated privacy policies by <strong>10 December 2026</strong> where AI changes how personal information is handled. Decidr's data suggests fewer than a quarter have done it. Meanwhile the government-backed Australian Responsible AI Index scored the average organisation 43 out of 100 on responsible AI practice — and found a gaping hole between what businesses <em>claim</em> about their AI safety and the governance they've actually built. Most striking of all: the overwhelming majority of organisations report unapproved, ungoverned AI already running inside their walls. You cannot govern what you cannot see, and most can't see it.</p>
+
+            <div class="stat-callout">
+                <div class="stat-number">83%</div>
+                <div class="stat-label">of Australian SMEs report at least some unapproved "shadow AI" use inside their organisation — while one in five has no way to detect it at all.</div>
+                <div class="stat-source">Source: Decidr / Nature, The State of AI in Australian Business 2026</div>
+            </div>
+
+            <h3>The economic clock</h3>
+
+            <p>Deloitte's modelling puts a number on the prize: if just one in ten Australian SMBs climbed a single rung on the AI maturity ladder, the productivity uplift would be worth some $44 billion to the national economy. That value doesn't get distributed evenly. It goes to the businesses that climb. The capability gap isn't just a risk to manage — it's the single largest commercial opportunity most Australian businesses will see this decade.</p>
+
+            <div class="dark-box">
+                <h3>The part nobody says out loud</h3>
+                <p>Half of Australian businesses say implementing AI into their existing processes is hard — and that number hasn't moved in a year. Enterprises with vastly bigger budgets report almost identical difficulty. That's not a technology complaint. It measures the state of the business underneath the AI: fragmented data, undocumented processes, knowledge locked in people's heads, decisions nobody can trace.</p>
+                <p><b>AI doesn't fix a messy business. It industrialises the mess.</b> That's why tool spend keeps rising while returns stay thin — and why the fix was never going to arrive in a subscription.</p>
+            </div>
+
         </div>
 
-        <h3>The regulatory clock</h3>
+        <!-- FUTURIST SECTION (full-bleed) -->
+        <section class="future">
+            <div class="art-narrow">
+                <span class="art-kick">The futurist state</span>
+                <h2>One possible future — read the label first</h2>
 
-        <p>Under the Privacy Act, affected Australian businesses need updated privacy policies by <strong>10 December 2026</strong> where AI changes how personal information is handled. Decidr's data suggests fewer than a quarter have done it. Meanwhile the government-backed Australian Responsible AI Index scored the average organisation 43 out of 100 on responsible AI practice &mdash; and found a gaping hole between what businesses <em>claim</em> about their AI safety and the governance they've actually built. Most striking of all: the overwhelming majority of organisations report unapproved, ungoverned AI already running inside their walls. You cannot govern what you cannot see, and most can't see it.</p>
+                <div class="disclaimer"><b>How to read this section.</b> What follows is a projection, not a prediction. It is built on a <b>temporary insight state</b> — a snapshot of survey data gathered in mid-2026, in a field moving faster than any survey cycle. We're extrapolating trajectory, not prophesying outcomes. Treat this as one plausible future among several — useful for stress-testing your strategy, dangerous if mistaken for certainty.</div>
 
-        <div class="stat-callout">
-            <div class="stat-number">83%</div>
-            <div class="stat-label">of Australian SMEs report at least some unapproved "shadow AI" use inside their organisation &mdash; while one in five has no way to detect it at all.</div>
-            <div class="stat-source">Source: Decidr / Nature, The State of AI in Australian Business 2026</div>
+                <p>With that said clearly: here's where the current trajectory points if nothing bends it.</p>
+
+                <div class="horizon">
+                    <div class="hz"><div class="yr">2026&ndash;27</div><h4>The quiet sort</h4><p>The readiness segments harden into market positions. Front-runners convert connected AI into compounding advantage — faster decisions, captured knowledge, lower cost-to-serve. The December privacy deadline passes; the unprepared discover compliance debt is real debt.</p></div>
+                    <div class="hz"><div class="yr">2027&ndash;28</div><h4>Agents change the question</h4><p>AI stops being something people use and starts being something businesses run. Microsoft's telemetry already shows active agents growing fifteen-fold year on year. The question shifts from "which tools?" to "who approved that action, and can we trace it?"</p></div>
+                    <div class="hz"><div class="yr">2028&ndash;29</div><h4>The capability dividend</h4><p>The gap that looked survivable in 2026 prices itself into valuations, contracts and talent flows. Businesses that built the foundations operate at a different clock speed. The rest compete on price against firms that compete on intelligence.</p></div>
+                    <div class="hz"><div class="yr">The wildcard</div><h4>Sovereignty as strategy</h4><p>Four in five Australian businesses already want their data kept onshore, and most would pay a premium for it. If that hardens into procurement policy — plausible, not certain — Australian-owned, Australian-governed capability becomes a moat, not a nicety.</p></div>
+                </div>
+
+                <p>Could this future not happen? Absolutely. A capability-building wave, a policy intervention, a plateau in the technology itself — any of these bends the curve. That's precisely the point: <b>the future above is only inevitable for businesses that do nothing.</b> Trajectories respond to decisions. The decision window is now — while the gap between front-runners and everyone else is still measured in quarters, not business models.</p>
+            </div>
+        </section>
+
+        <div class="art-narrow">
+
+            <span class="art-kick">What to do about it</span>
+            <h2>Close the gap while it's still a gap</h2>
+
+            <p>We're practitioners, so we'll be practical. Nothing below requires a transformation programme, a new platform, or a bet-the-company budget. It requires sequence and honesty.</p>
+
+            <div class="act">
+                <h3>The first five moves</h3>
+                <ol>
+                    <li><b>Find your AI before you buy more AI.</b> The research says it's already in your business — sanctioned or not. Map what's actually running, who's using it, and where your data is going. You can't govern, secure or scale what you haven't seen.</li>
+                    <li><b>Write the roadmap you've been avoiding.</b> Two pages beats zero. Pick use cases by business value and readiness — not by whichever tool was easiest to trial. The single biggest statistical gap between leaders and laggards, in every study we read, is the existence of a plan.</li>
+                    <li><b>Fix the foundations AI stands on.</b> Fragmented data, undocumented processes, knowledge in heads. Every hour spent here multiplies the return on every AI dollar you've already spent. It's unglamorous. It's also where the compounding starts.</li>
+                    <li><b>Build capability in the 99%.</b> Most of your people don't need to build models — they need practical, applied fluency in using AI well inside their actual jobs. Train for that, deliberately, before your competitors hire it away from you at a premium.</li>
+                    <li><b>Put governance in before the agents arrive.</b> Permissions, guardrails, audit trails, human checkpoints. Do it now, while AI is still mostly answering questions — because the next phase is AI taking actions, and retrofitting control onto autonomy is a much harder, much more expensive project.</li>
+                </ol>
+            </div>
+
+            <p>The businesses that come out of this era ahead won't be the ones with the most tools. Every study in this pack says so, in its own words. They'll be the ones that did the unfashionable work — strategy, systems, skills, governance — while everyone else was collecting subscriptions.</p>
+
+            <div class="pull">The gap is temporary. Which side of it you're on is a decision.
+                <span>— Agility Ops</span>
+            </div>
+
         </div>
 
-        <h3>The economic clock</h3>
-
-        <p>Deloitte's modelling puts a number on the prize: if just one in ten Australian SMBs climbed a single rung on the AI maturity ladder, the productivity uplift would be worth some $44 billion to the national economy. That value doesn't get distributed evenly. It goes to the businesses that climb. The capability gap isn't just a risk to manage &mdash; it's the single largest commercial opportunity most Australian businesses will see this decade.</p>
-
-        <div class="key-takeaway">
-            <h3>The part nobody says out loud</h3>
-            <p>Half of Australian businesses say implementing AI into their existing processes is hard &mdash; and that number hasn't moved in a year. Enterprises with vastly bigger budgets report almost identical difficulty. That's not a technology complaint. It measures the state of the business underneath the AI: fragmented data, undocumented processes, knowledge locked in people's heads, decisions nobody can trace.</p>
-            <p><strong>AI doesn't fix a messy business. It industrialises the mess.</strong> That's why tool spend keeps rising while returns stay thin &mdash; and why the fix was never going to arrive in a subscription.</p>
-        </div>
-
-        <h2>One Possible Future &mdash; Read the Label First</h2>
-
-        <div class="projection-note">
-            <strong>How to read this section.</strong> What follows is a projection, not a prediction. It is built on a temporary insight state &mdash; a snapshot of survey data gathered in mid-2026, in a field moving faster than any survey cycle. We're extrapolating trajectory, not prophesying outcomes. Treat it as one plausible future among several: useful for stress-testing your strategy, dangerous if mistaken for certainty.
-        </div>
-
-        <p><strong>2026&ndash;27: the quiet sort.</strong> The readiness segments harden into market positions. Front-runners convert connected AI into compounding advantage &mdash; faster decisions, captured knowledge, lower cost-to-serve. The December privacy deadline passes; the unprepared discover that compliance debt is real debt.</p>
-
-        <p><strong>2027&ndash;28: agents change the question.</strong> AI stops being something people use and starts being something businesses run. Microsoft's telemetry already shows active agents growing fifteen-fold year on year. The question shifts from "which tools?" to "who approved that action, and can we trace it?" Governance stops being optional hygiene and becomes operating infrastructure.</p>
-
-        <p><strong>2028&ndash;29: the capability dividend.</strong> The gap that looked survivable in 2026 prices itself into valuations, contracts and talent flows. Businesses that built the foundations &mdash; strategy, connected systems, captured knowledge, real governance &mdash; operate at a different clock speed. The rest compete on price against firms that compete on intelligence.</p>
-
-        <p><strong>The wildcard: sovereignty as strategy.</strong> Four in five Australian businesses already want their data kept onshore, and most would pay a premium for it. If that hardens into procurement policy &mdash; plausible, not certain &mdash; Australian-owned, Australian-governed capability becomes a moat, not a nicety.</p>
-
-        <p>Could this future not happen? Absolutely. A capability-building wave, a policy intervention, a plateau in the technology itself &mdash; any of these bends the curve. That's precisely the point: <strong>the future above is only inevitable for businesses that do nothing.</strong> Trajectories respond to decisions. The decision window is now, while the gap between front-runners and everyone else is still measured in quarters rather than business models.</p>
-
-        <h2>Close the Gap While It's Still a Gap</h2>
-
-        <p>We're practitioners, so we'll be practical. Nothing below requires a transformation programme, a new platform, or a bet-the-company budget. It requires sequence and honesty.</p>
-
-        <p><strong>1. Find your AI before you buy more AI.</strong> The research says it's already in your business &mdash; sanctioned or not. Map what's actually running, who's using it, and where your data is going. You can't govern, secure or scale what you haven't seen.</p>
-
-        <p><strong>2. Write the roadmap you've been avoiding.</strong> Two pages beats zero. Pick use cases by business value and readiness &mdash; not by whichever tool was easiest to trial. The single biggest statistical gap between leaders and laggards, in every study we read, is the existence of a plan.</p>
-
-        <p><strong>3. Fix the foundations AI stands on.</strong> Fragmented data, undocumented processes, knowledge in heads. Every hour spent here multiplies the return on every AI dollar you've already spent. It's unglamorous. It's also where the compounding starts.</p>
-
-        <p><strong>4. Build capability in the 99%.</strong> Most of your people don't need to build models &mdash; they need practical, applied fluency in using AI well inside their actual jobs. Train for that, deliberately, before your competitors hire it away from you at a premium.</p>
-
-        <p><strong>5. Put governance in before the agents arrive.</strong> Permissions, guardrails, audit trails, human checkpoints. Do it now, while AI is still mostly answering questions &mdash; because the next phase is AI taking actions, and retrofitting control onto autonomy is a much harder, much more expensive project.</p>
-
-        <h2>The Bottom Line</h2>
-
-        <p>The businesses that come out of this era ahead won't be the ones with the most tools. Every study in this pack says so, in its own words. They'll be the ones that did the unfashionable work &mdash; strategy, systems, skills, governance &mdash; while everyone else was collecting subscriptions.</p>
-
-        <p>The gap is temporary. Which side of it you're on is a decision.</p>
-
-        <!-- Sources -->
-        <div class="sources-box">
-            <h3>With respect to the researchers</h3>
-            <p>This analysis stands on the work of eight research teams. All statistics are theirs, reported in our own words with attribution; interpretations and projections are ours alone and shouldn't be read as the views of any source. The four-segment readiness framework is Decidr's. We encourage you to read the originals.</p>
-            <ul>
-                <li>Decidr &mdash; The State of AI in Australian Business 2026 (research by Nature; n=1,324)</li>
-                <li>Deloitte Access Economics &mdash; The AI Edge for SMBs (commissioned by Amazon; 2025)</li>
-                <li>Fifth Quadrant / National AI Centre &mdash; Australian Responsible AI Index 2025</li>
-                <li>Tech Council of Australia &mdash; Future Ready (fielded late 2024)</li>
-                <li>Microsoft &mdash; 2026 Work Trend Index</li>
-                <li>Atlassian Teamwork Lab &mdash; State of Teams 2026</li>
-                <li>Stanford HAI &mdash; AI Index Report 2025 (adoption data via McKinsey)</li>
-                <li>Wharton + GBK Collective &mdash; Accountable Acceleration (2025)</li>
-            </ul>
-            <p style="margin-top:12px;">MYOB Business Monitor (2026) is additionally cited for the SME growth-rate comparison.</p>
-        </div>
+        <!-- SOURCES -->
+        <section class="sources">
+            <div class="art-wrap">
+                <h2>With respect to the researchers</h2>
+                <p>This article stands on the work of eight research teams, and we want that stated plainly rather than buried in a footnote. All statistics are theirs, reported here in our own words with attribution; interpretations, projections and the futurist scenario are ours alone, and shouldn't be read as the views of any source. The four-segment readiness framework referenced above is Decidr's. We encourage you to read the originals.</p>
+                <div class="srcs">
+                    <div class="src-i"><b>Decidr</b> — The State of AI in Australian Business 2026 (research by Nature; n=1,324; May&ndash;Jun 2026) — the anchor study</div>
+                    <div class="src-i"><b>Deloitte Access Economics</b> — The AI Edge for SMBs (commissioned by Amazon; 1,000+ Australian SMBs; 2025)</div>
+                    <div class="src-i"><b>Fifth Quadrant / National AI Centre</b> — Australian Responsible AI Index 2025 (n=418)</div>
+                    <div class="src-i"><b>Tech Council of Australia</b> — Future Ready (n=2,552 Australian workers; fielded late 2024)</div>
+                    <div class="src-i"><b>Microsoft</b> — 2026 Work Trend Index (20,000 workers, 10 markets incl. Australia)</div>
+                    <div class="src-i"><b>Atlassian Teamwork Lab</b> — State of Teams 2026 (12,035 workers + 172 executives)</div>
+                    <div class="src-i"><b>Stanford HAI</b> — AI Index Report 2025 (aggregated; adoption data via McKinsey)</div>
+                    <div class="src-i"><b>Wharton + GBK Collective</b> — Accountable Acceleration (n=801 US enterprise leaders; 2025)</div>
+                </div>
+                <p style="margin-top:16px; font-size:.85rem; color:var(--a-g400);">MYOB Business Monitor (2026) is additionally cited for the SME growth-rate comparison.</p>
+            </div>
+        </section>
 
         <!-- CTA -->
-        <div class="article-cta">
-            <h3>Which side of the gap is your business on?</h3>
-            <p>We help Australian organisations turn AI activity into AI capability &mdash; strategy, connected tooling, applied training and governance, built by practitioners who've done it before.</p>
-            <a href="/pages/contact">Start a Conversation</a>
+        <div class="art-wrap">
+            <div class="article-cta">
+                <h3>Which side of the gap is your business on?</h3>
+                <p>We help Australian organisations turn AI activity into AI capability — strategy, connected tooling, applied training and governance, built by practitioners who've done it before.</p>
+                <a href="/pages/contact">Start a Conversation</a>
+            </div>
         </div>
 
     </article>
