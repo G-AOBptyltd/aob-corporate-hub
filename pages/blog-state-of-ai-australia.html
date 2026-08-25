@@ -58,12 +58,16 @@
             max-width:1080px; margin:-34px auto 0; padding:0 24px; position:relative; z-index:5;
         }
         .hero-stats-inner{
-            display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px;
+            display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
         }
+        @media(max-width:1020px){.hero-stats-inner{grid-template-columns:repeat(2,1fr);}}
+        @media(max-width:540px){.hero-stats-inner{grid-template-columns:1fr;}}
         .hs{
             background:#fff; border:1px solid var(--a-g200); border-radius:16px; padding:22px 20px;
             box-shadow:0 14px 34px rgba(15,23,42,.09); position:relative; overflow:hidden;
+            transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease;
         }
+        .hs:hover{transform:translateY(-5px); box-shadow:0 22px 44px rgba(15,23,42,.14);}
         .hs::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
             background:linear-gradient(var(--a-blue),var(--a-cyan));}
         .hs.warn::before{background:linear-gradient(var(--a-violet),var(--a-blue2));}
@@ -117,7 +121,8 @@
         .dark-box b{color:#fff;}
 
         /* POSTURES */
-        .posture-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(225px,1fr)); gap:16px; margin:30px 0;}
+        .posture-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:30px 0;}
+        @media(max-width:560px){.posture-grid{grid-template-columns:1fr;}}
         .posture{background:#fff; border:1px solid var(--a-g200); border-top:4px solid var(--a-blue2);
             border-radius:16px; padding:22px; transition:transform .2s, box-shadow .2s;}
         .posture:hover{transform:translateY(-3px); box-shadow:0 14px 30px rgba(15,23,42,.08);}
@@ -158,8 +163,11 @@
             padding:18px 22px; margin:0 0 28px; color:#fcd34d; font-size:.92rem; line-height:1.7;
         }
         .disclaimer b{color:#fde68a;}
-        .horizon{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; margin:26px 0;}
-        .hz{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:22px;}
+        .horizon{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:26px 0;}
+        @media(max-width:560px){.horizon{grid-template-columns:1fr;}}
+        .hz{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:22px;
+            transition:transform .25s cubic-bezier(.34,1.56,.64,1), border-color .25s ease, background .25s ease;}
+        .hz:hover{transform:translateY(-4px); border-color:rgba(103,232,249,.45); background:rgba(255,255,255,.08);}
         .hz .yr{font-family:var(--fd); font-weight:800; font-size:1.02rem; color:var(--a-cyan);}
         .hz h4{color:#fff; font-family:var(--fd); font-size:1rem; margin:8px 0;}
         .hz p{font-size:.87rem; color:var(--a-g400); margin:0; line-height:1.65;}
@@ -175,9 +183,12 @@
         .sources{background:#f8fafc; border-top:1px solid var(--a-g200); padding:48px 0; margin-top:52px;}
         .sources h2{font-family:var(--fd); font-size:1.35rem; font-weight:800; color:var(--a-ink); margin:0 0 12px;}
         .sources > .art-wrap > p{font-size:.95rem; color:var(--a-g600); max-width:76ch; line-height:1.7;}
-        .srcs{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:10px; margin-top:20px;}
+        .srcs{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:20px;}
+        @media(max-width:640px){.srcs{grid-template-columns:1fr;}}
         .src-i{background:#fff; border:1px solid var(--a-g200); border-radius:12px; padding:14px 18px;
-            font-size:.86rem; color:var(--a-g600); line-height:1.55;}
+            font-size:.86rem; color:var(--a-g600); line-height:1.55;
+            transition:transform .2s ease, box-shadow .2s ease;}
+        .src-i:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(15,23,42,.08);}
         .src-i b{color:var(--a-ink); font-family:var(--fd);}
 
         /* CTA */
