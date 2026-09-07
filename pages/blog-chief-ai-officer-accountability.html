@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LLJ1KPTDMK"></script>
+    <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-LLJ1KPTDMK');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Accountability Sprint: Australia Named Its AI Leaders in a Fortnight | Agility Ops</title>
+    <meta name="description" content="104 of 106 mandated Commonwealth entities appointed a Chief AI Officer by 1 July 2026 - more than half of them in the final fortnight. We verified the mandate, the Department of Finance compliance figures and two ANAO audits, and explain why December 2026 is the real test.">
+    <meta property="og:title" content="The Accountability Sprint: Australia Named Its AI Leaders in a Fortnight">
+    <meta property="og:description" content="Australia named a Chief AI Officer in almost every federal agency in eight months. The mandate, the audit findings, and why December 2026 separates org charts from operating models.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://agilityops.com.au/pages/blog-chief-ai-officer-accountability.html">
+    <link rel="canonical" href="https://agilityops.com.au/pages/blog-chief-ai-officer-accountability.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        :root{
+            --a-navy:#0a0f1c; --a-navy2:#1a2332; --a-blue:#2563eb; --a-blue2:#3b82f6;
+            --a-glow:#60a5fa; --a-cyan:#06b6d4; --a-violet:#7c3aed;
+            --a-g100:#f1f5f9; --a-g200:#e2e8f0; --a-g400:#94a3b8; --a-g500:#64748b;
+            --a-g600:#475569; --a-g700:#334155; --a-ink:#0f172a;
+            --fd:'Plus Jakarta Sans',sans-serif;
+        }
+        body{background:#fafbfc;}
+        .art-wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+        .art-narrow{max-width:780px;margin:0 auto;padding:0 24px;}
+
+        /* HERO */
+        .art-hero{
+            background:
+                radial-gradient(1100px 560px at 80% -8%, rgba(124,58,237,.38), transparent 60%),
+                radial-gradient(880px 480px at 8% 112%, rgba(6,182,212,.3), transparent 55%),
+                var(--a-navy);
+            color:#fff; padding:150px 0 64px; position:relative; overflow:hidden;
+        }
+        .back-link{
+            display:inline-flex; align-items:center; gap:6px; color:var(--a-g400);
+            text-decoration:none; font-size:.875rem; font-weight:500; margin-bottom:26px; transition:color .2s;
+        }
+        .back-link:hover{color:#fff;}
+        .art-eyebrow{
+            display:inline-flex; gap:8px; font-family:var(--fd); font-weight:700; font-size:.72rem;
+            letter-spacing:.14em; text-transform:uppercase; color:var(--a-glow);
+            background:rgba(96,165,250,.1); border:1px solid rgba(96,165,250,.28);
+            padding:6px 14px; border-radius:999px;
+        }
+        .art-hero h1{
+            color:#fff; font-family:var(--fd); font-size:clamp(2rem,4.6vw,3.2rem); font-weight:800;
+            line-height:1.12; letter-spacing:-.02em; margin:20px 0 18px; max-width:21ch;
+        }
+        .art-hero .stand{font-size:clamp(1.02rem,1.9vw,1.22rem); color:#cbd5e1; max-width:58ch; line-height:1.7;}
+        .art-byline{margin-top:26px; color:var(--a-g400); font-size:.88rem;}
+        .art-byline b{color:var(--a-g200);}
+
+        /* HERO STAT STRIP */
+        /* display:block overrides the global .hero-stats flex rule in css/styles.css
+           (used by the homepage hero), which would otherwise place the source line
+           beside the stat cards instead of centred beneath them. */
+        .hero-stats{
+            display:block;
+            max-width:1080px; margin:-34px auto 0; padding:0 24px; position:relative; z-index:5;
+            border-top:0;
+        }
+        .hero-stats-inner{
+            display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+        }
+        @media(max-width:1020px){.hero-stats-inner{grid-template-columns:repeat(2,1fr);}}
+        @media(max-width:540px){.hero-stats-inner{grid-template-columns:1fr;}}
+        .hs{
+            background:#fff; border:1px solid var(--a-g200); border-radius:16px; padding:22px 20px;
+            box-shadow:0 14px 34px rgba(15,23,42,.09); position:relative; overflow:hidden;
+            transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease;
+        }
+        .hs:hover{transform:translateY(-5px); box-shadow:0 22px 44px rgba(15,23,42,.14);}
+        .hs::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+            background:linear-gradient(var(--a-blue),var(--a-cyan));}
+        .hs.warn::before{background:linear-gradient(var(--a-violet),var(--a-blue2));}
+        .hs.risk::before{background:linear-gradient(#f59e0b,#ef4444);}
+        .hs .n{font-family:var(--fd); font-weight:800; font-size:2.3rem; color:var(--a-ink); line-height:1; letter-spacing:-.03em;}
+        .hs .n small{font-size:1rem; color:var(--a-g400); font-weight:700;}
+        .hs .l{font-size:.83rem; color:var(--a-g600); margin-top:9px; line-height:1.5;}
+        .hero-stats-src{
+            text-align:center; font-size:.72rem; color:var(--a-g400); margin-top:14px;
+        }
+
+        /* BODY */
+        .art-body{padding:52px 0 0; font-size:1.05rem; line-height:1.85; color:var(--a-g700);}
+        .art-body p{margin:0 0 20px;}
+        .art-body p.lead{font-size:1.16rem; color:var(--a-ink);}
+        .art-kick{font-family:var(--fd); font-weight:700; font-size:.74rem; letter-spacing:.13em;
+            text-transform:uppercase; color:var(--a-blue); display:block; margin-top:44px;}
+        .art-body h2{font-family:var(--fd); font-size:clamp(1.45rem,2.8vw,1.95rem); font-weight:800;
+            color:var(--a-ink); margin:8px 0 16px; letter-spacing:-.02em; line-height:1.2;}
+        .art-body h3{font-family:var(--fd); font-size:1.2rem; font-weight:700; color:var(--a-ink); margin:34px 0 12px;}
+
+        /* PULL QUOTE */
+        .pull{
+            border-left:4px solid var(--a-violet); background:#fff; border-radius:0 16px 16px 0;
+            padding:26px 30px; margin:34px 0; font-family:var(--fd); font-weight:700;
+            font-size:clamp(1.12rem,2.1vw,1.4rem); color:var(--a-ink); letter-spacing:-.01em; line-height:1.4;
+            box-shadow:0 2px 14px rgba(15,23,42,.05);
+        }
+        .pull span{display:block; font-family:'Inter',sans-serif; font-weight:500; font-size:.85rem;
+            color:var(--a-g500); margin-top:10px; letter-spacing:0;}
+
+        /* STAT CALLOUT */
+        .stat-callout{
+            background:linear-gradient(135deg,#eff6ff,#f8fafc); border-radius:14px;
+            padding:28px 32px; margin:32px 0; border:1px solid #dbeafe;
+        }
+        .stat-callout .stat-number{font-family:var(--fd); font-size:2.6rem; font-weight:800; color:var(--a-blue); line-height:1;}
+        .stat-callout .stat-label{font-size:.92rem; color:var(--a-g600); margin-top:8px; line-height:1.6;}
+        .stat-callout .stat-source{font-size:.75rem; color:var(--a-g400); margin-top:10px;}
+
+        /* DARK CALLOUT */
+        .dark-box{
+            background:linear-gradient(135deg,var(--a-navy),var(--a-navy2)); color:#fff;
+            border-radius:20px; padding:34px 36px; margin:36px 0; position:relative; overflow:hidden;
+        }
+        .dark-box::after{content:""; position:absolute; right:-70px; top:-70px; width:260px; height:260px;
+            border-radius:50%; background:radial-gradient(circle,rgba(124,58,237,.4),transparent 70%);}
+        .dark-box h3{color:#fff; margin:0 0 14px; font-family:var(--fd); font-size:1.15rem; position:relative; z-index:2;}
+        .dark-box p{color:#cbd5e1; position:relative; z-index:2; margin-bottom:14px;}
+        .dark-box p:last-child{margin-bottom:0;}
+        .dark-box b{color:#fff;}
+
+        /* POSTURES */
+        .posture-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:30px 0;}
+        @media(max-width:560px){.posture-grid{grid-template-columns:1fr;}}
+        .posture{background:#fff; border:1px solid var(--a-g200); border-top:4px solid var(--a-blue2);
+            border-radius:16px; padding:22px; transition:transform .2s, box-shadow .2s;}
+        .posture:hover{transform:translateY(-3px); box-shadow:0 14px 30px rgba(15,23,42,.08);}
+        .posture.p1{border-top-color:#10b981;} .posture.p2{border-top-color:#f59e0b;}
+        .posture.p3{border-top-color:var(--a-blue2);} .posture.p4{border-top-color:var(--a-g400);}
+        .posture h4{font-family:var(--fd); font-size:1.02rem; color:var(--a-ink); margin:0 0 2px;}
+        .posture .pshare{font-family:var(--fd); font-size:1.8rem; font-weight:800; color:var(--a-ink);}
+        .posture p{font-size:.86rem; color:var(--a-g500); line-height:1.6; margin:8px 0 0;}
+
+        /* CHART */
+        .chart{background:#fff; border:1px solid var(--a-g200); border-radius:16px; padding:26px 28px 20px; margin:30px 0;}
+        .chart h4{font-family:var(--fd); font-size:1.02rem; color:var(--a-ink); margin:0 0 4px;}
+        .chart .csub{color:var(--a-g500); font-size:.84rem; margin-bottom:16px;}
+        .bar-row{display:grid; grid-template-columns:190px 1fr; gap:14px; align-items:center; margin:10px 0;}
+        .bar-row .bl{font-size:.85rem; color:var(--a-g700); text-align:right; line-height:1.35;}
+        .track{background:var(--a-g100); border-radius:999px; height:25px; position:relative; overflow:hidden;}
+        .fill{height:100%; border-radius:999px; background:linear-gradient(90deg,var(--a-blue),var(--a-blue2));
+            display:flex; align-items:center; justify-content:flex-end; padding-right:10px; color:#fff;
+            font-family:var(--fd); font-weight:700; font-size:.78rem; min-width:44px;}
+        .fill.c2{background:linear-gradient(90deg,var(--a-violet),#a855f7);}
+        @media(max-width:560px){.bar-row{grid-template-columns:105px 1fr;}.bar-row .bl{font-size:.76rem;}}
+
+        /* FUTURIST */
+        .future{
+            background:
+                radial-gradient(900px 500px at 85% 0%, rgba(6,182,212,.16), transparent 55%),
+                radial-gradient(700px 420px at 5% 100%, rgba(124,58,237,.18), transparent 55%),
+                var(--a-navy);
+            color:#cbd5e1; padding:60px 0; margin:52px 0;
+        }
+        .future .art-kick{color:var(--a-cyan);}
+        .future h2{color:#fff; font-family:var(--fd); font-size:clamp(1.45rem,2.8vw,1.95rem); font-weight:800;
+            margin:8px 0 16px; letter-spacing:-.02em; line-height:1.2;}
+        .future p{color:#cbd5e1; font-size:1.02rem; line-height:1.8; margin:0 0 18px;}
+        .future b{color:#fff;}
+        .disclaimer{
+            background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.35); border-radius:14px;
+            padding:18px 22px; margin:0 0 28px; color:#fcd34d; font-size:.92rem; line-height:1.7;
+        }
+        .disclaimer b{color:#fde68a;}
+        .horizon{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:26px 0;}
+        @media(max-width:560px){.horizon{grid-template-columns:1fr;}}
+        .hz{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:22px;
+            transition:transform .25s cubic-bezier(.34,1.56,.64,1), border-color .25s ease, background .25s ease;}
+        .hz:hover{transform:translateY(-4px); border-color:rgba(103,232,249,.45); background:rgba(255,255,255,.08);}
+        .hz .yr{font-family:var(--fd); font-weight:800; font-size:1.02rem; color:var(--a-cyan);}
+        .hz h4{color:#fff; font-family:var(--fd); font-size:1rem; margin:8px 0;}
+        .hz p{font-size:.87rem; color:var(--a-g400); margin:0; line-height:1.65;}
+
+        /* ACTION LIST */
+        .act{background:#fff; border:1px solid var(--a-g200); border-radius:20px; padding:30px 32px; margin:30px 0;}
+        .act h3{margin:0 0 6px;}
+        .act ol{margin:14px 0 0 20px; padding:0; list-style:decimal;}
+        .act li{margin:13px 0; font-size:.99rem; color:var(--a-g700); line-height:1.7;}
+        .act li b{color:var(--a-ink);}
+
+        /* SOURCES */
+        .sources{background:#f8fafc; border-top:1px solid var(--a-g200); padding:48px 0; margin-top:52px;}
+        .sources h2{font-family:var(--fd); font-size:1.35rem; font-weight:800; color:var(--a-ink); margin:0 0 12px;}
+        .sources > .art-wrap > p{font-size:.95rem; color:var(--a-g600); max-width:76ch; line-height:1.7;}
+        .srcs{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:20px;}
+        @media(max-width:640px){.srcs{grid-template-columns:1fr;}}
+        .src-i{background:#fff; border:1px solid var(--a-g200); border-radius:12px; padding:14px 18px;
+            font-size:.86rem; color:var(--a-g600); line-height:1.55;
+            transition:transform .2s ease, box-shadow .2s ease;}
+        .src-i:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(15,23,42,.08);}
+        .src-i b{color:var(--a-ink); font-family:var(--fd);}
+        .src-i a{color:var(--a-blue); text-decoration:none; border-bottom:1px solid rgba(37,99,235,.28);}
+        .src-i a:hover{color:var(--a-blue2); border-bottom-color:var(--a-blue2);}
+
+        /* CTA */
+        .article-cta{
+            background:linear-gradient(135deg,#1e3a5f,#0f172a); border-radius:18px; padding:44px 40px;
+            text-align:center; margin:52px auto 72px; max-width:780px;
+        }
+        .article-cta h3{color:#fff; font-family:var(--fd); font-size:1.35rem; margin:0 0 10px;}
+        .article-cta p{color:#94a3b8; margin:0 0 22px; line-height:1.7;}
+        .article-cta a{display:inline-block; background:var(--a-blue2); color:#fff; padding:13px 30px;
+            border-radius:8px; font-weight:600; text-decoration:none; transition:background .2s;}
+        .article-cta a:hover{background:var(--a-blue);}
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "The Accountability Sprint: Australia Named Its AI Leaders in a Fortnight",
+        "author": {
+            "@type": "Organization",
+            "name": "Agility Ops Business Pty Ltd"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Agility Ops Business Pty Ltd",
+            "url": "https://agilityops.com.au"
+        },
+        "datePublished": "2026-09-08",
+        "dateModified": "2026-09-08",
+        "description": "Australia named a Chief AI Officer in almost every federal agency in eight months. The mandate, the audit findings, and why December 2026 separates org charts from operating models.",
+        "mainEntityOfPage": "https://agilityops.com.au/pages/blog-chief-ai-officer-accountability.html"
+    }
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav scrolled" role="navigation" aria-label="Main navigation">
+        <div class="container nav-inner">
+            <a href="../index.html" class="nav-logo">
+                <div class="nav-logo-mark">AO</div>
+                Agility Ops
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="brands.html">Our Products</a>
+                <a href="team.html">Team</a>
+                <a href="blog.html" class="active">Blog</a>
+                <a href="contact.html" class="nav-cta">Contact</a>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="art-hero">
+        <div class="art-wrap">
+            <a href="/pages/blog" class="back-link">&larr; Back to Blog</a><br>
+            <span class="art-eyebrow">Australian AI Policy &middot; Practitioner Perspective</span>
+            <h1>The Accountability Sprint: Australia named its AI leaders in a fortnight. December is the test.</h1>
+            <p class="stand">In fourteen days this June, the number of Australian government entities with a named Chief AI Officer more than doubled. By 1 July, 104 of the 106 required agencies had one. It is the fastest accountability rollout in the recent history of the APS &mdash; and the private sector is already copying it. Here is what the mandate actually requires, what the Auditor-General found when he went looking, and why December 2026 is the deadline that separates org charts from operating models.</p>
+            <div class="art-byline">By <b>Agility Ops</b> &middot; September 8, 2026 &middot; 12 min read &middot; Every figure below is sourced and linked in full</div>
+        </div>
+    </header>
+
+    <!-- HERO STAT STRIP -->
+    <div class="hero-stats">
+        <div class="hero-stats-inner">
+            <div class="hs"><div class="n">104<small>/106</small></div><div class="l">mandated Commonwealth entities with a named Chief AI Officer by 1 July 2026</div></div>
+            <div class="hs warn"><div class="n">56<small>&rarr;113</small></div><div class="l">APS agencies and corporate entities with a CAIO, between 15 and 29 June 2026</div></div>
+            <div class="hs risk"><div class="n">74<small>%</small></div><div class="l">of the ATO&rsquo;s in-production AI models had no completed data ethics assessment</div></div>
+            <div class="hs"><div class="n">42<small>%</small></div><div class="l">of Australian organisations already have a CAIO or equivalent</div></div>
+        </div>
+        <div class="hero-stats-src">Sources: Department of Finance figures reported by ACS Information Age (2 Jul 2026) &middot; ANAO Auditor-General Report No. 26 of 2024&ndash;25 (as at Aug 2024) &middot; Datacom, The Emerging Role of the Chief AI Officer in Australia (n=507)</div>
+    </div>
+
+    <!-- BODY -->
+    <article class="art-body">
+        <div class="art-narrow">
+
+            <p class="lead">On 1 September, <em>The Mandarin</em> published a piece by Datacom containing a claim that is easy to skim straight past: since July, every federal government department and agency has been required to appoint a Chief AI Officer. It is very nearly true. The &ldquo;very nearly&rdquo; turns out to be the most interesting part &mdash; and so does what happened in the two weeks before the deadline.</p>
+
+            <p>We went and checked the whole thing: the policy documents, the Department of Finance&rsquo;s own compliance numbers, and the two occasions where the Auditor-General has actually audited AI governance inside a Commonwealth agency. What emerges is a genuinely impressive piece of public administration, sitting directly on top of a gap that every private-sector board about to copy this move should look at first.</p>
+
+            <span class="art-kick">The mandate</span>
+            <h2>What was actually required, and of whom</h2>
+
+            <p>The requirement comes from the <strong>AI Plan for the Australian Public Service 2025</strong>, released in November 2025 with a foreword from Finance Minister Senator the Hon Katy Gallagher. The plan lists four blunt &ldquo;actions to drive adoption&rdquo;: everyone in the APS completing training on the fundamentals of AI use; all public servants having access to generative AI tools; all agencies tracking and reporting their AI use; and <strong>each agency and department appointing a senior executive as Chief AI Officer</strong>. The milestone attached to that first tranche was July 2026.</p>
+
+            <p>The scope is narrower than the shorthand suggests, and the difference matters. The underlying <em>Policy for the responsible use of AI in government</em> applies to all <strong>non-corporate Commonwealth entities</strong>, with exceptions for the defence portfolio and the national intelligence community. Corporate Commonwealth entities are encouraged to apply it, not compelled. That put <strong>106 entities</strong> under the CAIO obligation. Of the 74 corporate Commonwealth entities outside it, 18 &mdash; around 24% &mdash; nominated a CAIO anyway. Commonwealth companies, a group that includes NBN Co and Snowy Hydro, notified Finance of none.</p>
+
+            <p>The second piece of precision is the one most commentary loses entirely. <strong>A Chief AI Officer is not the agency&rsquo;s AI risk owner.</strong> Every one of these agencies already had an AI Accountable Official, focused on monitoring risk and governance. The CAIO was designed as the deliberate counterweight. Finance&rsquo;s own November 2025 information pack for agencies described CAIOs as &ldquo;people whose primary job is pushing opportunity, working alongside those with more cautionary approaches and concerns&rdquo;.</p>
+
+            <div class="posture-grid">
+                <div class="posture p1">
+                    <h4>AI Accountable Official</h4>
+                    <div class="pshare">Guardian</div>
+                    <p>Pre-existing role. Monitors risk and governance, and enables the agency to adopt AI responsibly by providing governance frameworks. Required under the AI in government policy since 2024.</p>
+                </div>
+                <div class="posture p2">
+                    <h4>Chief AI Officer</h4>
+                    <div class="pshare">Advocate</div>
+                    <p>New role, deadline July 2026. Identifies opportunities, drives adoption and cultural change. Not required to be a technical expert. Attracts no additional pay.</p>
+                </div>
+            </div>
+
+            <p>Smaller agencies were permitted to give both roles to the same person, though government preferred them separate. Where they are combined, Finance told agencies the officeholder &ldquo;need[s] to manage any tensions arising from being both advocate and guardian&rdquo;, and that expectations and strategies for handling that should be &ldquo;made explicitly clear&rdquo;. In June, an ANAO audit revealed that IP Australia had appointed its deputy director general to both roles, precisely because it did not want to create &ldquo;a dichotomy between driving adoption and engagement with AI and being accountable for governance and risk of AI use&rdquo;.</p>
+
+            <div class="pull">It&rsquo;s not about distributing governance, or diluting it. It&rsquo;s about trying to find people who are going to provide an advocacy and engagement point in each of these entities.
+                <span>&mdash; Matt Yannopoulos, Secretary, Department of Finance, at Senate Estimates, May 2026</span>
+            </div>
+
+            <span class="art-kick">The fortnight</span>
+            <h2>A deadline that moved 57 agencies in two weeks</h2>
+
+            <p>Here is the number that should hold your attention. According to figures published by the Department of Finance, <strong>56</strong> Australian Public Service agencies and corporate entities had appointed a CAIO as at 15 June 2026. By 29 June that number had more than doubled to <strong>113</strong>. Of the 106 entities actually mandated, only two had not appointed by 1 July: the Inspector-General of Taxation, expected to confirm shortly after, and the National Environmental Protection Agency, which was only established as an agency on 1 July itself.</p>
+
+            <div class="chart">
+                <h4>Compliance velocity: CAIO appointments across the APS</h4>
+                <div class="csub">Agencies and corporate entities with a Chief AI Officer appointed, 2026</div>
+                <div class="bar-row"><div class="bl">As at 15 June</div><div class="track"><div class="fill" style="width:50%">56</div></div></div>
+                <div class="bar-row"><div class="bl">As at 29 June</div><div class="track"><div class="fill" style="width:100%">113</div></div></div>
+                <div class="bar-row"><div class="bl">Mandated entities compliant by 1 July</div><div class="track"><div class="fill c2" style="width:92%">104 of 106</div></div></div>
+                <div class="csub" style="margin:14px 0 0;">Source: Department of Finance figures, reported by ACS Information Age, 2 July 2026. Bar lengths are proportional to the 113 figure.</div>
+            </div>
+
+            <p>Read generously, that is a deadline doing exactly what deadlines are for. Minister Gallagher had told Senate Estimates in late May that AI leadership across agencies had been &ldquo;patchy&rdquo;, and that the CAIO requirement sought to &ldquo;drive that leadership and attention to AI, which was apparent in some agencies &ndash; but not all&rdquo;. She was explicit about the standard she had in mind: &ldquo;You have to treat this like your CIO or your COO, and we need senior people to take it on.&rdquo; On the measure set, it worked. Near-total compliance across 106 entities is not a trivial administrative achievement.</p>
+
+            <p>Read carefully, though, a doubling in fourteen days tells you something else as well. It tells you that for roughly half the affected entities this was a deadline met at the deadline &mdash; and that the appointment, not the capability behind it, was what the clock was measuring. Two further details from the same reporting sharpen the point. As of early July, the Digital Transformation Agency had held meetings with AI Accountable Officials but had <strong>not yet begun holding meetings with the newly appointed CAIOs</strong>, despite having been expected to start earlier in the year. And there is precedent: dozens of agencies missed a February 2025 deadline to publish transparency statements about their use of AI, before the DTA&rsquo;s Lucy Poole confirmed that all relevant agencies had since complied, with a further 21 agencies publishing voluntarily.</p>
+
+            <p>None of that makes the mandate a paper exercise. More than 100,000 of Australia&rsquo;s almost 200,000 public servants have now completed mandatory AI foundation training, according to <em>Information Age</em>. But the pattern &mdash; a bunching at the line, then a lag before the machinery behind the requirement starts turning &mdash; is the same pattern that shows up when the auditors arrive.</p>
+
+            <span class="art-kick">What the auditors found</span>
+            <h2>Two audits, one uncomfortable sentence</h2>
+
+            <p>The Australian National Audit Office has now examined AI governance inside two Commonwealth agencies, and the findings are the most useful evidence available anywhere in this debate &mdash; because unlike a survey, an audit involves someone going and looking.</p>
+
+            <p>The first, <em>Governance of Artificial Intelligence at the Australian Taxation Office</em> (Auditor-General Report No. 26 of 2024&ndash;25, February 2025), found the ATO had <strong>partly effective</strong> arrangements to support its adoption of AI, across governance, design and deployment, and monitoring, evaluation and reporting. At the time of the audit the ATO had 43 of its own AI models in production. The number that travelled furthest, and deserved to:</p>
+
+            <div class="stat-callout">
+                <div class="stat-number">74%</div>
+                <div class="stat-label">of the ATO&rsquo;s AI models in production did not have completed data ethics assessments, as at August 2024. The ANAO made seven recommendations; the ATO agreed to all seven.</div>
+                <div class="stat-source">Source: ANAO, Auditor-General Report No. 26 of 2024&ndash;25, published 24 February 2025</div>
+            </div>
+
+            <p>The second audit is, if anything, more instructive &mdash; because the agency passed. <em>Artificial Intelligence Use in IP Australia</em> (Auditor-General Report No. 43 of 2025&ndash;26, published 29 June 2026) found IP Australia&rsquo;s use of AI in the patent rights process was <strong>largely effective</strong>. This is an agency that deployed its first AI tool into patent examination in <strong>2018</strong>, now runs four AI tools in that process, and whose governance the ANAO explicitly credits as having &ldquo;matured over time to meet the changing environment&rdquo;.</p>
+
+            <p>And still, the finding: &ldquo;Strategic oversight of the implementation and associated benefits of AI is not yet fully established.&rdquo; One of the two recommendations was aimed squarely at improving that strategic oversight. IP Australia agreed to both.</p>
+
+            <div class="pull">Eight years of AI in production, a &ldquo;largely effective&rdquo; rating, and the gap the auditors flag is not the models. It is knowing whether the whole thing is working.
+                <span>&mdash; Agility Ops, on ANAO Report No. 43 of 2025&ndash;26</span>
+            </div>
+
+            <p>That is the sentence to sit with, because it describes something a new appointment does not fix by itself. Both agencies had governance. Both had accountable people. What the ANAO could not find was a clear line of sight from the AI deployed to the benefits claimed. If the best-audited early adopter in the Commonwealth has not fully established that line of sight after eight years, an executive named in the last fortnight of June has not established it either.</p>
+
+            <span class="art-kick">The spillover</span>
+            <h2>The private sector is copying the homework</h2>
+
+            <p>Datacom&rsquo;s report <em>The Emerging Role of the Chief AI Officer in Australia: Building Leadership for Transformation</em>, based on a survey of <strong>507 Australian business and IT leaders</strong>, is the research the <em>Mandarin</em> article was built around, and it is worth reading on its own terms. It found 42% of Australian organisations already have a CAIO or equivalent, with a further 21% expecting to appoint one within the next year &mdash; almost two-thirds with dedicated AI leadership by 2027. Some 93% expect the role to become a permanent part of executive teams.</p>
+
+            <p>Critically, the mandate is doing work well beyond the agencies it binds: <strong>73% of respondents said the government requirement has shaped their own organisation&rsquo;s approach to AI leadership.</strong> As Datacom&rsquo;s Director of AI, Lou Compagnone, put it: &ldquo;While many assume government lags on technology, the public sector is taking a leadership role in AI governance. The way departments approach the CAIO role today will shape expectations for AI leadership across both the public and private sectors in the years ahead.&rdquo;</p>
+
+            <p>That is the part that should concentrate the mind. Australian organisations are importing a governance structure from a sector that has not yet demonstrated the structure produces measurable outcomes. And the same survey shows they are importing it into a fairly unpromising starting position.</p>
+
+            <div class="chart">
+                <h4>Australian organisations: the leadership, and the gap behind it</h4>
+                <div class="csub">Blue = AI activity and structure. Violet = the strategic footing underneath it.</div>
+                <div class="bar-row"><div class="bl">Using AI in some form</div><div class="track"><div class="fill" style="width:97%">97%</div></div></div>
+                <div class="bar-row"><div class="bl">Scaling AI across functions</div><div class="track"><div class="fill" style="width:42%">4 in 10</div></div></div>
+                <div class="bar-row"><div class="bl">Have a CAIO or equivalent</div><div class="track"><div class="fill" style="width:42%">42%</div></div></div>
+                <div class="bar-row"><div class="bl">&hellip;AI embedded in org strategy</div><div class="track"><div class="fill c2" style="width:48%">&lt;half</div></div></div>
+                <div class="bar-row"><div class="bl">&hellip;cautious or highly risk-averse</div><div class="track"><div class="fill c2" style="width:55%">55%</div></div></div>
+                <div class="csub" style="margin:14px 0 0;">Source: Datacom, The Emerging Role of the Chief AI Officer in Australia (n=507). &ldquo;97% using AI&rdquo; is the inverse of the reported 3% not using AI at all.</div>
+            </div>
+
+            <p>Just 3% of Australian organisations are not using AI at all, and more than four in ten are already scaling it across business functions. Yet fewer than half have embedded AI into an organisational strategy, and 55% describe themselves as cautious or highly risk-averse. Asked to name the biggest barrier to stronger AI leadership, the largest single group &mdash; 22% &mdash; named risk and governance concerns.</p>
+
+            <p>Encouragingly, the role is not being defined as a technology job. Respondents ranked developing an organisation-wide AI strategy and roadmap as the CAIO&rsquo;s top responsibility (60%), followed by responsible AI governance (50%). Managing vendors and platforms was named by just 9%. Compagnone frames the distinction that follows from that: &ldquo;Adoption is about introducing AI into existing ways of working. Adaptation challenges organisations to rethink how they deliver services, how decisions are made, how work flows across functions and how value is created.&rdquo;</p>
+
+            <p>We would put it more bluntly. <strong>Appointing a Chief AI Officer is an adoption move. Everything hard about the role is an adaptation problem.</strong></p>
+
+            <span class="art-kick">The real deadline</span>
+            <h2>Why December 2026, not July 2026, is the test</h2>
+
+            <p>In December 2025 the DTA overhauled the <em>Policy for the responsible use of AI in government</em>, and this is where the CAIO role stops being a title and starts being a workload. The updated policy introduces formal governance requirements for individual AI use cases. Agencies must maintain an <strong>internal register of all in-scope use cases</strong> and <strong>assign an accountable owner to each one</strong>. Before deployment, agencies must complete an <strong>AI impact assessment</strong> for every in-scope use case, considering fairness, safety, privacy, transparency, security and human-centred values. Foundational AI training becomes mandatory for all APS staff. Agencies must have a process to address AI incidents, and a pathway for staff and the public to report AI safety concerns.</p>
+
+            <p>The DTA&rsquo;s Deputy CEO for Strategy, Planning and Performance, Lucy Poole, framed the intent precisely: &ldquo;Strong governance and capability must advance together to be effective in practice.&rdquo; The commencement is staged: <strong>the first new mandatory requirement began on 15 June 2026, with all remaining requirements coming into effect in December 2026.</strong></p>
+
+            <section class="future">
+                <div class="art-narrow">
+                    <span class="art-kick">Timeline</span>
+                    <h2>The four dates that define this</h2>
+                    <div class="horizon">
+                        <div class="hz"><div class="yr">November 2025</div><h4>The plan lands</h4><p>The APS AI Plan 2025 is released, setting the CAIO requirement and a July 2026 milestone. In December, the National AI Plan follows, backed by a $29.9m commitment to establish an AI Safety Institute in early 2026.</p></div>
+                        <div class="hz"><div class="yr">15 June 2026</div><h4>First requirement bites</h4><p>The first new mandatory requirement of the revised AI in government policy commences. On this date, 56 APS agencies and corporate entities have a CAIO.</p></div>
+                        <div class="hz"><div class="yr">1 July 2026</div><h4>The naming deadline</h4><p>104 of 106 mandated entities have appointed a Chief AI Officer. The DTA has not yet begun convening them.</p></div>
+                        <div class="hz"><div class="yr">December 2026</div><h4>The auditable one</h4><p>All remaining mandatory requirements take effect: a register of every in-scope use case, an accountable owner for each, and a completed AI impact assessment before deployment.</p></div>
+                    </div>
+                    <p>A named executive is not an auditable artefact. A register of every AI use case, each with a named owner and a completed impact assessment, is. December is the first date on which an outside party can tell the difference between an agency that appointed a Chief AI Officer and an agency that gave one a job.</p>
+                </div>
+            </section>
+
+            <span class="art-kick">The wider evidence</span>
+            <h2>Why accountability is being mandated at all</h2>
+
+            <p>Two findings explain the urgency, and we&rsquo;d ask you to read both with their methods in view rather than as slogans.</p>
+
+            <p>MIT&rsquo;s Project NANDA report <em>The GenAI Divide: State of AI in Business 2025</em> concluded that around <strong>95% of generative AI pilots were delivering no measurable P&amp;L return</strong>, and located the cause not in the technology but in the approach &mdash; a failure of learning, integration and contextual adaptation. That headline has travelled a very long way; the study behind it rests on a review of more than 300 publicly disclosed AI initiatives, 52 structured interviews and 153 survey responses. It is directional evidence, not a census, and it deserves to be cited that way.</p>
+
+            <p>Gartner, in June 2025, predicted that <strong>more than 40% of agentic AI projects will be cancelled by the end of 2027</strong>, attributing it to escalating costs, unclear business value or inadequate risk controls. Note what all three of those causes have in common: none of them is a model problem. All three are governance problems.</p>
+
+            <p>Set against that, the upside the policy is chasing is real and officially estimated. The Productivity Commission&rsquo;s August 2025 interim report <em>Harnessing data and digital technology</em> assessed that broader AI adoption could drive up to <strong>4.3% labour productivity growth over the next decade in the market sector &mdash; around $116 billion in GDP</strong>. The APS AI Plan cites that figure directly, alongside an estimate that by 2030 AI adoption could lift public sector gross value added by 13%, delivering $19 billion in annual value.</p>
+
+            <p>Australia is also not alone in reaching for this particular lever. In the United States, OMB Memorandum M-25-21, issued 3 April 2025, requires federal agencies to designate a Chief AI Officer, publish an AI strategy, maintain an AI use-case inventory and apply minimum risk-management practices to high-impact AI uses. What makes the Australian design distinctive is the deliberate split described at the top of this article: an advocate and a guardian, named separately wherever an agency can afford two people.</p>
+
+            <span class="art-kick">Our view</span>
+            <h2>What separates a CAIO who works from a CAIO who exists</h2>
+
+            <p>Everything above is sourced. What follows is ours &mdash; the pattern we see repeatedly when an organisation creates a senior role to own something the operating model does not yet support. Treat it as practitioner opinion, not research findings.</p>
+
+            <div class="act">
+                <h3>Six things to get right in the next quarter</h3>
+                <ol>
+                    <li><b>Give the role decision rights, not just a name.</b> A CAIO who can only recommend will spend the year in other people&rsquo;s steering committees. Write down the decisions this person makes alone, the ones they can veto, and the ones on which they merely advise.</li>
+                    <li><b>Build the use-case register as a management instrument, not a compliance artefact.</b> December forces a register with named owners onto the APS, and the private sector will follow the pattern. Build it once, properly, so that it answers &ldquo;what should we stop?&rdquo; as readily as it answers &ldquo;what do we have?&rdquo; A register that only satisfies an auditor is pure cost.</li>
+                    <li><b>State the expected benefit before deployment, not just the harm.</b> The mandated impact assessment covers fairness, safety, privacy, transparency, security and human-centred values. It does not compel you to write down the benefit you expect and go back later to check it. That omission is precisely the gap the ANAO found at IP Australia. Add the benefit statement yourself.</li>
+                    <li><b>Keep advocate and guardian separate where you can afford it.</b> Where you cannot, do what Finance told agencies to do: make the tension explicit, and write down how it gets resolved, before it is tested by a live decision.</li>
+                    <li><b>Measure adaptation, not adoption.</b> Licence counts, usage dashboards and training completions are activity metrics. They are worth having and they prove nothing. The question that matters is which decisions, workflows or services actually changed shape.</li>
+                    <li><b>Publish internally, on a cadence.</b> The transparency statement regime eventually worked because non-compliance became visible. Apply the same mechanic to your own AI portfolio: a standing, circulated report on what is live, who owns it, and what it returned.</li>
+                </ol>
+            </div>
+
+            <p>The Chief AI Officer Summit in Canberra on 17 September will put many of these questions to the people now holding the role &mdash; among them Monita Lal, First Assistant Secretary and Finance CAIO; Samantha Yorke, Chief AI Officer at the Australian Communications and Media Authority; DTA chief executive Chris Fechner; and Tech Council of Australia CEO Dr Kate Cornick. Its afternoon workshop on shaping a future training and capability blueprint for Australian CAIOs is a tell in itself: the role was mandated first, and the definition of competence in it is still being written.</p>
+
+            <p>That is not a criticism of the policy. It is a fair description of where we are. Australia has done the hard, unglamorous thing of putting names against AI accountability across an entire public service, faster than almost anyone expected, and the private sector is following. The naming is done. The next eighteen months decide whether it was an org chart change or an operating model change.</p>
+
+            <div class="pull">A title is a control. It is not a capability. December is when the two get told apart.
+                <span>&mdash; Agility Ops</span>
+            </div>
+
+        </div>
+
+        <!-- SOURCES -->
+        <section class="sources">
+            <div class="art-wrap">
+                <h2>Sources, in full</h2>
+                <p>This article was prompted by Datacom&rsquo;s partner-content piece in <em>The Mandarin</em>, then independently verified against primary sources. Every statistic above is attributed to the organisation that produced it and linked below. The compliance figures come from the Department of Finance via ACS <em>Information Age</em>; the audit findings are the Auditor-General&rsquo;s; the survey data is Datacom&rsquo;s. The interpretation, the framing of December 2026 as the decisive date, and the six recommendations are ours alone, and should not be read as the views of any source.</p>
+                <div class="srcs">
+                    <div class="src-i"><b>The Mandarin / Datacom</b> &mdash; <a href="https://www.themandarin.com.au/319425-why-australia-is-defining-ai-leadership-now-chief-ai-officer-summit/" target="_blank" rel="noopener">Why Australia is defining AI leadership now: Chief AI Officer Summit</a> (partner content, 1 Sep 2026) &mdash; the prompt for this article</div>
+                    <div class="src-i"><b>digital.gov.au</b> &mdash; <a href="https://www.digital.gov.au/policy/ai/australian-public-service-ai-plan-2025" target="_blank" rel="noopener">AI Plan for the Australian Public Service 2025</a> (Nov 2025) &mdash; the CAIO requirement, the July 2026 milestone and the productivity estimates</div>
+                    <div class="src-i"><b>ACS Information Age</b> &mdash; <a href="https://ia.acs.org.au/article/2026/govt-agencies-that-missed-the-chief-ai-officer-deadline.html" target="_blank" rel="noopener">Govt agencies that missed the chief AI officer deadline</a> (Tom Williams, 2 Jul 2026) &mdash; Department of Finance compliance figures, Senate Estimates quotes and the Finance information pack</div>
+                    <div class="src-i"><b>Digital Transformation Agency</b> &mdash; <a href="https://www.dta.gov.au/articles/ai-policy-update-strengthening-responsible-use-across-government" target="_blank" rel="noopener">AI Policy Update: Strengthening responsible use across government</a> &mdash; the use-case register, impact assessments, and the 15 June / December 2026 commencement</div>
+                    <div class="src-i"><b>ANAO</b> &mdash; <a href="https://www.anao.gov.au/work/performance-audit/governance-of-artificial-intelligence-the-australian-taxation-office" target="_blank" rel="noopener">Governance of Artificial Intelligence at the Australian Taxation Office</a>, Auditor-General Report No. 26 of 2024&ndash;25 (24 Feb 2025)</div>
+                    <div class="src-i"><b>ANAO</b> &mdash; <a href="https://www.anao.gov.au/work/performance-audit/artificial-intelligence-use-ip-australia" target="_blank" rel="noopener">Artificial Intelligence Use in IP Australia</a>, Auditor-General Report No. 43 of 2025&ndash;26 (29 Jun 2026)</div>
+                    <div class="src-i"><b>Datacom</b> &mdash; The Emerging Role of the Chief AI Officer in Australia: Building Leadership for Transformation (n=507 business and IT leaders); findings as reported by <a href="https://anz.peoplemattersglobal.com/news/leadership/nearly-half-of-australian-organisations-appoint-chief-ai-officers-datacom-finds-51116" target="_blank" rel="noopener">People Matters ANZ</a> and <em>The Mandarin</em></div>
+                    <div class="src-i"><b>MIT Project NANDA</b> &mdash; The GenAI Divide: State of AI in Business 2025 (Jul 2025; 300+ initiatives reviewed, 52 interviews, 153 survey responses)</div>
+                    <div class="src-i"><b>Gartner</b> &mdash; <a href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027" target="_blank" rel="noopener">Gartner Predicts Over 40% of Agentic AI Projects Will Be Canceled by End of 2027</a> (25 Jun 2025)</div>
+                    <div class="src-i"><b>Productivity Commission</b> &mdash; <a href="https://www.pc.gov.au/inquiries/current/data-digital/interim" target="_blank" rel="noopener">Harnessing data and digital technology</a>, interim report (Aug 2025) &mdash; the 4.3% / $116bn estimate</div>
+                    <div class="src-i"><b>Minister for Industry and Innovation</b> &mdash; <a href="https://www.minister.industry.gov.au/ministers/timayres/media-releases/national-ai-plan-empowering-all-australians" target="_blank" rel="noopener">National AI Plan: Empowering all Australians</a> (2 Dec 2025) &mdash; the $29.9m AI Safety Institute commitment</div>
+                    <div class="src-i"><b>US Office of Management and Budget</b> &mdash; Memorandum M-25-21, <em>Accelerating Federal Use of AI through Innovation, Governance, and Public Trust</em> (3 Apr 2025) &mdash; the international comparison</div>
+                </div>
+                <p style="margin-top:16px; font-size:.85rem; color:var(--a-g400);">A note on one figure: the training-completion number (more than 100,000 of almost 200,000 public servants) is reported by <em>Information Age</em> as its own understanding rather than as a figure confirmed on the record by the Department of Finance, and is presented here on that basis.</p>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="art-wrap">
+            <div class="article-cta">
+                <h3>You&rsquo;ve named someone. Now give them an operating model.</h3>
+                <p>We help Australian organisations turn AI accountability into AI capability &mdash; use-case portfolios with real owners, benefit cases that actually get checked, and governance that speeds delivery up rather than slowing it down.</p>
+                <a href="/pages/contact">Start a Conversation</a>
+            </div>
+        </div>
+
+    </article>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <span class="logo-icon">AO</span>
+                    <span class="logo-text">Agility Ops</span>
+                </a>
+                <p>Strategic AI adoption for enterprise teams. Australian owned and operated.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/pages/about">About Us</a></li>
+                    <li><a href="/pages/team">Our Team</a></li>
+                    <li><a href="/pages/blog">Blog</a></li>
+                    <li><a href="/pages/contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="https://surveyinsite.com.au" target="_blank" rel="noopener">SurveyInSite</a></li>
+                    <li><a href="https://sprintinsite.com" target="_blank" rel="noopener">SprintINSite</a></li>
+                    <li><a href="https://portfolioinsite.com.au" target="_blank" rel="noopener">PortfolioInSite</a></li>
+                    <li><a href="https://portfolioinsite.com.au/tools/forecastinsite" target="_blank" rel="noopener">ForecastInSite</a></li>
+                    <li><a href="https://portfolioinsite.com.au/tools/planinsite" target="_blank" rel="noopener">PlanInSite</a></li>
+                    <li><a href="https://sprintinsite.com/tools/flowinsite" target="_blank" rel="noopener">FlowInSite</a></li>
+                    <li><a href="https://reportinsite.com.au" target="_blank" rel="noopener">ReportInSite</a></li>
+                    <li><a href="https://careerinsite.com.au" target="_blank" rel="noopener">CareerInSite</a></li>
+                    <li><a href="https://fastact.com.au" target="_blank" rel="noopener">FACT Training</a></li>
+                    <li><a href="https://fastact.com.au/tools-games" target="_blank" rel="noopener">Tools &amp; Games</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Agility Ops Business Pty Ltd (ABN 37 650 141 950). All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/company/agility-ops-pty-ltd/" aria-label="LinkedIn">in</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
