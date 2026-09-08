@@ -6,7 +6,7 @@ The official website for **Agility Ops Business Pty Ltd** — smart tools and ex
 
 - [SprintINSite](https://sprintinsite.com) — Sprint analytics for Jira Cloud
 - [PortfolioInSite](https://portfolioinsite.com.au) — Portfolio-level project visibility
-- [FACT Training](https://fastact.com.au) — Hands-on agile training & coaching
+- [FACT Training](https://insiteacademy.com.au) — Hands-on agile training & coaching
 
 ## Tech Stack
 
