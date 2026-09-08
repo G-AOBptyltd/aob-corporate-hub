@@ -2,6 +2,14 @@
 <html lang="en-AU">
 <head>
     <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LLJ1KPTDMK"></script>
+    <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-LLJ1KPTDMK');
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Capability Reckoning: Australia Has Adopted AI. It Hasn't Earned It Yet | Agility Ops</title>
     <meta name="description" content="Eight independent studies — Australian and global — reach the same verdict: AI adoption is everywhere, AI capability is rare. Practitioner analysis of the gap, the three deadlines closing in, and what to do about it.">
@@ -54,8 +62,13 @@
         .art-byline b{color:var(--a-g200);}
 
         /* HERO STAT STRIP */
+        /* display:block overrides the global .hero-stats flex rule in css/styles.css
+           (used by the homepage hero), which would otherwise place the source line
+           beside the stat cards instead of centred beneath them. */
         .hero-stats{
+            display:block;
             max-width:1080px; margin:-34px auto 0; padding:0 24px; position:relative; z-index:5;
+            border-top:0;
         }
         .hero-stats-inner{
             display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
