@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Dynamic meta tags set by JS -->
-  <title>Loading... — Agility Ops</title>
+  <title>Content — Agility Ops</title>
   <meta name="description" content="Agility Ops content — insights, guides, and resources for AI transformation teams.">
-  <meta name="robots" content="index, follow">
+  <!-- noindex while the /content/* routes are unlaunched: 12 of 18 CMS content items
+       are "Coming Soon", and this shell renders client-side, so crawlers would
+       otherwise index thin pages and unreleased content. Flip to "index, follow"
+       (and add per-slug prerendered meta) when these launch. -->
+  <meta name="robots" content="noindex, follow">
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LLJ1KPTDMK"></script>
@@ -345,6 +349,7 @@
             <li><a href="about.html">About Us</a></li>
             <li><a href="team.html">Our Team</a></li>
             <li><a href="blog.html">Blog</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
         </div>
