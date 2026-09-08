@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { name: 'ReportInSite',    desc: 'Jira board reporting & scorecards',   url: 'https://reportinsite.com.au' },
       { name: 'CareerInSite',    desc: 'Career-relevance scoring & AI coaching', url: 'https://careerinsite.com.au' },
       { name: 'SurveyInSite',    desc: 'Team health & engagement surveys',   url: 'https://surveyinsite.com.au' },
-      { name: 'FACT Training',   desc: 'Applied AI training & advisory',     url: 'https://fastact.com.au' }
+      { name: 'InSite Academy',   desc: 'Applied AI training & advisory',     url: 'https://insiteacademy.com.au' }
     ];
 
     const triggers = Array.from(document.querySelectorAll('.nav-links a'))
